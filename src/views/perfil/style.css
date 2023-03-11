@@ -1,0 +1,27 @@
+#btn-danger{
+    background-color: #E52822 !important;
+}
+
+.cardStyle{
+  left: 0;
+  margin: 32px 118px 76px 195px;
+
+}
+.contra h1{
+  left: 0%;
+  top: 0%;
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 28px;
+  color: #000000;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 8px -1px;
+}
+@media only screen and (max-width: 600px) {
+  .cardStyle{
+    margin: 0 !important;
+
+  }
+}

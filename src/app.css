@@ -1,0 +1,16 @@
+#root{
+  background-image: url('./images/texturasLailai.png');
+  background-repeat: no-repeat;
+   background-size: cover;
+   max-width:1300px;
+
+}
+body{
+  background-color: black !important;
+  justify-content: center;
+  display:flex;
+}
+
+.display-4{
+  font-family: sans-serif !important;
+}

@@ -1,0 +1,29 @@
+#contenedorCarretilla{
+  width: auto;
+  height: auto;
+  display: inline-block;
+  margin-right: 25px;
+  border: none;
+  background: none;
+}
+#cantidad{
+  position: absolute;
+  font-size: 10px;
+}
+#carrito{
+  width: 25px;
+}
+#carrito:hover{
+  opacity: 0.5;
+}
+#total{
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  color: #FFFFFF;
+}
+
+#contenedorCarretillaTotal{
+  padding: 10px;
+}

@@ -1,0 +1,46 @@
+.tiendas{
+  background-color: #F4F4F4;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: left;
+  width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+  min-height: 180px;
+}
+.tiendas:hover{
+  border: 2px solid red;
+  cursor: pointer;
+}
+.tiendas-active{
+  color: #fff !important;
+  background: #AE1D19;
+}
+
+.titulo-tienda{
+  left: 53.06%;
+  right: 35.21%;
+  top: 36.46%;
+  bottom: 60.76%;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 24px;
+  /* or 133% */
+
+
+  color: #6A6969;
+}
+
+
+.parrafo2-tienda{
+  left: 53.06%;
+  right: 35.21%;
+  top: 50.65%;
+  bottom: 48.18%;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 18px;
+  color: #AE1D19;
+}

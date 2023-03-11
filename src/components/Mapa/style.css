@@ -1,0 +1,34 @@
+.mapContainer {
+  width: 100%;
+  height: 300px;
+  margin-bottom: 10px;
+}
+.location{
+  position: absolute;
+  left: 11px;
+  top: 35px;
+  z-index: 8;
+}
+.mapboxgl-canvas{
+  width: 100% !important;
+}
+
+.esconder1{
+  display: none
+}
+
+.esconder2{
+  display: none
+}
+
+@media only screen and (max-width: 600px) {
+  .location{
+    position: absolute;
+    left: 9px;
+    top: 49px;
+    z-index: 8;
+  }
+  .mapContainer{
+    width: 100% !important;
+  }
+}

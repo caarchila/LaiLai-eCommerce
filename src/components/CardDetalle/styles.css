@@ -1,0 +1,22 @@
+.imagenCardDetalle{
+  border-radius: 25px;
+    box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.3);
+}
+@media only screen and (max-width:600px){
+  .imagenCardDetalle{
+    max-height: 180px !important;
+  }
+}
+
+
+.content-card-detalle{
+  border-radius: 14px !important;
+}
+
+
+.card-detalle{
+width: auto;
+height: auto;
+padding: 0px;
+margin: 0px;
+}

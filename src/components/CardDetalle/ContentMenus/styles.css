@@ -1,0 +1,12 @@
+.contentMenusDetalle{
+  width: 100%;
+  height: auto;
+  text-align: left;
+  padding: 5px;
+}
+
+.precioSubMenuDetalle{
+  color: #E6A601;
+  font-size: 32px;
+ font-weight: bold;
+}

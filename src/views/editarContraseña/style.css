@@ -1,0 +1,48 @@
+.sesions{
+    border-radius: 14px !important;
+    width: 190px;
+
+
+}
+#btn-danger{
+    background-color: #E52822 !important;
+}
+.colores{
+    border-radius: 14px !important;
+    width: 190px;
+    color:#E52822 !important;
+}
+.perfill{
+  padding: 50px;
+
+  position: static;
+  width: 902px;
+  height: 550px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin-left: 96px;
+}
+.icon{
+  position: absolute;
+  top: 10px;
+  right: 5%;
+  z-index: 10;
+}
+.icon:hover {
+  color: #00fcb6;
+  cursor: pointer;
+}
+.alertaerror{
+  padding: 13px 5px 0px 81px !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .sesions{
+      border-radius: 14px !important;
+      width: 100%;
+  }
+
+}

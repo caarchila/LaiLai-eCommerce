@@ -1,0 +1,30 @@
+#headerMenu{
+   background: #FCB600;
+}
+.contenedorLinks:hover{
+    background-color: #E5A601 !important;
+}
+.contenedorLinks{
+      height: 40px;
+      padding-top: 10px;
+}
+.nav-link{
+       color: black;
+       padding-top: 10px;
+}
+.links{
+     color: black;
+     margin: 10px 10px 10px 10px;
+  }
+
+  .links:hover, .nav-link:hover{
+        font-weight: bold !important;
+        color: black;
+        background-color: #E5A601 !important;
+
+  }
+.activeMenu{
+  font-weight: bold !important;
+  color: black;
+      background-color: #E5A601 !important;
+}

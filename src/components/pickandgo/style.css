@@ -1,0 +1,18 @@
+.tiendas-container{
+  padding: 8px;
+  width: auto;
+  height: 340px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.titulo-pick-and-go{
+  font-size: revert;
+  text-align: center;
+}
+.escoger{
+
+  text-align: center;
+  font-size: smaller;
+  color: #6A6969;
+}

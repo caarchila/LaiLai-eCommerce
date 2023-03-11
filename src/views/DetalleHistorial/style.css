@@ -1,0 +1,14 @@
+.productos{
+  position: static;
+  left: 0%;
+  right: 48.76%;
+  top: 0%;
+  bottom: 91.38%;
+  font-size: 28px;
+  line-height: 28px;
+  color: #000000;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 31px 15px;
+}

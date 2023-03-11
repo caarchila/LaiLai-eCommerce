@@ -1,0 +1,17 @@
+.sesions{
+    border-radius: 14px !important;
+    width: 190px;
+}
+.perfil{
+  padding: 50px;
+
+  position: static;
+  width: 902px;
+  height: 405px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin-left: 96px;
+}

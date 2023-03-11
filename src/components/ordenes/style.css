@@ -1,0 +1,9 @@
+.ordenesMios:hover {
+  opacity: 0.7;
+  box-shadow: 0 2px 6px 2px #000000;
+}
+
+.boton-ver-detalle{
+  background: #E52822 !important;
+  border-radius: 10px !important;
+}

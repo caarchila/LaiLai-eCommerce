@@ -1,0 +1,41 @@
+.eliminarCarrito{
+  background: none;
+  border: none;
+}
+.eliminarCarritoIcon{
+   color:#E52822;
+   font-size: 15px;
+}
+
+.eliminarCarrito:hover{
+  opacity: 0.5;
+}
+
+.contenidoProducto{
+   white-space: nowrap;
+  font-size: 12px;
+   text-align: justify;
+    text-overflow: ellipsis;
+    width: 50%;
+    height: 50px;
+    overflow: hidden;
+}
+.cantidadCarritoCompras{
+  height: 15%;
+  font-size: 12px;
+  margin-top:15px;
+}
+
+.contenedor-pro-carrito-comp{
+  font-size: 15px;
+  background: rgba(215, 219, 221,0.5) !important;
+  padding: 10px;
+  margin: 1px;
+  cursor: pointer;
+}
+.contenedor-pro-carrito-comp:hover{
+  background: rgba(202, 207, 210 ,0.5) !important;
+}
+.imagen-pro-carrito-comp{
+  height: 50px;
+}

@@ -1,0 +1,7 @@
+.modal-editar-producto{
+  z-index: 1050 !important;
+}
+
+#btn-modal-editar-producto{
+  background-color: #E52822 !important;
+}

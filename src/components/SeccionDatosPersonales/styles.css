@@ -1,0 +1,13 @@
+.contenido-direccion{
+  border-top: 1px solid #CACACA;
+  padding-top: 10px;
+}
+
+.seccion-datos-personales{
+  padding: 0px;
+  border-radius: 20px !important;
+}
+
+.titulo-detalle{
+  color:#AE1D19;
+}

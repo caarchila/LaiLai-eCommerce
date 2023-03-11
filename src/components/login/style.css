@@ -1,0 +1,51 @@
+#titulo{
+  text-align: center;
+}
+
+.cascaron {
+  border-radius: 12px;
+  padding: 10px;
+
+}
+#btn-danger{
+    background-color: #E52822 !important;
+}
+.facebook{
+  background-color: #024C99 !important;
+  color:#fff !important;
+}
+
+.App > input {
+  margin-top: 200px;
+}
+
+.pass-wrapper {
+  position: relative;
+  display: flex;
+  margin-bottom: 14px;
+}
+
+.iconcito{
+  position: absolute;
+  top: 230px;
+  right: 13%;
+  z-index: 10;
+}
+.iconcito:hover {
+  color: #00fcb6;
+  cursor: pointer;
+}
+
+.sesion{
+  border-radius: 15px !important;
+  margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+  .cascaron {
+    border-radius: 12px;
+    padding: 10px;
+    width: 100% !important;
+    margin: 18px 20px 20px -4px;
+  }
+}

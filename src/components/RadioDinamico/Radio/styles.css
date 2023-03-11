@@ -1,0 +1,16 @@
+.custom-control-label{
+  font-weight: bold !important;
+}
+.descripcion-radio-dinamico{
+  font-weight: normal;
+  margin-left: 23px;
+  color:#4B5563;
+
+}
+
+.contenedor-radio-dinamico{
+  width: auto;
+  height: auto;
+  padding: 0px;
+  margin: 0px;
+}

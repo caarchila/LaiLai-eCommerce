@@ -1,0 +1,18 @@
+#btn-danger{
+  background-color: #E52822 !important;
+}
+
+#titulos{
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 4.08%;
+  bottom: 4.08%;
+  text-align: center;
+  color: #000000;
+  flex: none;
+  order: 0;
+  align-self: flex-start;
+  flex-grow: 0;
+  margin: 0px 10px;
+}

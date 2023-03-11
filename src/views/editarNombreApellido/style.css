@@ -1,0 +1,32 @@
+.sesions{
+    border-radius: 14px !important;
+    width: 190px;
+}
+#btn-danger{
+    background-color: #E52822 !important;
+}
+.colores{
+    border-radius: 14px !important;
+    width: 190px;
+    color:#E52822 !important;
+}
+.perfil{
+  padding: 50px;
+
+  position: static;
+  width: 902px;
+  height: 405px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin-left: 96px;
+}
+@media only screen and (max-width: 600px) {
+  .sesions{
+      border-radius: 14px !important;
+      width: 100% !important;
+  }
+
+}

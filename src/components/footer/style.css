@@ -1,0 +1,47 @@
+#footer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  width: 100%;
+  height: auto;
+  left: -1px;
+  background: #090909;
+}
+
+.contenido{
+  position: static;
+width: 100%;
+height: auto;
+left: 10px;
+top: 10px;
+font-size: 12px;
+line-height: 14px;
+/* or 117% */
+
+text-align: center;
+
+color: #FFFFFF;
+
+flex: none;
+order: 0;
+flex-grow: 0;
+margin: 10px 0px;
+}
+
+.store{
+  margin-bottom: 20px;
+}
+
+.iconosPlay{
+  margin:10px;
+  width: 120px;
+}
+
+.iconosPlay:hover{
+  opacity: 0.5;
+}
+#play{
+  display: block;
+}

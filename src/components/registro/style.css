@@ -1,0 +1,78 @@
+.icons {
+    position: absolute;
+    top: 184px;
+    right: 34px;
+}
+
+.icons:hover {
+  color: #00fcb6;
+  cursor: pointer;
+}
+.registrarmeCascaron{
+  width: 35rem;
+}
+.linea {
+    /* Line 2 */
+
+
+  position: static;
+  width: 510px;
+  height: 0px;
+  left: 1.5px;
+  top: 10px;
+
+  border: 1px solid #A7A7A7;
+
+  /* Inside Auto Layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 0px 10px;
+}
+.direccion {
+  position: static;
+  width: 133px;
+  height: 22px;
+  left: 0px;
+  top: 0px;
+
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 22px;
+  color: #7A2220;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 10px 0px;
+}
+.registrar {
+  border-radius: 15px !important;
+  width: 50%;
+}
+.registrars {
+  border-radius: 15px !important;
+  width: 75%;
+}
+@media only screen and (max-width: 600px) {
+  .linea {
+      position: static;
+      width: 332px;
+      height: 0px;
+      left: 1.5px;
+      top: 10px;
+      border: 1px solid #A7A7A7;
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+      margin: 0px 10px;
+  }
+
+  .cuerpo {
+    padding: 0px !important;
+  }
+  .registrarmeCascaron{
+    width: 100%;
+  }
+}

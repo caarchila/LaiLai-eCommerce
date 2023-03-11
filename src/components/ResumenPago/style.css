@@ -1,0 +1,29 @@
+.resumen-pago-footer{
+  background-color: #F2F2F2;
+}
+.contenedor-resumen-pago{
+  border-radius: 20px !important;
+}
+
+.total-orden{
+  font-weight: bold;
+  font-size: 20px;
+  color: #AE1D19;
+}
+
+.tabla-resumen{
+  margin-bottom: 0px !important;
+}
+
+.total-producto{
+  border-top: none !important;
+}
+
+#boton-confirmar{
+background: #E52822 !important;
+border-radius: 10px;
+}
+
+.contenido-resumen-pago{
+  padding: 30px;
+}

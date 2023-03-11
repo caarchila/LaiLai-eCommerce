@@ -1,0 +1,27 @@
+#btnIrAlCarrito{
+  background-color: #E52822 !important;
+  border-radius: 10px;
+  font-weight: bold;
+}
+#btnSeguirOrdenando{
+  background: #E5E7EB;
+ border-radius: 10px;
+ color:black;
+ font-weight: bold;
+}
+.modal-content-confirmacion{
+  border-radius: 14px !important;
+  padding: 10px;
+}
+.modal-body{
+  font-weight: bold;
+  text-align: center;
+}
+
+.modal-header{
+  border-bottom: none !important;
+}
+
+.modal-footer{
+  border-top: none !important;
+}

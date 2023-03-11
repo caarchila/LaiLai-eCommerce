@@ -1,0 +1,14 @@
+.contenido-detalle-direccion{
+  color:#7C7C7C !important;
+}
+.boton-editar{
+  background-color: #E6A601;
+  width: 32px;
+  height: 32px;
+  margin: 0px;
+  border: none;
+}
+
+.boton-editar:hover{
+  opacity: 0.5;
+}

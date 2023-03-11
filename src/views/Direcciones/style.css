@@ -1,0 +1,32 @@
+.etiquetas {
+  font-size: 12px;
+  text-align: left !important;
+}
+#mapboxgl-ctrl  { width: 100%;position:absolute; top:0; bottom:0; width:100%; box-shadow: 10px 10px grey;}
+.mapboxgl-ctrl-geocoder{
+   border-radius: 7px;
+   font-size: 15px;
+   font-family: Montserrat;
+   text-align: left;
+   color: #000;
+   background: #fff;
+   z-index: 10;
+   width: 100%;
+   margin-bottom: 5px;
+}
+.mapboxgl-user-location-dot, .mapboxgl-user-location-dot:before {
+    background-color: #1da1f2;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-left: -5px !important;
+}
+.textarea{
+  width: 100%;
+}
+#btn-danger{
+    background-color: #E52822 !important;
+}
+.mapboxgl-canvas{
+  width: 100%
+}

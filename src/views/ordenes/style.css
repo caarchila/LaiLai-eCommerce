@@ -1,0 +1,28 @@
+.bodys{
+  padding: 15px;
+}
+
+@media only screen and (max-width: 600px) {
+  .body{
+    background-image: url('../../images/bodyLogin.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0px !important;
+  }
+}
+
+.ordenes {
+
+  left: -183.14%;
+  right: -185.42%;
+  top: 1.92%;
+  bottom: -9.62%;
+
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 28px;
+  /* identical to box height, or 100% */
+
+
+  color: #000000;
+}

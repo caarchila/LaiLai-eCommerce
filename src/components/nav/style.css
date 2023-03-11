@@ -1,0 +1,35 @@
+#nav {
+  background-color: #E52822;
+  z-index: 16;
+}
+
+#logo{
+  height: 25px;
+  margin-left: 20px;
+  margin-right: 30px;
+}
+
+#iniciarSession{
+  background-color: #AE1D19 !important;
+}
+
+.spinner-border{
+  margin-left: 48%;
+}
+.spinner-grow{
+    margin-left: 48%;
+    margin-top: 20px;
+}
+.krWebn{
+  z-index: 1060 !important;
+}
+
+.modal-content{
+  border-radius: 14px !important;
+}
+
+
+.btn{
+  text-transform: none !important;
+  border-radius: 10px !important;
+}

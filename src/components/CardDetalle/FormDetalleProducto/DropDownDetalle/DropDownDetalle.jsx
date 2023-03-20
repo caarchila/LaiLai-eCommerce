@@ -3,7 +3,9 @@ import {Form, Col} from 'react-bootstrap';
 import DropDownItem from './DropDownItem';
 import './style.css';
 
-const DropDownDetalle = ({obj, getOpciones, carritoSeleccionado, edi}) =>{
+const DropDownDetalle = ({obj, getOpciones, carritoSeleccionado, edi, tipo, precio}) =>{
+
+  
 
 useEffect(()=>{
   if(carritoSeleccionado === undefined){
@@ -59,7 +61,7 @@ const agregarValores = (id) =>{
       <Form.Label className="dropdown-detalle-label">{obj.pregunta}</Form.Label>
       <Form.Control as="select" className="dropDownDetalle" id={`dropdown-detalle-${obj.idOpcion+''+edi}`} onChange={handleOpciones}>
             {
-              obj.variantes.map(v=>(<DropDownItem key={v.idVariante} obj={v} />))
+              obj.variantes.map(v=>(<DropDownItem key={v.idVariante} obj={v} tipo={tipo} precio={precio} />))
             }
       </Form.Control>
     </Form.Group>

@@ -137,7 +137,7 @@ class FormularioDetalleProducto extends React.Component {
     const showSession = this.state.showSession;
     const showModal = this.state.showModalidad;
     const modalShow = this.state.modalShow;
-
+    
     return (
       <Form>
         <Row>
@@ -152,6 +152,8 @@ class FormularioDetalleProducto extends React.Component {
                   edi={this.props.edi}
                   getOpciones={this.getOpciones}
                   obj={o}
+                  tipo={this.props.detalle.tipo}
+                  precio={this.props.detalle.precioUnitario}
                 />
               ) : (
                 ""

@@ -22,7 +22,7 @@ class Promociones extends Component {
 
     componentDidMount(){
 
-        axios.get('http://190.111.5.114:8282/clientapp-web/webresources/getMenusPromo/APP')
+        axios.get(process.env.REACT_APP_BASE_URL + 'getMenusPromo/APP')
         .then(resp => {
           this.setState({
                 promociones: resp.data.promos

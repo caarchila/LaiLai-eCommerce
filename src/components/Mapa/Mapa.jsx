@@ -27,7 +27,7 @@ class MapaGL extends Component{
         lng:position.coords.longitude,
         lat:position.coords.latitude
       },()=>{
-        axios.get(`http://190.111.5.114:8282/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`)
+        axios.get(process.env.REACT_APP_BASE_URL + `tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`)
         .then(resp=>{
             if(resp.data.result === 'ACT'){
                 swal("Felicidades", `si hay cobertura`, "success");
@@ -62,7 +62,7 @@ class MapaGL extends Component{
             lng: longitud,
             lat: latitud
           },()=>{
-            axios.get(`http://190.111.5.114:8282/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`)
+            axios.get(process.env.REACT_APP_BASE_URL + `tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`)
             .then(resp=>{
                 swal("Felicidades", `si hay cobertura`, "success");
                 if(resp.data.result === 'ACT'){
@@ -82,7 +82,7 @@ class MapaGL extends Component{
             lng:position.coords.longitude,
             lat:position.coords.latitude
           },()=>{
-            axios.get(`http://190.111.5.114:8282/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`)
+            axios.get(process.env.REACT_APP_BASE_URL + `tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`)
             .then(resp=>{
               swal("Felicidades", `si hay cobertura`, "success");
                 if(resp.data.result === 'ACT'){
@@ -112,7 +112,7 @@ class MapaGL extends Component{
         this.props.getMapa(this.state.map);
         if(this.props.cobertura)
           {
-            axios.get('http://190.111.5.114:8282/clientapp-web/webresources/tiendas/list')
+            axios.get(process.env.REACT_APP_BASE_URL + 'tiendas/list')
             .then(resp=>{this.setState({
               Poligono: resp.data.tiendas
             },()=>{
@@ -177,7 +177,7 @@ class MapaGL extends Component{
             },()=>{
               console.log(this.state.lng)
               console.log(this.state.lat)
-              axios.get(`http://190.111.5.114:8282/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`)
+              axios.get(process.env.REACT_APP_BASE_URL + `tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`)
               .then(resp=>{
                 console.log(resp)
                   if(resp.data.result === 'ACT'){

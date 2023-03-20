@@ -3,8 +3,9 @@
 }
 
 .imagen{
-
-  margin-top: -200px;
+  max-height: 580px;
+  position: absolute;
+  top: -30px;
 }
 .item {
   height: 540px;

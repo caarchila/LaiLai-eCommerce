@@ -13,7 +13,7 @@ class TiendasClass extends React.Component{
   }
 
   componentDidMount(){
-    axios.get('http://190.111.5.114:8282/clientapp-web/webresources/tiendas/list')
+    axios.get(process.env.REACT_APP_BASE_URL + 'tiendas/list')
     .then(resp=>{this.setState({
       Tiendas: resp.data.tiendas
     })

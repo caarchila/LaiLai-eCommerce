@@ -24,7 +24,7 @@ const cambiarEstadoCategoria = () =>{
 }
     useEffect(()=>{
 
-        axios.get('http://190.111.5.114:8282/clientapp-web/webresources/getMenus/APP')
+        axios.get(process.env.REACT_APP_BASE_URL + 'getMenus/APP')
         .then(resp => {
            setMenusCategoria(resp.data.categorias);
            if(parseInt(match.params.idSub) === 0){
@@ -63,7 +63,7 @@ const cambiarEstadoCategoria = () =>{
             {
             (esSubCategoria===false)?
               (menus.length === 0)?<Spinner animation="spinner" variant="primary" />:
-                menus[0].menus.map(m =>(<CardSubMenu id={m.id} idPapa={match.params.id} key={m.id} imagen={m.imagenes.normal} disponible={m.imagenes.unavailable} nombre={m.nombre} precio={m.precio} />))
+                menus[0].menus?.map(m =>(<CardSubMenu id={m.id} idPapa={match.params.id} key={m.id} imagen={m.imagenes.normal} disponible={m.imagenes.unavailable} nombre={m.nombre} precio={m.precio} />))
 
               :(menusSubCategorias.length === 0)?<Spinner animation="spinner" variant="primary" />
                   :menusSubCategorias.map(mc =>(<CardsMenu key={mc.id} id={match.params.id} idSub={mc.id} imagen={mc.imagenes.normal} unavailable={mc.imagenes.unavailable} titulo={mc.nombre} cambiarEstado={cambiarEsSubCategoria}/>))

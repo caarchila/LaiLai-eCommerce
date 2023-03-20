@@ -81,7 +81,7 @@ class EditarDatosPersonales extends Component {
     if(comprobacion){
       axios
         .post(
-          "http://190.111.5.114:8282/clientapp-web/webresources/account/changePassword",
+          process.env.REACT_APP_BASE_URL + "account/changePassword",
           datos
         )
         .then((resp) => {

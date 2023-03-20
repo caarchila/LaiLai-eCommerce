@@ -121,7 +121,7 @@ const Resumen = props => {
       console.log(tomaPedido);
       axios
         .post(
-          "http://190.111.5.114:8282/clientapp-web/webresources/order/register",
+          process.env.REACT_APP_BASE_URL + "order/register",
           tomaPedido
         )
         .then(async function (response) {

@@ -31,6 +31,7 @@ from:{
           :
           <Image src={unavailable} alt=""  className="imagenMenu"/>
         }
+        <div className='CaptionBg'/>
         <span className="Caption">{titulo}</span>
       </animated.div>
       </Link>

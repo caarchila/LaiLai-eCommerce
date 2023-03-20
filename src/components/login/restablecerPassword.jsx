@@ -24,7 +24,7 @@ class RestablecerPassword extends Component {
     let informacion = {
       email: `${this.state.email}`
     }
-    axios.post('http://190.111.5.114:8282/clientapp-web/webresources/account/resetPassword',informacion)
+    axios.post(process.env.REACT_APP_BASE_URL + 'account/resetPassword',informacion)
     .then(resp => {
       if(resp.data.result === true)
       {

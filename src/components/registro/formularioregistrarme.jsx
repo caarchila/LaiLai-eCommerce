@@ -61,7 +61,7 @@ class FormularioRegistro extends Component {
       if(respuesta !== undefined){
         axios
           .post(
-            "http://190.111.5.114:8282/clientapp-web/webresources/account/login/api",
+            process.env.REACT_APP_BASE_URL + "account/login/api",
             inicioDatos
           )
           .then((resp) =>{
@@ -98,7 +98,7 @@ class FormularioRegistro extends Component {
       if(response !== undefined){
         axios
           .post(
-            "http://190.111.5.114:8282/clientapp-web/webresources/account/login/api",
+            process.env.REACT_APP_BASE_URL + "account/login/api",
             inicioDatos
           )
           .then((resp) => {
@@ -135,7 +135,7 @@ class FormularioRegistro extends Component {
       	"clave": `${this.state.password}`
       }
 
-      axios.post('http://190.111.5.114:8282/clientapp-web/webresources/account/save',data)
+      axios.post(process.env.REACT_APP_BASE_URL + 'account/save',data)
       .then((resp) =>{
         if(resp.data.result === true)
         {

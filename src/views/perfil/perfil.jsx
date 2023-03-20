@@ -29,7 +29,7 @@ class Perfil extends Component {
  }
   getDirecciones(){
     let idCliente = this.props.user.idCliente;
-    axios.get(`http://190.111.5.114:8282/clientapp-web/webresources/direccion/list/${idCliente}`)
+    axios.get(process.env.REACT_APP_BASE_URL + `direccion/list/${idCliente}`)
     .then(resp => {
       if(resp.data.direcciones.length === 0){
         this.setState({

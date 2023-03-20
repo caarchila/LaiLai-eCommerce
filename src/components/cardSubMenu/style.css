@@ -1,15 +1,22 @@
 .menusImg{
+  object-fit: cover;
   right: 50%;
   width: 50%;
-  height: 150px;
+  height: 200px;
   border-radius: 15px 0px 0px 15px;
 }
 
 @media screen only and (max-width:600px){
   .menusImg:0px !important;
 }
+.nombreMenu {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 30px;
+}
+
 .contentMenus{
-  text-align: left;
+  text-align: center;
   font-size: 15px;
   width: 51%;
   float: right;
@@ -22,7 +29,7 @@
 
 .cardSubMenu{
   background: #F5F4F4 !important;
-  height: auto;
+  height: 200px;
   border-radius: 15px !important;
   max-width: 420px
 }
@@ -32,9 +39,31 @@
   font-size: 15px;
   font-weight: bold;
   color:#AE1D19;
-  bottom: 7px;
+  top: 7px;
   position: absolute;
 }
 .leer-mas{
-  text-decoration: underline;
+  text-decoration: none;
 }
+.leer-mas:hover {
+  color: black;
+}
+
+.buttonOrder{
+  background: #AE1D19;
+  color: white;
+  border-radius: 5px 5px 5px 5px;
+  border: none;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.order {
+  display: block;
+  font-size: 15px;
+  margin-top: 20px;
+  font-weight: bold;
+  color:#AE1D19;
+}
+

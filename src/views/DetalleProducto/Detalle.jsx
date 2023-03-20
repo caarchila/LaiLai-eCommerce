@@ -9,12 +9,12 @@ const Detalle = ({match}) => {
   const [menusCategoria , setMenusCategoria] = useState([]);
   const [categoria, setCategoria] = useState([]);
   useEffect(()=>{
-      axios.get(`http://190.111.5.114:8282/clientapp-web/webresources/getMenuDetail/${match.params.idDetalle}`)
+      axios.get(process.env.REACT_APP_BASE_URL + `getMenuDetail/${match.params.idDetalle}`)
       .then(resp => {
          setDetalle(resp.data.menu);
       });
 
-      axios.get('http://190.111.5.114:8282/clientapp-web/webresources/getMenus/APP')
+      axios.get(process.env.REACT_APP_BASE_URL + 'getMenus/APP')
       .then(resp => {
          setMenusCategoria(resp.data.categorias);
          const menu = resp.data.categorias.filter(c => parseInt(c.id) === parseInt(match.params.id));

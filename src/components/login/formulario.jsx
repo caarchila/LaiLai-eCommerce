@@ -52,7 +52,7 @@ class Formulario extends Component {
     if(respuesta !== undefined){
       axios
         .post(
-          "http://190.111.5.114:8282/clientapp-web/webresources/account/login/api",
+          process.env.REACT_APP_BASE_URL + "account/login/api",
           inicioDatos
         )
         .then((resp) =>{
@@ -89,7 +89,7 @@ class Formulario extends Component {
     if(response !== undefined){
       axios
         .post(
-          "http://190.111.5.114:8282/clientapp-web/webresources/account/login/api",
+          process.env.REACT_APP_BASE_URL + "account/login/api",
           inicioDatos
         )
         .then((resp) => {
@@ -142,7 +142,7 @@ class Formulario extends Component {
       };
       axios
         .post(
-          `http://190.111.5.114:8282/clientapp-web/webresources/account/login/local`, data
+          process.env.REACT_APP_BASE_URL + `account/login/local`, data
         )
         // .get(
         //   `http://190.111.5.114:8282/clientapp-web/webresources/account/login/local?email=${data.email}&clave=${data.clave}`

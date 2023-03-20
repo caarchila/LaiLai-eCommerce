@@ -4,7 +4,7 @@ import axios from 'axios'
 async function useHorarioHome(longitud, latitud){
   var response =  { data: false };
   if(longitud !== undefined && latitud !== undefined){
-     response = await axios.get(`http://190.111.5.114:8282/clientapp-web/webresources/tiendas/cobertura?longitud=${parseFloat(longitud)}&latitud=${parseFloat(latitud)}`)
+     response = await axios.get(process.env.REACT_APP_BASE_URL + `tiendas/cobertura?longitud=${parseFloat(longitud)}&latitud=${parseFloat(latitud)}`)
   }
   return response.data;
 }

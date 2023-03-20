@@ -63,7 +63,7 @@ class CarritoCompras extends React.Component{
     }
   }
   getIdProducto(value){
-        axios.get(`http://190.111.5.114:8282/clientapp-web/webresources/getMenuDetail/${value.idMenu}`)
+        axios.get(process.env.REACT_APP_BASE_URL + `getMenuDetail/${value.idMenu}`)
         .then(resp => {
            this.setState({
                           detalleProducto:resp.data.menu,

@@ -69,7 +69,7 @@ class Direcciones extends Component{
     if (Object.keys(this.props.direccionSeleccionada).length !== 0) {
       this.cargarDatos();
 
-      axios.get(`http://190.111.5.114:8282/clientapp-web/webresources/direccion/municipios/${this.props.direccionSeleccionada.departamento.id}`)
+      axios.get(process.env.REACT_APP_BASE_URL + `direccion/municipios/${this.props.direccionSeleccionada.departamento.id}`)
       .then(resp => {
         this.setState({
           Municipios: resp.data.municipios,
@@ -77,7 +77,7 @@ class Direcciones extends Component{
         })
       })
     }
-    axios.get('http://190.111.5.114:8282/clientapp-web/webresources/direccion/departamentos')
+    axios.get(process.env.REACT_APP_BASE_URL + 'direccion/departamentos')
     .then(resp => {
       this.setState({
         Departamentos: resp.data.departamentos
@@ -96,7 +96,7 @@ class Direcciones extends Component{
   }
   onchange(e){
     let id = e.target.value;
-    axios.get(`http://190.111.5.114:8282/clientapp-web/webresources/direccion/municipios/${id}`)
+    axios.get(process.env.REACT_APP_BASE_URL + `direccion/municipios/${id}`)
     .then(resp => {
       this.setState({
         Municipios: resp.data.municipios
@@ -143,7 +143,7 @@ class Direcciones extends Component{
         swal("Felicidades", `si hay cobertura`, "success");
               if(Object.keys(this.props.direccionSeleccionada).length === 0)
               {
-              axios.post('http://190.111.5.114:8282/clientapp-web/webresources/direccion/save', dataDireccion)
+              axios.post(process.env.REACT_APP_BASE_URL + 'direccion/save', dataDireccion)
               .then(resp =>{
                     if(resp.data.result === true)
                     {
@@ -158,7 +158,7 @@ class Direcciones extends Component{
                     }
                  })
           }else{
-              axios.post('http://190.111.5.114:8282/clientapp-web/webresources/direccion/update', dataDireccion)
+              axios.post(process.env.REACT_APP_BASE_URL + 'direccion/update', dataDireccion)
               .then(resp =>{
                     if(resp.data.result === true)
                     {

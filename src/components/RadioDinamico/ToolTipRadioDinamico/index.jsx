@@ -39,7 +39,7 @@ const TooltipRadioDinamico = ({
 
         axios
           .get(
-            `http://190.111.5.114:8282/clientapp-web/webresources/direccion/delete/${direccion.id}`
+            process.env.REACT_APP_BASE_URL + `direccion/delete/${direccion.id}`
           )
           .then((resp) => {
             if (resp.data.result === true) {

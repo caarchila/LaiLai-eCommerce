@@ -24,7 +24,7 @@ const cambiarEstadoCategoria = () =>{
 }
     useEffect(()=>{
 
-        axios.get('http://190.111.5.114:8282/clientapp-web/webresources/getMenus/APP')
+        axios.get(process.env.REACT_APP_BASE_URL + 'getMenus/APP')
         .then(resp => {
            setMenusCategoria(resp.data.categorias);
            if(parseInt(match.params.idSub) === 0){

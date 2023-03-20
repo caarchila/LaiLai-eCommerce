@@ -17,7 +17,7 @@ class Historial extends Component {
 
   componentDidMount(){
   if(parseInt(this.props.match.params.tipo) === 0){
-    axios.get(`http://190.111.5.114:8282/clientapp-web/webresources/order/${this.props.match.params.id}`)
+    axios.get(process.env.REACT_APP_BASE_URL + `order/${this.props.match.params.id}`)
     .then(resp => {
       this.setState({
           historial: resp.data

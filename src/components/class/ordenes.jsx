@@ -14,7 +14,7 @@ class Ordenes extends Component {
     componentDidMount(){
       let id = this.props.user.idCliente;
 
-      axios.get(`http://190.111.5.114:8282/clientapp-web/webresources/order/activas/${id}`)
+      axios.get(process.env.REACT_APP_BASE_URL + `order/activas/${id}`)
       .then(resp => {
         this.setState({
           orden: resp.data.ordenes

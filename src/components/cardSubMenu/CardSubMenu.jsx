@@ -17,8 +17,12 @@ const CardSubMenu = (props) =>{
   <Card className="cardSubMenu my-3">
     <Image src={(props.imagen !== undefined) ? props.imagen : props.disponible} alt="menus" className="menusImg" />
     <div className="contentMenus">
-      <h6> <strong>{props.nombre} </strong></h6>
-      <Link to={`/detalle/${props.idPapa}/${props.id}`} className="text-muted leer-mas">Leer mas</Link>
+      <h6 className="nombreMenu"> <strong>{props.nombre} </strong></h6>
+      <div className='order' >
+        <div className='orderReposition'>
+          <Link to={`/detalle/${props.idPapa}/${props.id}`} className=" leer-mas buttonOrder">Ordenar</Link>
+        </div>
+      </div>
       <span className="precioSubMenu">Q {parseFloat(props.precio).toFixed(2)}</span>
     </div>
   </Card>

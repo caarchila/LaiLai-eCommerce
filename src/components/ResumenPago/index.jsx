@@ -211,10 +211,15 @@ const Resumen = props => {
           )}
         </Card.Body>
         <Card.Body className="resumen-pago-footer">
-          <Card.Text>
-            *Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-            nulla blandit auctor.
-          </Card.Text>
+          <Button
+            variant="danger"
+            type="button"
+            id="boton-confirmar"
+            block
+            onClick={confirmarPago}
+            >
+              Confirmar y pagar
+          </Button>
         </Card.Body>
       </Card>
       <Redireccionar url={`/confirmacion/${token}`} estado={estado} />

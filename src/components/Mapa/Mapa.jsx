@@ -4,6 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import axios from 'axios';
 import swal from 'sweetalert';
 import "./style.css";
+
 class MapaGL extends Component{
   constructor(props){
     super(props)
@@ -227,7 +228,8 @@ class MapaGL extends Component{
             //colocamos id para ocultar o realizar ciertas cosas dependiendo donde este el mapa.
 
         }
-          <div ref={el => this.mapContainer = el } className="mapContainer" style={{width:(this.props.id==="1")?'360px':'100%'}} />
+          <div ref={el => this.mapContainer = el } className="mapContainer" style={{width:(this.props.id==="1")?'360px':'100%',
+          height:'425px'} } />
       </>
     )
   }

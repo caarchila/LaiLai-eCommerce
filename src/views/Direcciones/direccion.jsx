@@ -217,40 +217,7 @@ class Direcciones extends Component{
                           Ingresa una Dirección
                         </div>
                     </Form.Group>
-                    <Form.Group as={Col} controlId="colonia">
-                      <p className="etiquetas">Colonia*  </p>
-                      <Form.Control defaultValue={this.state.colonia} onChange={this.setField}  name="colonia" type="text" placeholder=" Colonia" required/>
-                        <div className="invalid-tooltip">
-                          Ingresa una Colonia
-                        </div>
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId="zona">
-                      <p className="etiquetas">Zona*  </p>
-                      <Form.Control defaultValue={this.state.zona} onChange={this.setField}  name="zona" type="text" placeholder=" Zona" required/>
-                        <div className="invalid-tooltip">
-                          Ingresa una Zona
-                        </div>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="codigoAcceso">
-                      <p className="etiquetas">Código Acceso*  </p>
-                      <Form.Control defaultValue={this.state.codigoAcceso} onChange={this.setField}  name="codigoAcceso" type="text" placeholder="Codigo Acceso" required/>
-                        <div className="invalid-tooltip">
-                          Ingresa un Código Acceso
-                        </div>
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId="edificio">
-                      <p className="etiquetas">Número de casa,apartamento, edificio*  </p>
-                      <Form.Control defaultValue={this.state.numeroCasa} onChange={this.setField}  name="numeroCasa" type="text" placeholder="Número de casa,apartamento, edificio" required/>
-                        <div className="invalid-tooltip">
-                          Ingresa un Número de casa,apartamento, edificio
-                        </div>
-                    </Form.Group>
-
-                  </Form.Row>
+                  </Form.Row>  
                   <Form.Row>
                     <Form.Group as={Col} controlId="departamento">
                       <p className="etiquetas">Departamento*</p>

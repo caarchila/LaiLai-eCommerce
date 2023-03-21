@@ -25,7 +25,7 @@ class PickAndGo extends React.Component {
         </p>
         <Container>
           <Row>
-            <Col sm={12} md={6} xl={6}>
+            <Col sm={12} md={12} xl={12}>
               <div className="tiendas-container">
                 <Row>
                   <Tienda
@@ -39,7 +39,7 @@ class PickAndGo extends React.Component {
                 </Row>
               </div>
             </Col>
-            <Col sm={12} md={6} xl={6}>
+            {/* <Col sm={12} md={6} xl={6}>
               <Mapa
                 buscador={false}
                 boton={false}
@@ -53,7 +53,7 @@ class PickAndGo extends React.Component {
                   this.setState({ map: mapa });
                 }}
               />
-            </Col>
+            </Col> */}
           </Row>
         </Container>
       </>

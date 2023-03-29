@@ -11,6 +11,8 @@ function useHorario(horaApertura,horaCierre){
 
   var HoraActual = new Date();
   var horaInicio = new Date();
+  console.log({HoraActual})
+  console.log({horaInicio})
   horaInicio.setHours(horaA.[0],horaA.[1]);
   var HoraFin = new Date();
   HoraFin.setHours((horaC[0] < 12) ? horaC[0]+12 : horaC[0], horaC[1]);

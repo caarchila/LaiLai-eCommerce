@@ -25,7 +25,9 @@
   font-size: 12px;
   margin-top:15px;
 }
-
+.tamaño {
+  font-size: 20px;
+}
 .contenedor-pro-carrito-comp{
   font-size: 15px;
   background: rgba(215, 219, 221,0.5) !important;

@@ -192,7 +192,9 @@ const Resumen = props => {
               </tr>
             </tbody>
           </Table>
-          {parseInt(props.boton) === 0 ? (
+        </Card.Body>
+        <Card.Body className="resumen-pago-footer">
+        {parseInt(props.boton) === 0 ? (
             ""
           ) : (
             <Row>
@@ -209,17 +211,6 @@ const Resumen = props => {
               </Col>
             </Row>
           )}
-        </Card.Body>
-        <Card.Body className="resumen-pago-footer">
-          <Button
-            variant="danger"
-            type="button"
-            id="boton-confirmar"
-            block
-            onClick={confirmarPago}
-            >
-              Confirmar y pagar
-          </Button>
         </Card.Body>
       </Card>
       <Redireccionar url={`/confirmacion/${token}`} estado={estado} />

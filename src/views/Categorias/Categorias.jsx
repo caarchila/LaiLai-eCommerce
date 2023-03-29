@@ -29,11 +29,20 @@ const cambiarEstadoCategoria = () =>{
            setMenusCategoria(resp.data.categorias);
            if(parseInt(match.params.idSub) === 0){
               const menu = resp.data.categorias.filter(c => parseInt(c.id) === parseInt(match.params.id));
-              if(menu[0].subcategoria === "Si"){
+              if(menu[0].subcategoria === "Si" ){
                   const submenu = menu[0].subcategorias;
-                  setMenuSubcategorias(submenu);
-                  setEsSubCategoria(true);
-                  setMenus(menu);
+                  
+                  if(submenu[0].subcategoria === "Si"){
+                      const subSubMenu = submenu[0].subcategorias;
+                      setMenuSubcategorias(subSubMenu);
+                      setEsSubCategoria(true);
+                      setMenus(menu);
+                  }
+                  else {
+                    setMenuSubcategorias(submenu);
+                    setEsSubCategoria(true);
+                    setMenus(menu);
+                  }
                 }else{
                     setMenus(menu);
                   }
@@ -48,6 +57,8 @@ const cambiarEstadoCategoria = () =>{
     const actualizarMenu = (menus) =>{
       setMenus(menus);
     }
+
+    console.log({menus})
 
     return(<>
     <HeaderMenu id={match.params.id} categorias={menusCategoria} handleUpdateMenu={actualizarMenu} handleEstadoCategoria={cambiarEstadoCategoria}/>

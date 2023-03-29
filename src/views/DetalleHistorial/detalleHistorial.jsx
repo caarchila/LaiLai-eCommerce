@@ -36,6 +36,7 @@ class Historial extends Component {
   render(){
     const historial = (parseInt(this.props.match.params.tipo) === 0)?this.state.historial:{menus:this.props.cart};
     let idBoton = this.props.match.params.tipo;
+    const usuario = this.props.user
     return(
         <Container fluid>
         <Row>

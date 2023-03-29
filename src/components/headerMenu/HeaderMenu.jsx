@@ -14,6 +14,7 @@ class HeaderMenu extends React.Component {
               }
           }
     }
+  
     handleCambiarEstado(){
       if(this.props.handleEstadoCategoria !== undefined){
         this.props.handleEstadoCategoria();
@@ -21,6 +22,7 @@ class HeaderMenu extends React.Component {
     }
   render(){
     const categorias = this.props.categorias;
+    
     return(
       <Nav className="justify-content-center" id="headerMenu" activeKey="/home">
       {
@@ -31,11 +33,19 @@ class HeaderMenu extends React.Component {
         ):(
           <NavDropdown title={c.nombre} key={c.id}>
           {
-              c.subcategorias.map(s => (
+              c.subcategorias.map(s => (s.subcategoria !== "Si") ? (
                 <Link key={s.id} className="dropdown-item" to={`/categoria/${c.id}/${s.id}`} onClick={() => {this.handleReloadMenus(s.id, c.subcategoria, index);this.handleCambiarEstado();}}>{s.nombre}</Link>
-              ))
+              ): (
+                <NavDropdown title={s.nombre} key={s.id}>
+                {
+                  s.subcategorias.map(l => (
+                    <Link key={l.id} className="dropdown-item" to={`/categoria/${c.id}/${s.id}/${l.id}`} onClick={() => {this.handleReloadMenus(l.id, s.id, c.subcategoria, index);this.handleCambiarEstado();}}>{l.nombre}</Link>))
+                }
+                </NavDropdown>
+              )
+              )
           }
-           </NavDropdown>
+          </NavDropdown>
           )
         )
       }

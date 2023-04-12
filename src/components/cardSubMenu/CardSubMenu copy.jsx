@@ -14,21 +14,18 @@ const CardSubMenu = (props) =>{
   return(
 <Col sm={12} md={4} xl={4}>
 <animated.div style={propsAnimated} className="contenedor-animado-card-sub-menu">
-
   <Card className="cardSubMenu my-3">
-    <div style={{display:"flex", flexDirection: "row"}}>
-      <Image src={(props.imagen !== undefined) ? props.imagen : props.disponible} alt="menus" className="menusImg" />
-      <div style={{display: "flex", flexDirection:"column", justifyContent:"space-between", alignItems:"center", width: "100%"}}>
-        <div className="precioSubMenu">Q {parseFloat(props.precio).toFixed(2)}</div>
-        <div className="nombreMenu" style={{height:"100%", padding:"8px", display:"flex", flexDirection:"row", alignItems: "center", justifyContent: "center"}}><h5><strong>{props.nombre}</strong></h5></div>
-        <div style={{marginBottom:"16px"}}>
+    <Image src={(props.imagen !== undefined) ? props.imagen : props.disponible} alt="menus" className="menusImg" />
+    <div className="contentMenus">
+      <h6 className="nombreMenu"> <strong>{props.nombre} </strong></h6>
+      <div className='order' >
+        <div className='orderReposition'>
           <Link to={`/detalle/${props.idPapa}/${props.id}`} className=" leer-mas buttonOrder">Ordenar</Link>
         </div>
       </div>
+      <span className="precioSubMenu">Q {parseFloat(props.precio).toFixed(2)}</span>
     </div>
-
   </Card>
-
   </animated.div>
 </Col>
 )

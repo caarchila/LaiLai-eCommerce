@@ -139,8 +139,8 @@ class MapaGL extends Component{
                             'source': `maine${poligono.id}`,
                             'layout': {},
                             'paint': {
-                            'fill-color': '#E52822',
-                            'fill-opacity': 0.8
+                            'fill-color': '#003399',
+                            'fill-opacity': 0.2
                           }
                         });
                         }

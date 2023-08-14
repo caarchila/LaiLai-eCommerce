@@ -33,15 +33,8 @@ class HeaderMenu extends React.Component {
         ):(
           <NavDropdown title={c.nombre} key={c.id}>
           {
-              c.subcategorias.map(s => (s.subcategoria !== "Si") ? (
+              c.subcategorias.map(s =>  (
                 <Link key={s.id} className="dropdown-item" to={`/categoria/${c.id}/${s.id}`} onClick={() => {this.handleReloadMenus(s.id, c.subcategoria, index);this.handleCambiarEstado();}}>{s.nombre}</Link>
-              ): (
-                <NavDropdown title={s.nombre} key={s.id}>
-                {
-                  s.subcategorias.map(l => (
-                    <Link key={l.id} className="dropdown-item" to={`/categoria/${c.id}/${s.id}/${l.id}`} onClick={() => {this.handleReloadMenus(l.id, s.id, c.subcategoria, index);this.handleCambiarEstado();}}>{l.nombre}</Link>))
-                }
-                </NavDropdown>
               )
               )
           }

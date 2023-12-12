@@ -13,10 +13,10 @@ import { connect } from "react-redux";
 import InputGroup from "react-bootstrap/InputGroup";
 import { updateDireccion } from "../../actions/direccionActions";
 import { updateUser } from "../../actions/userActions";
-import {updateOcasion} from "../../actions/ocasionActions"
-import {updateFechaEntrega} from "../../actions/fechaEntregaActions";
-import {updateDetallePago} from '../../actions/detallePagoActions';
-import {updatePedidoFuturo} from '../../actions/pedidoFuturoActions';
+import { updateOcasion } from "../../actions/ocasionActions";
+import { updateFechaEntrega } from "../../actions/fechaEntregaActions";
+import { updateDetallePago } from "../../actions/detallePagoActions";
+import { updatePedidoFuturo } from "../../actions/pedidoFuturoActions";
 import "./style.css";
 const eye = <FontAwesomeIcon icon={faEye} />;
 
@@ -41,7 +41,6 @@ class EditarDatosPersonales extends Component {
     this.submit = this.submit.bind(this);
     const perfil = this.props.user;
     this.cerrarSesion = this.cerrarSesion.bind(this);
-
   }
   handleChange(e) {
     e.preventDefault();
@@ -55,22 +54,22 @@ class EditarDatosPersonales extends Component {
     this.props.updateUser({});
     this.props.updateDireccion({});
     this.props.updateOcasion("");
-    this.props.updatePedidoFuturo('N');
+    this.props.updatePedidoFuturo("N");
     this.props.updateFechaEntrega("");
     this.props.updateDetallePago("");
-   }
+  };
   submit = (e) => {
     e.preventDefault();
-    var forms = document.getElementsByClassName('needs-validation');
+    var forms = document.getElementsByClassName("needs-validation");
     // Loop over them and prevent submission
     let comprobacion = true;
-    var validation = Array.prototype.filter.call(forms, function(form) {
-        if (form.checkValidity() === false) {
-          e.preventDefault();
-          e.stopPropagation();
-          comprobacion=false;
-        }
-        form.classList.add('was-validated');
+    var validation = Array.prototype.filter.call(forms, function (form) {
+      if (form.checkValidity() === false) {
+        e.preventDefault();
+        e.stopPropagation();
+        comprobacion = false;
+      }
+      form.classList.add("was-validated");
     });
 
     let datos = {
@@ -78,24 +77,23 @@ class EditarDatosPersonales extends Component {
       actualClave: `${this.state.lastPassword}`,
       nuevaClave: `${this.state.confirmPassword}`,
     };
-    if(comprobacion){
+    if (comprobacion) {
       axios
         .post(
-          "http://190.111.5.114:8282/clientapp-web/webresources/account/changePassword",
+          "http://104.238.249.113:8080/clientapp-web/webresources/account/changePassword",
           datos
         )
         .then((resp) => {
-          if(resp.data.result === true){
+          if (resp.data.result === true) {
             swal("Good job!", `${resp.data.msg}`, "success");
 
             this.cerrarSesion();
-          }else{
+          } else {
             swal("Fatal Error!", `${resp.data.msg}`, "error");
           }
         });
     }
-
-  }
+  };
   handleChange1(e) {
     e.preventDefault();
     const name = e.target.name;
@@ -267,12 +265,15 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return {
     updateUser: (item) => dispatch(updateUser(item)),
-    updateDireccion: item=>dispatch(updateDireccion(item)),
-    updateOcasion : item=>dispatch(updateOcasion(item)),
-    updateFechaEntrega : item=>dispatch(updateFechaEntrega(item)),
-    updateDetallePago: item=>dispatch(updateDetallePago(item)),
-    updatePedidoFuturo:item=>dispatch(updatePedidoFuturo(item))
+    updateDireccion: (item) => dispatch(updateDireccion(item)),
+    updateOcasion: (item) => dispatch(updateOcasion(item)),
+    updateFechaEntrega: (item) => dispatch(updateFechaEntrega(item)),
+    updateDetallePago: (item) => dispatch(updateDetallePago(item)),
+    updatePedidoFuturo: (item) => dispatch(updatePedidoFuturo(item)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditarDatosPersonales);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditarDatosPersonales);

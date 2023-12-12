@@ -1,324 +1,413 @@
-import React, {Component} from 'react';
-import {Col, Row} from 'react-bootstrap';
-import Mapa from '../../components/Mapa/Mapa';
-import Form from 'react-bootstrap/Form';
-import withModal from '../../components/HOC/withModal';
-import swal from 'sweetalert';
-import Button from 'react-bootstrap/Button';
-import {ultimaDireccion} from "../../util/funciones";
-import {updateOcasion} from "../../actions/ocasionActions"
-import {updateDireccion} from "../../actions/direccionActions"
+import React, { Component } from "react";
+import { Col, Row } from "react-bootstrap";
+import Mapa from "../../components/Mapa/Mapa";
+import Form from "react-bootstrap/Form";
+import withModal from "../../components/HOC/withModal";
+import swal from "sweetalert";
+import Button from "react-bootstrap/Button";
+import { ultimaDireccion } from "../../util/funciones";
+import { updateOcasion } from "../../actions/ocasionActions";
+import { updateDireccion } from "../../actions/direccionActions";
 import InputMask from "react-input-mask";
-import axios from 'axios';
+import axios from "axios";
 import { connect } from "react-redux";
-import './style.css'
+import "./style.css";
 
-class Direcciones extends Component{
-  constructor(props){
-    super(props)
+class Direcciones extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       ubicacion: {},
       Departamentos: [],
       Municipios: [],
-      nombre:'',
-      telefono:'',
-      direccion:'',
-      colonia:'',
-      zona:'',
-      codigoAcceso:'',
-      numeroCasa:'',
-      departamento:{},
-      municipio:0,
-      nombreMunicipios:'',
-      referencias:'',
-      id:0
-    }
+      nombre: "",
+      telefono: "",
+      direccion: "",
+      colonia: "",
+      zona: "",
+      codigoAcceso: "",
+      numeroCasa: "",
+      departamento: {},
+      municipio: 0,
+      nombreMunicipios: "",
+      referencias: "",
+      id: 0,
+    };
     this.onchange = this.onchange.bind(this);
     this.setField = this.setField.bind(this);
     this.onchangeMunicipio = this.onchangeMunicipio.bind(this);
     this.save = this.save.bind(this);
-     this.cargarDatos = this.cargarDatos.bind(this);
+    this.cargarDatos = this.cargarDatos.bind(this);
   }
-  setField (e) {
+  setField(e) {
     e.preventDefault();
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
-         [name]: value,
-     });
- }
- cargarDatos(){
+      [name]: value,
+    });
+  }
+  cargarDatos() {
     this.setState({
-      id:this.props.direccionSeleccionada.id,
+      id: this.props.direccionSeleccionada.id,
       nombre: this.props.direccionSeleccionada.nombre,
-      telefono:this.props.direccionSeleccionada.telefono,
-      direccion:this.props.direccionSeleccionada.direccion,
-      colonia:this.props.direccionSeleccionada.colonia,
-      zona:this.props.direccionSeleccionada.zona,
-      codigoAcceso:this.props.direccionSeleccionada.codigoAcceso,
-      numeroCasa:this.props.direccionSeleccionada.numeroCasa,
-      departamento:this.props.direccionSeleccionada.departamento,
-      municipio:this.props.direccionSeleccionada.municipio.id,
-      nombreMunicipios:this.props.direccionSeleccionada.municipio.nombre,
-      referencias:this.props.direccionSeleccionada.referencias
-    })
- }
-  componentDidMount(){
-
-
+      telefono: this.props.direccionSeleccionada.telefono,
+      direccion: this.props.direccionSeleccionada.direccion,
+      colonia: this.props.direccionSeleccionada.colonia,
+      zona: this.props.direccionSeleccionada.zona,
+      codigoAcceso: this.props.direccionSeleccionada.codigoAcceso,
+      numeroCasa: this.props.direccionSeleccionada.numeroCasa,
+      departamento: this.props.direccionSeleccionada.departamento,
+      municipio: this.props.direccionSeleccionada.municipio.id,
+      nombreMunicipios: this.props.direccionSeleccionada.municipio.nombre,
+      referencias: this.props.direccionSeleccionada.referencias,
+    });
+  }
+  componentDidMount() {
     if (Object.keys(this.props.direccionSeleccionada).length !== 0) {
       this.cargarDatos();
 
-      axios.get(`http://190.111.5.114:8282/clientapp-web/webresources/direccion/municipios/${this.props.direccionSeleccionada.departamento.id}`)
-      .then(resp => {
+      axios
+        .get(
+          `http://104.238.249.113:8080/clientapp-web/webresources/direccion/municipios/${this.props.direccionSeleccionada.departamento.id}`
+        )
+        .then((resp) => {
+          this.setState({
+            Municipios: resp.data.municipios,
+          });
+        });
+    }
+    axios
+      .get(
+        "http://104.238.249.113:8080/clientapp-web/webresources/direccion/departamentos"
+      )
+      .then((resp) => {
+        this.setState({
+          Departamentos: resp.data.departamentos,
+        });
+      });
+  }
+
+  onchangeMunicipio(e) {
+    var index = e.nativeEvent.target.selectedIndex;
+    let nombreMunicipio = e.nativeEvent.target[index].text;
+    this.setState({
+      municipio: e.target.value,
+      nombreMunicipios: nombreMunicipio,
+    });
+  }
+  onchange(e) {
+    let id = e.target.value;
+    axios
+      .get(
+        `http://104.238.249.113:8080/clientapp-web/webresources/direccion/municipios/${id}`
+      )
+      .then((resp) => {
         this.setState({
           Municipios: resp.data.municipios,
-
-        })
-      })
-    }
-    axios.get('http://190.111.5.114:8282/clientapp-web/webresources/direccion/departamentos')
-    .then(resp => {
-      this.setState({
-        Departamentos: resp.data.departamentos
-      })
-    });
-
+        });
+      });
   }
 
-  onchangeMunicipio(e){
-    var index = e.nativeEvent.target.selectedIndex;
-    let nombreMunicipio = e.nativeEvent.target[index].text
-    this.setState({
-      municipio:e.target.value,
-      nombreMunicipios:nombreMunicipio
-    })
-  }
-  onchange(e){
-    let id = e.target.value;
-    axios.get(`http://190.111.5.114:8282/clientapp-web/webresources/direccion/municipios/${id}`)
-    .then(resp => {
-      this.setState({
-        Municipios: resp.data.municipios
-      })
-    })
-
-  }
-
-  save(e){
-
-    var forms = document.getElementsByClassName('needs-validation');
+  save(e) {
+    var forms = document.getElementsByClassName("needs-validation");
     // Loop over them and prevent submission
     let comprobacion = true;
-    var validation = Array.prototype.filter.call(forms, function(form) {
-        if (form.checkValidity() === false) {
-          e.preventDefault();
-          e.stopPropagation();
-          comprobacion=false;
-        }
-        form.classList.add('was-validated');
+    var validation = Array.prototype.filter.call(forms, function (form) {
+      if (form.checkValidity() === false) {
+        e.preventDefault();
+        e.stopPropagation();
+        comprobacion = false;
+      }
+      form.classList.add("was-validated");
     });
 
-  if(comprobacion){
-    let dataDireccion = {
-      "id":this.state.id,
-      "nombre": `${this.state.nombre}`,
-      "telefono": `${this.state.telefono}`,
-      "direccion": `${this.state.direccion}`,
-      "referencias": `${this.state.referencias}`,
-      "colonia": `${this.state.colonia}`,
-      "zona": `${this.state.zona}`,
-      "codigoAcceso": `${this.state.codigoAcceso}`,
-      "numeroCasa": `${this.state.numeroCasa}`,
-      "municipio": {
-        "id": parseInt(this.state.municipio),
-        "nombre": `${this.state.nombreMunicipios}`
-      },
-      "idCliente" : this.props.user.idCliente,
-      "latitud": `${this.state.ubicacion.lat}`,
-      "longitud": `${this.state.ubicacion.lng}`
-    }
+    if (comprobacion) {
+      let dataDireccion = {
+        id: this.state.id,
+        nombre: `${this.state.nombre}`,
+        telefono: `${this.state.telefono}`,
+        direccion: `${this.state.direccion}`,
+        referencias: `${this.state.referencias}`,
+        colonia: `${this.state.colonia}`,
+        zona: `${this.state.zona}`,
+        codigoAcceso: `${this.state.codigoAcceso}`,
+        numeroCasa: `${this.state.numeroCasa}`,
+        municipio: {
+          id: parseInt(this.state.municipio),
+          nombre: `${this.state.nombreMunicipios}`,
+        },
+        idCliente: this.props.user.idCliente,
+        latitud: `${this.state.ubicacion.lat}`,
+        longitud: `${this.state.ubicacion.lng}`,
+      };
 
-      if(Object.keys(this.state.ubicacion).length > 0){
+      if (Object.keys(this.state.ubicacion).length > 0) {
         swal("Felicidades", `si hay cobertura`, "success");
-              if(Object.keys(this.props.direccionSeleccionada).length === 0)
-              {
-              axios.post('http://190.111.5.114:8282/clientapp-web/webresources/direccion/save', dataDireccion)
-              .then(resp =>{
-                    if(resp.data.result === true)
-                    {
-                  swal("Bien hecho!", `${resp.data.msg}`, "success");
+        if (Object.keys(this.props.direccionSeleccionada).length === 0) {
+          axios
+            .post(
+              "http://104.238.249.113:8080/clientapp-web/webresources/direccion/save",
+              dataDireccion
+            )
+            .then((resp) => {
+              if (resp.data.result === true) {
+                swal("Bien hecho!", `${resp.data.msg}`, "success");
                 //    this.props.updateDireccion(ultimaDireccion());
-                    //TODO:para automatizar
-                    this.props.getDirecciones()
-                    this.props.updateOcasion("DOM");
-                    this.props.onHide();
-                    }else {
-                      swal("Ocurrio un error!", `${resp.data.msg}`, "error")
-                    }
-                 })
-          }else{
-              axios.post('http://190.111.5.114:8282/clientapp-web/webresources/direccion/update', dataDireccion)
-              .then(resp =>{
-                    if(resp.data.result === true)
-                    {
-                    swal("Bien hecho!", `${resp.data.msg}`, "success");
-                  //this.props.updateDireccion(ultimaDireccion(this.props.getDirecciones()));
-                  this.props.getDirecciones()
-                    this.props.onHide();
-                  }else {
-                    swal("Ocurrio un error!", `${resp.data.msg}`, "error")
-                  }
-                 })
-          }
-      }else{
-        swal("Ocurrio un error!", `Lo sentimos, por el momento no contamos con cobertura para esa dirección, puede ordenar para pasar a traer en su restaurante mas cercano`, "error")
+                //TODO:para automatizar
+                this.props.getDirecciones();
+                this.props.updateOcasion("DOM");
+                this.props.onHide();
+              } else {
+                swal("Ocurrio un error!", `${resp.data.msg}`, "error");
+              }
+            });
+        } else {
+          axios
+            .post(
+              "http://104.238.249.113:8080/clientapp-web/webresources/direccion/update",
+              dataDireccion
+            )
+            .then((resp) => {
+              if (resp.data.result === true) {
+                swal("Bien hecho!", `${resp.data.msg}`, "success");
+                //this.props.updateDireccion(ultimaDireccion(this.props.getDirecciones()));
+                this.props.getDirecciones();
+                this.props.onHide();
+              } else {
+                swal("Ocurrio un error!", `${resp.data.msg}`, "error");
+              }
+            });
+        }
+      } else {
+        swal(
+          "Ocurrio un error!",
+          `Lo sentimos, por el momento no contamos con cobertura para esa dirección, puede ordenar para pasar a traer en su restaurante mas cercano`,
+          "error"
+        );
       }
       e.preventDefault();
+    }
   }
 
-  }
-
-  render(){
-    const departamentos = this.state.Departamentos
-    const municipios = this.state.Municipios
+  render() {
+    const departamentos = this.state.Departamentos;
+    const municipios = this.state.Municipios;
     const direccion = this.props.direccionSeleccionada;
-      return(
-        <>
-            <Row>
-              <Col sm={12} xl={6} md={12}>
-                <Mapa getLocation={(ubicacion)=>{this.setState({ubicacion:ubicacion})}} direccionSeleccionada={direccion} buscador={true} boton={true} cobertura={true}/>
-              </Col>
-              <Col sm={12} xl={6} md={6}>
-                <Form className="needs-validation" noValidate>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId="nombreUbicacion">
-                      <p className="etiquetas">Nombre de la Ubicación*  </p>
-                      <Form.Control defaultValue={this.state.nombre}  onChange={this.setField} name="nombre" type="text" placeholder=" Nombre Ubicacion"  required/>
-                        <div className="invalid-tooltip">
-                          Ingresa un nombre de ubicación
-                        </div>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="telefono">
-                      <p className="etiquetas">Teléfono*  </p>
-                      <InputMask mask="9999-9999" value={this.state.telefono} onChange={this.setField}   name="telefono" type="text" placeholder=" Telefono" required>
-                       <Form.Control  />
-                       </InputMask>
-                       <div className="invalid-tooltip">
-                         Ingresa un Teléfono
-                       </div>
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId="direccion">
-                      <p className="etiquetas">Dirección*  </p>
-                      <Form.Control  defaultValue={this.state.direccion} onChange={this.setField}  name="direccion" type="text" placeholder=" Direccion" required/>
-                        <div className="invalid-tooltip">
-                          Ingresa una Dirección
-                        </div>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="colonia">
-                      <p className="etiquetas">Colonia*  </p>
-                      <Form.Control defaultValue={this.state.colonia} onChange={this.setField}  name="colonia" type="text" placeholder=" Colonia" required/>
-                        <div className="invalid-tooltip">
-                          Ingresa una Colonia
-                        </div>
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId="zona">
-                      <p className="etiquetas">Zona*  </p>
-                      <Form.Control defaultValue={this.state.zona} onChange={this.setField}  name="zona" type="text" placeholder=" Zona" required/>
-                        <div className="invalid-tooltip">
-                          Ingresa una Zona
-                        </div>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="codigoAcceso">
-                      <p className="etiquetas">Código Acceso*  </p>
-                      <Form.Control defaultValue={this.state.codigoAcceso} onChange={this.setField}  name="codigoAcceso" type="text" placeholder="Codigo Acceso" required/>
-                        <div className="invalid-tooltip">
-                          Ingresa un Código Acceso
-                        </div>
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId="edificio">
-                      <p className="etiquetas">Número de casa,apartamento, edificio*  </p>
-                      <Form.Control defaultValue={this.state.numeroCasa} onChange={this.setField}  name="numeroCasa" type="text" placeholder="Número de casa,apartamento, edificio" required/>
-                        <div className="invalid-tooltip">
-                          Ingresa un Número de casa,apartamento, edificio
-                        </div>
-                    </Form.Group>
+    return (
+      <>
+        <Row>
+          <Col sm={12} xl={6} md={12}>
+            <Mapa
+              getLocation={(ubicacion) => {
+                this.setState({ ubicacion: ubicacion });
+              }}
+              direccionSeleccionada={direccion}
+              buscador={true}
+              boton={true}
+              cobertura={true}
+            />
+          </Col>
+          <Col sm={12} xl={6} md={6}>
+            <Form className="needs-validation" noValidate>
+              <Form.Row>
+                <Form.Group as={Col} controlId="nombreUbicacion">
+                  <p className="etiquetas">Nombre de la Ubicación* </p>
+                  <Form.Control
+                    defaultValue={this.state.nombre}
+                    onChange={this.setField}
+                    name="nombre"
+                    type="text"
+                    placeholder=" Nombre Ubicacion"
+                    required
+                  />
+                  <div className="invalid-tooltip">
+                    Ingresa un nombre de ubicación
+                  </div>
+                </Form.Group>
+                <Form.Group as={Col} controlId="telefono">
+                  <p className="etiquetas">Teléfono* </p>
+                  <InputMask
+                    mask="9999-9999"
+                    value={this.state.telefono}
+                    onChange={this.setField}
+                    name="telefono"
+                    type="text"
+                    placeholder=" Telefono"
+                    required
+                  >
+                    <Form.Control />
+                  </InputMask>
+                  <div className="invalid-tooltip">Ingresa un Teléfono</div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="direccion">
+                  <p className="etiquetas">Dirección* </p>
+                  <Form.Control
+                    defaultValue={this.state.direccion}
+                    onChange={this.setField}
+                    name="direccion"
+                    type="text"
+                    placeholder=" Direccion"
+                    required
+                  />
+                  <div className="invalid-tooltip">Ingresa una Dirección</div>
+                </Form.Group>
+                <Form.Group as={Col} controlId="colonia">
+                  <p className="etiquetas">Colonia* </p>
+                  <Form.Control
+                    defaultValue={this.state.colonia}
+                    onChange={this.setField}
+                    name="colonia"
+                    type="text"
+                    placeholder=" Colonia"
+                    required
+                  />
+                  <div className="invalid-tooltip">Ingresa una Colonia</div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="zona">
+                  <p className="etiquetas">Zona* </p>
+                  <Form.Control
+                    defaultValue={this.state.zona}
+                    onChange={this.setField}
+                    name="zona"
+                    type="text"
+                    placeholder=" Zona"
+                    required
+                  />
+                  <div className="invalid-tooltip">Ingresa una Zona</div>
+                </Form.Group>
+                <Form.Group as={Col} controlId="codigoAcceso">
+                  <p className="etiquetas">Código Acceso* </p>
+                  <Form.Control
+                    defaultValue={this.state.codigoAcceso}
+                    onChange={this.setField}
+                    name="codigoAcceso"
+                    type="text"
+                    placeholder="Codigo Acceso"
+                    required
+                  />
+                  <div className="invalid-tooltip">
+                    Ingresa un Código Acceso
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="edificio">
+                  <p className="etiquetas">
+                    Número de casa,apartamento, edificio*{" "}
+                  </p>
+                  <Form.Control
+                    defaultValue={this.state.numeroCasa}
+                    onChange={this.setField}
+                    name="numeroCasa"
+                    type="text"
+                    placeholder="Número de casa,apartamento, edificio"
+                    required
+                  />
+                  <div className="invalid-tooltip">
+                    Ingresa un Número de casa,apartamento, edificio
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="departamento">
+                  <p className="etiquetas">Departamento*</p>
+                  <Form.Control
+                    name="departamento"
+                    as="select"
+                    onChange={this.onchange}
+                    required
+                  >
+                    <option value="">Selecciona un Departamento</option>
 
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId="departamento">
-                      <p className="etiquetas">Departamento*</p>
-                      <Form.Control  name="departamento" as="select"  onChange={this.onchange} required>
-                        <option value="">Selecciona un Departamento</option>
-
-                        {
-                          departamentos.map(d =>(
-                            <option  key={d.id} value={d.id} selected={this.state.departamento.id === d.id ? 'selected' : '' }>
-                              {d.nombre}
-                            </option>
-                          ))
+                    {departamentos.map((d) => (
+                      <option
+                        key={d.id}
+                        value={d.id}
+                        selected={
+                          this.state.departamento.id === d.id ? "selected" : ""
                         }
-                      </Form.Control>
-                      <div className="invalid-tooltip">
-                        Ingresa un Departamento
-                      </div>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="municipio">
-                      <p className="etiquetas">Municipio*</p>
-                      <Form.Control onChange={this.onchangeMunicipio}  name="municipio" as="select" required >
-                        <option value="">Selecciona Municipio</option>
-                        {
-                          municipios.map(m =>(
-                            <option key={m.id} value={m.id} selected={m.id === this.state.municipio ? 'selected' : '' }>
-                              {m.nombre}
-                            </option>
-                          ))
+                      >
+                        {d.nombre}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  <div className="invalid-tooltip">Ingresa un Departamento</div>
+                </Form.Group>
+                <Form.Group as={Col} controlId="municipio">
+                  <p className="etiquetas">Municipio*</p>
+                  <Form.Control
+                    onChange={this.onchangeMunicipio}
+                    name="municipio"
+                    as="select"
+                    required
+                  >
+                    <option value="">Selecciona Municipio</option>
+                    {municipios.map((m) => (
+                      <option
+                        key={m.id}
+                        value={m.id}
+                        selected={
+                          m.id === this.state.municipio ? "selected" : ""
                         }
-                      </Form.Control>
-                      <div className="invalid-tooltip">
-                        Ingresa un Municipio
-                      </div>
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row>
-                      <Form.Group as={Col} controlId="referencia">
-                        <p className="etiquetas">Referencias</p>
-                        <Form.Control  defaultValue={this.state.referencias} onChange={this.setField} as="textarea" rows="3" cols="10" className="textarea" name="referencias" required />
-                          <div className="invalid-tooltip">
-                            Ingresa una Referencia
-                          </div>
-                    </Form.Group>
-                  </Form.Row>
+                      >
+                        {m.nombre}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  <div className="invalid-tooltip">Ingresa un Municipio</div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="referencia">
+                  <p className="etiquetas">Referencias</p>
+                  <Form.Control
+                    defaultValue={this.state.referencias}
+                    onChange={this.setField}
+                    as="textarea"
+                    rows="3"
+                    cols="10"
+                    className="textarea"
+                    name="referencias"
+                    required
+                  />
+                  <div className="invalid-tooltip">Ingresa una Referencia</div>
+                </Form.Group>
+              </Form.Row>
 
-                      <Button variant="danger" type="button" className="registrar" onClick={this.save} id="btn-danger">
-                        Guardar
-                      </Button>
-
-                </Form>
-              </Col>
-            </Row>
-        </>
-      )
+              <Button
+                variant="danger"
+                type="button"
+                className="registrar"
+                onClick={this.save}
+                id="btn-danger"
+              >
+                Guardar
+              </Button>
+            </Form>
+          </Col>
+        </Row>
+      </>
+    );
   }
-
 }
-function mapDispatchToProps(dispatch){
-  return{
-    updateOcasion: item=>dispatch(updateOcasion(item)),
-    updateDireccion:item=>dispatch(updateDireccion(item))
-  }
-}
-function mapStatetoProp(state, props){
+function mapDispatchToProps(dispatch) {
   return {
-    user: state.user
-  }
+    updateOcasion: (item) => dispatch(updateOcasion(item)),
+    updateDireccion: (item) => dispatch(updateDireccion(item)),
+  };
+}
+function mapStatetoProp(state, props) {
+  return {
+    user: state.user,
+  };
 }
 
-
-export default connect(mapStatetoProp,mapDispatchToProps) (withModal(Direcciones))
+export default connect(
+  mapStatetoProp,
+  mapDispatchToProps
+)(withModal(Direcciones));

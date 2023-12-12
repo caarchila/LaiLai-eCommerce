@@ -18,7 +18,7 @@ const Categorias = ({ match }) => {
     cambiarEstadoCategoria();
     if (menus[0].subcategorias !== undefined) {
       setMenus(
-        menus[0].subcategorias.filter((s) => parseInt(s.id) === parseInt(id)),
+        menus[0].subcategorias.filter((s) => parseInt(s.id) === parseInt(id))
       );
     }
   };
@@ -28,13 +28,15 @@ const Categorias = ({ match }) => {
   };
   useEffect(() => {
     axios
-      .get("http://190.111.5.114:8282/clientapp-web/webresources/getMenus/APP")
+      .get(
+        "http://104.238.249.113:8080/clientapp-web/webresources/getMenus/APP"
+      )
       .then((resp) => {
         setMenusCategoria(resp.data.categorias);
         if (parseInt(match.params.idSub) === 0) {
           console.log("entre");
           const menu = resp.data.categorias.filter(
-            (c) => parseInt(c.id) === parseInt(match.params.id),
+            (c) => parseInt(c.id) === parseInt(match.params.id)
           );
           console.log({ categorias: resp.data.categorias });
           if (menu[0].subcategoria === "Si") {
@@ -49,13 +51,13 @@ const Categorias = ({ match }) => {
         } else {
           console.log({ data: resp.data });
           const menu = resp.data.categorias.filter(
-            (c) => parseInt(c.id) === parseInt(match.params.id),
+            (c) => parseInt(c.id) === parseInt(match.params.id)
           );
           console.log({ id: menu[0].id });
           setMenus(
             menu[0].subcategorias.filter(
-              (s) => parseInt(s.id) === parseInt(match.params.idSub),
-            ),
+              (s) => parseInt(s.id) === parseInt(match.params.idSub)
+            )
           );
         }
       });

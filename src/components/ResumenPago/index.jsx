@@ -6,16 +6,22 @@ import { connect } from "react-redux";
 import Redireccionar from "../class/redireccionar";
 import { clearCart } from "../../actions/cartActions";
 import { growl } from "@crystallize/react-growl";
-import useHorario from '../customHooks/useHorario';
-import useHorarioHome from '../customHooks/useHorarioHome';
+import useHorario from "../customHooks/useHorario";
+import useHorarioHome from "../customHooks/useHorarioHome";
 import axios from "axios";
-import {validarHorarioSeleccionado} from '../../util/funciones';
+import { validarHorarioSeleccionado } from "../../util/funciones";
 
-const Resumen = props => {
+const Resumen = (props) => {
   const [estado, setEstado] = useState(false);
   const [token, setToken] = useState("");
-  const horarioHabil = useHorario(props.direccion.horaApertura,props.direccion.horaCierre);
-  const horarioHabilHome = useHorarioHome(props.direccion.longitud, props.direccion.latitud);
+  const horarioHabil = useHorario(
+    props.direccion.horaApertura,
+    props.direccion.horaCierre
+  );
+  const horarioHabilHome = useHorarioHome(
+    props.direccion.longitud,
+    props.direccion.latitud
+  );
   const total =
     props.historial.menus !== undefined
       ? props.historial.menus.reduce(function (suma, c) {
@@ -25,44 +31,52 @@ const Resumen = props => {
   const subtotal = total;
 
   const confirmarPago = async () => {
-
     var direccion = "idDireccion";
     var estado = true;
     var mensaje = "";
     var tipo = "";
 
-    if(props.ocasion === "LLV"){
+    if (props.ocasion === "LLV") {
       direccion = "idTienda";
-      if(props.pedidoFuturo === "S"){
-        let response = validarHorarioSeleccionado(props.fechaEntrega,props.direccion.horaApertura,props.direccion.horaCierre);
-        if(!response.estado){
-           estado = false;
-           mensaje = response.msj;
-           tipo = "warning";
-        }
-      }else{
-        if(!horarioHabil){
+      if (props.pedidoFuturo === "S") {
+        let response = validarHorarioSeleccionado(
+          props.fechaEntrega,
+          props.direccion.horaApertura,
+          props.direccion.horaCierre
+        );
+        if (!response.estado) {
           estado = false;
-          mensaje = "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega.";
+          mensaje = response.msj;
+          tipo = "warning";
+        }
+      } else {
+        if (!horarioHabil) {
+          estado = false;
+          mensaje =
+            "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega.";
           tipo = "warning";
         }
       }
-
-    }else{
-      await horarioHabilHome.then(data=>{
-        if(data.result === "ACT"){
-          let response = validarHorarioSeleccionado(props.fechaEntrega,data.tiendas[0].horaApertura,data.tiendas[0].horaCierre);
-          if(!response.estado){
-             estado = false;
-             mensaje = response.msj;
-             tipo = "warning";
+    } else {
+      await horarioHabilHome.then((data) => {
+        if (data.result === "ACT") {
+          let response = validarHorarioSeleccionado(
+            props.fechaEntrega,
+            data.tiendas[0].horaApertura,
+            data.tiendas[0].horaCierre
+          );
+          if (!response.estado) {
+            estado = false;
+            mensaje = response.msj;
+            tipo = "warning";
           }
-        }else{
+        } else {
           estado = false;
-          mensaje = "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega.";
+          mensaje =
+            "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega.";
           tipo = "warning";
         }
-      })
+      });
     }
 
     const tomaPedido = {
@@ -72,14 +86,16 @@ const Resumen = props => {
       [direccion]: props.direccion.id,
       telefono: props.direccion.telefono,
       ocasion: props.ocasion,
-      indicaciones : (props.direccion.referencias === undefined)?"":props.direccion.referencias,
+      indicaciones:
+        props.direccion.referencias === undefined
+          ? ""
+          : props.direccion.referencias,
       factura: false,
       menus: props.cart,
       detallePago: [{ formaPago: props.detallePago }],
-      pedidoFuturo:props.pedidoFuturo,
-      fechaEntrega:props.fechaEntrega
+      pedidoFuturo: props.pedidoFuturo,
+      fechaEntrega: props.fechaEntrega,
     };
-
 
     if (props.cart.length === 0) {
       estado = false;
@@ -96,8 +112,7 @@ const Resumen = props => {
     if (Object.keys(props.user).length === 0) {
       estado = false;
       tipo = "warning";
-      mensaje =
-        "No existe un usuario en la store.";
+      mensaje = "No existe un usuario en la store.";
     }
 
     if (props.detallePago === "") {
@@ -108,20 +123,28 @@ const Resumen = props => {
     }
     console.log(tomaPedido);
 
-    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
     var d = new Date(props.fechaEntrega);
     var dayName = days[d.getDay()];
-    if(dayName === "Sunday"){
+    if (dayName === "Sunday") {
       estado = false;
       mensaje = "Este dia no abrimos.";
       tipo = "warning";
     }
-
+    // tomaPedido.telefono = 70920955;
     if (estado) {
       console.log(tomaPedido);
       axios
         .post(
-          "http://190.111.5.114:8282/clientapp-web/webresources/order/register",
+          "http://104.238.249.113:8080/clientapp-web/webresources/order/register",
           tomaPedido
         )
         .then(async function (response) {
@@ -135,14 +158,16 @@ const Resumen = props => {
               title: "información",
               message: response.data.msg,
             });
+            console.log(response.data);
           }
-        });
+        })
+        .catch((e) => console.log(e));
     } else {
       const myGrowl = await growl({
         type: tipo,
         title: "información",
         message: mensaje,
-      });
+      }).catch((e) => console.log(e));
     }
   };
 
@@ -227,8 +252,8 @@ function mapStateToProps(state, props) {
     cart: state.cart,
     user: state.user,
     direccion: state.direccion,
-    ocasion:state.ocasion,
-    detallePago:state.detallePago
+    ocasion: state.ocasion,
+    detallePago: state.detallePago,
   };
 }
 
@@ -239,8 +264,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 Resumen.defaultProps = {
-  pedidoFuturo:"N",
-  fechaEntrega:"",
-  detallePago:""
-}
+  pedidoFuturo: "N",
+  fechaEntrega: "",
+  detallePago: "",
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Resumen);

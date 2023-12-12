@@ -5,7 +5,7 @@ import axios from "axios";
 import { updateDireccion } from "../../../actions/direccionActions";
 import swal from "sweetalert";
 import { MDBIcon } from "mdbreact";
-import './styles.css'
+import "./styles.css";
 
 const TooltipRadioDinamico = ({
   estado,
@@ -16,7 +16,6 @@ const TooltipRadioDinamico = ({
   direccionSeleccionada,
   updateDireccion,
 }) => {
-
   const editar = () => {
     getDireccionSeleccionada(direccion);
     onShow();
@@ -39,7 +38,7 @@ const TooltipRadioDinamico = ({
 
         axios
           .get(
-            `http://190.111.5.114:8282/clientapp-web/webresources/direccion/delete/${direccion.id}`
+            `http://104.238.249.113:8080/clientapp-web/webresources/direccion/delete/${direccion.id}`
           )
           .then((resp) => {
             if (resp.data.result === true) {
@@ -56,14 +55,18 @@ const TooltipRadioDinamico = ({
   };
 
   return (
-<>
-            <Button variant={"warning"}  className="my-2 boton-editar" onClick={editar}>
-                  <MDBIcon far icon="edit" />
-            </Button>
-            <Button variant={"danger"} className="boton-editar"  onClick={eliminar}>
-              <MDBIcon far icon="trash-alt" />
-            </Button>
-  </>
+    <>
+      <Button
+        variant={"warning"}
+        className="my-2 boton-editar"
+        onClick={editar}
+      >
+        <MDBIcon far icon="edit" />
+      </Button>
+      <Button variant={"danger"} className="boton-editar" onClick={eliminar}>
+        <MDBIcon far icon="trash-alt" />
+      </Button>
+    </>
   );
 };
 

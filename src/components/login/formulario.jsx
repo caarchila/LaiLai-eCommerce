@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { MDBIcon } from "mdbreact";
 import axios from "axios";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import { Link } from "react-router-dom";
 import GoogleLogin from "react-google-login";
 import FacebookLogin from "react-facebook-login";
@@ -49,33 +49,30 @@ class Formulario extends Component {
       email: `${respuesta.profileObj.email}`,
       token: `${respuesta.accessToken}`,
     };
-    if(respuesta !== undefined){
+    if (respuesta !== undefined) {
       axios
         .post(
-          "http://190.111.5.114:8282/clientapp-web/webresources/account/login/api",
+          "http://104.238.249.113:8080/clientapp-web/webresources/account/login/api",
           inicioDatos
         )
-        .then((resp) =>{
-          if(resp.data.result === true)
-          {
-          swal("Bien hecho!", `${resp.data.msg}`, "success");
-          resp.data.client.token= respuesta.accessToken;
-          this.props.updateUser(resp.data.client);
-          if(this.props.anyWhere === false)
-          {
-            this.setState({
-              login: true,
-            })
-
-          }else{
-            this.props.onHide();
-            this.props.agregarAlCarrito();
+        .then((resp) => {
+          if (resp.data.result === true) {
+            swal("Bien hecho!", `${resp.data.msg}`, "success");
+            resp.data.client.token = respuesta.accessToken;
+            this.props.updateUser(resp.data.client);
+            if (this.props.anyWhere === false) {
+              this.setState({
+                login: true,
+              });
+            } else {
+              this.props.onHide();
+              this.props.agregarAlCarrito();
+            }
+          } else {
+            swal("Ocurrio un error!", `${resp.data.msg}`, "error");
           }
-        }else {
-          swal("Ocurrio un error!", `${resp.data.msg}`, "error")
-        }
         });
-      }
+    }
   };
   respuestaFacebook = (response) => {
     console.log(response);
@@ -86,34 +83,31 @@ class Formulario extends Component {
       token: ` ${response.accessToken}`,
     };
 
-    if(response !== undefined){
+    if (response !== undefined) {
       axios
         .post(
-          "http://190.111.5.114:8282/clientapp-web/webresources/account/login/api",
+          "http://104.238.249.113:8080/clientapp-web/webresources/account/login/api",
           inicioDatos
         )
         .then((resp) => {
-          if(resp.data.result === true)
-          {
-          swal("Bien Hecho!", `${resp.data.msg}`, "success");
-          resp.data.client.token= response.accessToken;
-          this.props.updateUser(resp.data.client);
-          if(this.props.anyWhere === false)
-          {
-            this.setState({
-              login: true,
-            })
-
-          }else{
-            this.props.onHide();
-            this.props.agregarAlCarrito();
+          if (resp.data.result === true) {
+            swal("Bien Hecho!", `${resp.data.msg}`, "success");
+            resp.data.client.token = response.accessToken;
+            this.props.updateUser(resp.data.client);
+            if (this.props.anyWhere === false) {
+              this.setState({
+                login: true,
+              });
+            } else {
+              this.props.onHide();
+              this.props.agregarAlCarrito();
+            }
+          } else {
+            swal("Ocurrio un error!", `${resp.data.msg}`, "error");
           }
-        }else {
-          swal("Ocurrio un error!", `${resp.data.msg}`, "error")
-        }
         });
-    }else {
-      swal("Ocurrio un error!", `revisa tu cuenta de facebook`, "error")
+    } else {
+      swal("Ocurrio un error!", `revisa tu cuenta de facebook`, "error");
     }
   };
   handleEmailChange(e) {
@@ -124,50 +118,46 @@ class Formulario extends Component {
   }
   iniciar(e) {
     e.preventDefault();
-    var forms = document.getElementsByClassName('needs-validation');
+    var forms = document.getElementsByClassName("needs-validation");
     // Loop over them and prevent submission
     let comprobacion = true;
-    var validation = Array.prototype.filter.call(forms, function(form) {
-        if (form.checkValidity() === false) {
-          e.preventDefault();
-          e.stopPropagation();
-          comprobacion=false;
-        }
-        form.classList.add('was-validated');
+    var validation = Array.prototype.filter.call(forms, function (form) {
+      if (form.checkValidity() === false) {
+        e.preventDefault();
+        e.stopPropagation();
+        comprobacion = false;
+      }
+      form.classList.add("was-validated");
     });
-    if(comprobacion){
+    if (comprobacion) {
       let data = {
         email: `${this.state.email}`,
         clave: `${this.state.password}`,
       };
       axios
         .post(
-          `http://190.111.5.114:8282/clientapp-web/webresources/account/login/local`, data
+          `http://104.238.249.113:8080/clientapp-web/webresources/account/login/local`,
+          data
         )
         // .get(
-        //   `http://190.111.5.114:8282/clientapp-web/webresources/account/login/local?email=${data.email}&clave=${data.clave}`
+        //   `http://104.238.249.113:8080/clientapp-web/webresources/account/login/local?email=${data.email}&clave=${data.clave}`
         // )
         .then((resp) => {
-          if(resp.data.result === true)
-          {
-          swal("Bien hecho!", `${resp.data.msg}`, "success");
-          sessionStorage.setItem("user", JSON.stringify(resp.data.client));
-          this.props.updateUser(resp.data.client);
-          if(this.props.anyWhere === false)
-          {
-            this.setState({
-              login: true,
-            })
-
-          }else{
-            this.props.onHide();
-            this.props.agregarAlCarrito();
+          if (resp.data.result === true) {
+            swal("Bien hecho!", `${resp.data.msg}`, "success");
+            sessionStorage.setItem("user", JSON.stringify(resp.data.client));
+            this.props.updateUser(resp.data.client);
+            if (this.props.anyWhere === false) {
+              this.setState({
+                login: true,
+              });
+            } else {
+              this.props.onHide();
+              this.props.agregarAlCarrito();
+            }
+          } else {
+            swal("Ocurrio un error!", `${resp.data.msg}`, "error");
           }
-        }else {
-          swal("Ocurrio un error!", `${resp.data.msg}`, "error")
-        }
-
-
         });
     }
   }
@@ -189,7 +179,6 @@ class Formulario extends Component {
               onChange={this.handleEmailChange}
               placeholder="Enter email"
             />
-
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
             <Form.Label>
@@ -206,7 +195,6 @@ class Formulario extends Component {
             <i onClick={this.handleClick} className="iconcito">
               {eye}
             </i>
-
           </Form.Group>
           <center>
             <Button
@@ -268,9 +256,9 @@ class Formulario extends Component {
 
 Formulario.defaultProps = {
   anyWhere: false,
-  onHide: ()=>{},
-  agregarAlCarrito: ()=>{}
-}
+  onHide: () => {},
+  agregarAlCarrito: () => {},
+};
 
 function mapDispatchToProps(dispatch) {
   return {

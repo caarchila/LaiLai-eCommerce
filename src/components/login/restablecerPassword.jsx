@@ -23,11 +23,9 @@ class RestablecerPassword extends Component {
     let informacion = {
       email: `${this.state.email}`,
     };
+    //TODO: i remove this url updated on index.js
     axios
-      .post(
-        "http://104.238.249.113:8080/clientapp-web/webresources/account/resetPassword",
-        informacion
-      )
+      .post("/clientapp-web/webresources/account/resetPassword", informacion)
       .then((resp) => {
         if (resp.data.result === true) {
           swal("Good job!", `${resp.data.msg}`, "success");

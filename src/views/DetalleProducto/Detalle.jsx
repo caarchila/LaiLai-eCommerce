@@ -9,27 +9,24 @@ const Detalle = ({ match }) => {
   const [menusCategoria, setMenusCategoria] = useState([]);
   const [categoria, setCategoria] = useState([]);
   useEffect(() => {
+    //TODO: i remove this url updated on index.js
     axios
       .get(
-        `http://104.238.249.113:8080/clientapp-web/webresources/getMenuDetail/${match.params.idDetalle}`
+        `/clientapp-web/webresources/getMenuDetail/${match.params.idDetalle}`
       )
       .then((resp) => {
         setDetalle(resp.data.menu);
       });
 
-    axios
-      .get(
-        "http://104.238.249.113:8080/clientapp-web/webresources/getMenus/APP"
-      )
-      .then((resp) => {
-        setMenusCategoria(resp.data.categorias);
-        const menu = resp.data.categorias.filter(
-          (c) => parseInt(c.id) === parseInt(match.params.id)
-        );
-        if (menu[0] !== undefined) {
-          setCategoria(menu[0].nombre);
-        }
-      });
+    axios.get("/clientapp-web/webresources/getMenus/APP").then((resp) => {
+      setMenusCategoria(resp.data.categorias);
+      const menu = resp.data.categorias.filter(
+        (c) => parseInt(c.id) === parseInt(match.params.id)
+      );
+      if (menu[0] !== undefined) {
+        setCategoria(menu[0].nombre);
+      }
+    });
   }, []);
 
   return (

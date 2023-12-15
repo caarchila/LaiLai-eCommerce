@@ -1,14 +1,14 @@
-.menusImg{
+.menusImg {
   right: 50%;
   width: 50%;
   height: 150px;
   border-radius: 15px 0px 0px 15px;
 }
 
-@media screen only and (max-width:600px){
-  .menusImg:0px !important;
+@media screen only and (max-width: 600px) {
+  .menusimg: 0px !important;
 }
-.contentMenus{
+.contentMenus {
   text-align: left;
   font-size: 15px;
   width: 51%;
@@ -18,23 +18,25 @@
   position: absolute;
   left: 50%;
   padding: 12px;
+  color: black;
 }
 
-.cardSubMenu{
-  background: #F5F4F4 !important;
+.cardSubMenu {
+  background: #f5f4f4 !important;
   height: auto;
   border-radius: 15px !important;
-  max-width: 420px
+  max-width: 420px;
+  cursor: pointer;
 }
 
-.precioSubMenu{
+.precioSubMenu {
   display: block;
   font-size: 15px;
   font-weight: bold;
-  color:#AE1D19;
+  color: #ae1d19;
   bottom: 7px;
   position: absolute;
 }
-.leer-mas{
+.leer-mas {
   text-decoration: underline;
 }

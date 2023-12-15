@@ -13,10 +13,10 @@ class Ordenes extends Component {
 
   componentDidMount() {
     let id = this.props.user.idCliente;
-
+    //TODO: i remove this url updated on index.js
     axios
       .get(
-        `http://104.238.249.113:8080/clientapp-web/webresources/order/activas/${id}`
+        `/clientapp-web/webresources/order/activas/${id}`
       )
       .then((resp) => {
         this.setState({

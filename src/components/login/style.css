@@ -1,18 +1,17 @@
-#titulo{
+#titulo {
   text-align: center;
 }
 
 .cascaron {
   border-radius: 12px;
   padding: 10px;
-
 }
-#btn-danger{
-    background-color: #E52822 !important;
+#btn-danger {
+  background-color: #e52822 !important;
 }
-.facebook{
-  background-color: #024C99 !important;
-  color:#fff !important;
+.facebook {
+  background-color: #024c99 !important;
+  color: #fff !important;
 }
 
 .App > input {
@@ -25,7 +24,7 @@
   margin-bottom: 14px;
 }
 
-.iconcito{
+.iconcito {
   position: absolute;
   top: 230px;
   right: 13%;
@@ -36,7 +35,7 @@
   cursor: pointer;
 }
 
-.sesion{
+.sesion {
   border-radius: 15px !important;
   margin-bottom: 20px;
 }

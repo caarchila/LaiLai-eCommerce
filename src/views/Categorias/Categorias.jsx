@@ -27,40 +27,37 @@ const Categorias = ({ match }) => {
     setEsSubCategoria(false);
   };
   useEffect(() => {
-    axios
-      .get(
-        "http://104.238.249.113:8080/clientapp-web/webresources/getMenus/APP"
-      )
-      .then((resp) => {
-        setMenusCategoria(resp.data.categorias);
-        if (parseInt(match.params.idSub) === 0) {
-          console.log("entre");
-          const menu = resp.data.categorias.filter(
-            (c) => parseInt(c.id) === parseInt(match.params.id)
-          );
-          console.log({ categorias: resp.data.categorias });
-          if (menu[0].subcategoria === "Si") {
-            const submenu = menu[0].subcategorias;
-            setMenuSubcategorias(submenu);
-            setEsSubCategoria(true);
-            setMenus(menu);
-          } else {
-            setMenus(menu);
-          }
+    //TODO: i remove this url updated on index.js
+    axios.get("/clientapp-web/webresources/getMenus/APP").then((resp) => {
+      setMenusCategoria(resp.data.categorias);
+      if (parseInt(match.params.idSub) === 0) {
+        console.log("entre");
+        const menu = resp.data.categorias.filter(
+          (c) => parseInt(c.id) === parseInt(match.params.id)
+        );
+        console.log({ categorias: resp.data.categorias });
+        if (menu[0].subcategoria === "Si") {
+          const submenu = menu[0].subcategorias;
+          setMenuSubcategorias(submenu);
+          setEsSubCategoria(true);
           setMenus(menu);
         } else {
-          console.log({ data: resp.data });
-          const menu = resp.data.categorias.filter(
-            (c) => parseInt(c.id) === parseInt(match.params.id)
-          );
-          console.log({ id: menu[0].id });
-          setMenus(
-            menu[0].subcategorias.filter(
-              (s) => parseInt(s.id) === parseInt(match.params.idSub)
-            )
-          );
+          setMenus(menu);
         }
-      });
+        setMenus(menu);
+      } else {
+        console.log({ data: resp.data });
+        const menu = resp.data.categorias.filter(
+          (c) => parseInt(c.id) === parseInt(match.params.id)
+        );
+        console.log({ id: menu[0].id });
+        setMenus(
+          menu[0].subcategorias.filter(
+            (s) => parseInt(s.id) === parseInt(match.params.idSub)
+          )
+        );
+      }
+    });
   }, []);
 
   const actualizarMenu = (menus) => {

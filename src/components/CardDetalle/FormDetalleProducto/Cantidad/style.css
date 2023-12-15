@@ -1,42 +1,46 @@
-#contenedorCantidad{
-  background-color: #F4F4F4;
+#contenedorCantidad {
+  background-color: #f4f4f4;
   padding: 0px;
   width: 50%;
 }
 
-.suma{
-    height: 50px;
-    padding: 10px;
-    font-size: 20px;
-    left: 35%;
-  }
+.suma {
+  height: 50px;
+  padding: 10px;
+  font-size: 20px;
+  left: 35%;
+}
 @media only screen and (max-width: 600px) {
-  #contenedorCantidad{
-    background-color: #F4F4F4;
+  #contenedorCantidad {
+    background-color: #f4f4f4;
     padding: 0px;
     width: 50%;
     margin-left: 25%;
   }
-
 }
 
-.btn-cantidad{
+.control-buttons {
+  /* max-width: 120px; */
+  min-width: 90px;
+}
+.btn-cantidad {
   height: 50px;
   border-radius: 5px 0px 0px 5px;
   border: none;
-  background-color:#F4F4F4;
+  background-color: #f4f4f4;
   margin-right: 5px;
   width: 50px;
 }
-.btn-cantidad-2{
+.btn-cantidad-2 {
   height: 50px;
   border-radius: 0px 5px 5px 0px;
   border: none;
-  background-color:#F4F4F4;
+  background-color: #f4f4f4;
   margin-left: 5px;
   width: 50px;
 }
 
-.btn-cantidad:hover, .btn-cantidad-2:hover{
+.btn-cantidad:hover,
+.btn-cantidad-2:hover {
   background-color: white;
 }

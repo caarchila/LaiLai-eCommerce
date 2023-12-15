@@ -66,10 +66,10 @@ class Direcciones extends Component {
   componentDidMount() {
     if (Object.keys(this.props.direccionSeleccionada).length !== 0) {
       this.cargarDatos();
-
+      //TODO: i remove this url updated on index.js
       axios
         .get(
-          `http://104.238.249.113:8080/clientapp-web/webresources/direccion/municipios/${this.props.direccionSeleccionada.departamento.id}`
+          `/clientapp-web/webresources/direccion/municipios/${this.props.direccionSeleccionada.departamento.id}`
         )
         .then((resp) => {
           this.setState({
@@ -77,10 +77,9 @@ class Direcciones extends Component {
           });
         });
     }
+    //TODO: i remove this url updated on index.js
     axios
-      .get(
-        "http://104.238.249.113:8080/clientapp-web/webresources/direccion/departamentos"
-      )
+      .get("/clientapp-web/webresources/direccion/departamentos")
       .then((resp) => {
         this.setState({
           Departamentos: resp.data.departamentos,
@@ -98,10 +97,9 @@ class Direcciones extends Component {
   }
   onchange(e) {
     let id = e.target.value;
+    //TODO: i remove this url updated on index.js
     axios
-      .get(
-        `http://104.238.249.113:8080/clientapp-web/webresources/direccion/municipios/${id}`
-      )
+      .get(`/clientapp-web/webresources/direccion/municipios/${id}`)
       .then((resp) => {
         this.setState({
           Municipios: resp.data.municipios,
@@ -145,11 +143,9 @@ class Direcciones extends Component {
       if (Object.keys(this.state.ubicacion).length > 0) {
         swal("Felicidades", `si hay cobertura`, "success");
         if (Object.keys(this.props.direccionSeleccionada).length === 0) {
+          //TODO: i remove this url updated on index.js
           axios
-            .post(
-              "http://104.238.249.113:8080/clientapp-web/webresources/direccion/save",
-              dataDireccion
-            )
+            .post("/clientapp-web/webresources/direccion/save", dataDireccion)
             .then((resp) => {
               if (resp.data.result === true) {
                 swal("Bien hecho!", `${resp.data.msg}`, "success");
@@ -163,11 +159,9 @@ class Direcciones extends Component {
               }
             });
         } else {
+          //TODO: i remove this url updated on index.js
           axios
-            .post(
-              "http://104.238.249.113:8080/clientapp-web/webresources/direccion/update",
-              dataDireccion
-            )
+            .post("/clientapp-web/webresources/direccion/update", dataDireccion)
             .then((resp) => {
               if (resp.data.result === true) {
                 swal("Bien hecho!", `${resp.data.msg}`, "success");

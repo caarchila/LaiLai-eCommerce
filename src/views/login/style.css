@@ -1,15 +1,22 @@
-.body{
-  background-image: url('../../images/bodyLogin.png');
+.card-login {
+  min-width: 388px !important;
+  margin-bottom: 1rem;
+}
+.body {
+  background-image: url("../../images/bodyLogin.png");
   background-repeat: no-repeat;
   background-size: cover;
   padding: 150px;
 }
 
 @media only screen and (max-width: 600px) {
-  .body{
-    background-image: url('../../images/bodyLogin.png');
+  .body {
+    background-image: url("../../images/bodyLogin.png");
     background-repeat: no-repeat;
     background-size: cover;
     padding: 0px !important;
+  }
+  .card-login {
+    margin-bottom: 0px;
   }
 }

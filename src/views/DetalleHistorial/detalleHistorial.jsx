@@ -17,10 +17,9 @@ class Historial extends Component {
 
   componentDidMount() {
     if (parseInt(this.props.match.params.tipo) === 0) {
+      //TODO: i remove this url updated on index.js
       axios
-        .get(
-          `http://104.238.249.113:8080/clientapp-web/webresources/order/${this.props.match.params.id}`
-        )
+        .get(`/clientapp-web/webresources/order/${this.props.match.params.id}`)
         .then((resp) => {
           this.setState({
             historial: resp.data,
@@ -41,6 +40,7 @@ class Historial extends Component {
         ? this.state.historial
         : { menus: this.props.cart };
     let idBoton = this.props.match.params.tipo;
+
     return (
       <Container fluid>
         <Row>

@@ -78,11 +78,9 @@ class EditarDatosPersonales extends Component {
       nuevaClave: `${this.state.confirmPassword}`,
     };
     if (comprobacion) {
+      //TODO: i remove this url updated on index.js
       axios
-        .post(
-          "http://104.238.249.113:8080/clientapp-web/webresources/account/changePassword",
-          datos
-        )
+        .post("/clientapp-web/webresources/account/changePassword", datos)
         .then((resp) => {
           if (resp.data.result === true) {
             swal("Good job!", `${resp.data.msg}`, "success");

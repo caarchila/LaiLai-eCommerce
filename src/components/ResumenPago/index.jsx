@@ -14,6 +14,7 @@ import { validarHorarioSeleccionado } from "../../util/funciones";
 const Resumen = (props) => {
   const [estado, setEstado] = useState(false);
   const [token, setToken] = useState("");
+  console.log("props", props);
   const horarioHabil = useHorario(
     props.direccion.horaApertura,
     props.direccion.horaCierre
@@ -56,6 +57,7 @@ const Resumen = (props) => {
             "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega.";
           tipo = "warning";
         }
+        //TODO: al Seleccionar pick up: LLV y Entrega inmediata: EI, entramos LLV pero pedidoFuturo=N entramos al else, horarioHabil=true| no hace nada
       }
     } else {
       await horarioHabilHome.then((data) => {
@@ -92,11 +94,12 @@ const Resumen = (props) => {
           : props.direccion.referencias,
       factura: false,
       menus: props.cart,
-      detallePago: [{ formaPago: props.detallePago }],
+      detallePago: [{ formaPago: props.detallePago || props.detallePago[0] }],
       pedidoFuturo: props.pedidoFuturo,
       fechaEntrega: props.fechaEntrega,
     };
 
+    console.log("verdadero tomapedido", tomaPedido);
     if (props.cart.length === 0) {
       estado = false;
       tipo = "warning";
@@ -139,14 +142,10 @@ const Resumen = (props) => {
       mensaje = "Este dia no abrimos.";
       tipo = "warning";
     }
-    // tomaPedido.telefono = 70920955;
     if (estado) {
-      console.log(tomaPedido);
+      //TODO: i remove this url updated on index.js
       axios
-        .post(
-          "http://104.238.249.113:8080/clientapp-web/webresources/order/register",
-          tomaPedido
-        )
+        .post("/clientapp-web/webresources/order/register", tomaPedido)
         .then(async function (response) {
           if (response.data.result) {
             setToken(response.data.codigoPedido);
@@ -254,6 +253,8 @@ function mapStateToProps(state, props) {
     direccion: state.direccion,
     ocasion: state.ocasion,
     detallePago: state.detallePago,
+    pedidoFuturo: state.pedidoFuturo,
+    fechaEntrega: state.fechaEntrega,
   };
 }
 
@@ -268,4 +269,5 @@ Resumen.defaultProps = {
   fechaEntrega: "",
   detallePago: "",
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(Resumen);

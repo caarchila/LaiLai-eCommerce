@@ -35,11 +35,9 @@ const TooltipRadioDinamico = ({
             updateDireccion({});
           }
         }
-
+        //TODO: i remove this url updated on index.js
         axios
-          .get(
-            `http://104.238.249.113:8080/clientapp-web/webresources/direccion/delete/${direccion.id}`
-          )
+          .get(`/clientapp-web/webresources/direccion/delete/${direccion.id}`)
           .then((resp) => {
             if (resp.data.result === true) {
               actualizarDirecciones();

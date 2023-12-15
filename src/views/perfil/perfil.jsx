@@ -29,10 +29,9 @@ class Perfil extends Component {
   }
   getDirecciones() {
     let idCliente = this.props.user.idCliente;
+    //TODO: i remove this url updated on index.js
     axios
-      .get(
-        `http://104.238.249.113:8080/clientapp-web/webresources/direccion/list/${idCliente}`
-      )
+      .get(`/clientapp-web/webresources/direccion/list/${idCliente}`)
       .then((resp) => {
         if (resp.data.direcciones.length === 0) {
           this.setState({

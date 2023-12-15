@@ -28,9 +28,10 @@ class MapaGL extends Component {
           lat: position.coords.latitude,
         },
         () => {
+          //TODO: i remove this url updated on index.js
           axios
             .get(
-              `http://104.238.249.113:8080/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
+              `/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
             )
             .then((resp) => {
               if (resp.data.result === "ACT") {
@@ -67,9 +68,10 @@ class MapaGL extends Component {
             lat: latitud,
           },
           () => {
+            //TODO: i remove this url updated on index.js
             axios
               .get(
-                `http://104.238.249.113:8080/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
+                `/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
               )
               .then((resp) => {
                 swal("Felicidades", `si hay cobertura`, "success");
@@ -91,9 +93,10 @@ class MapaGL extends Component {
             lat: position.coords.latitude,
           },
           () => {
+            //TODO: i remove this url updated on index.js
             axios
               .get(
-                `http://104.238.249.113:8080/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
+                `/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
               )
               .then((resp) => {
                 swal("Felicidades", `si hay cobertura`, "success");
@@ -125,10 +128,9 @@ class MapaGL extends Component {
         () => {
           this.props.getMapa(this.state.map);
           if (this.props.cobertura) {
+            //TODO: i remove this url updated on index.js
             axios
-              .get(
-                "http://104.238.249.113:8080/clientapp-web/webresources/tiendas/list"
-              )
+              .get("/clientapp-web/webresources/tiendas/list")
               .then((resp) => {
                 this.setState(
                   {
@@ -201,9 +203,10 @@ class MapaGL extends Component {
               () => {
                 console.log(this.state.lng);
                 console.log(this.state.lat);
+                //TODO: i remove this url updated on index.js
                 axios
                   .get(
-                    `http://104.238.249.113:8080/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
+                    `/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
                   )
                   .then((resp) => {
                     console.log(resp);

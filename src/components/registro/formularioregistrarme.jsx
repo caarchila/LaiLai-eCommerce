@@ -55,11 +55,9 @@ class FormularioRegistro extends Component {
       token: ` ${respuesta.accessToken}`,
     };
     if (respuesta !== undefined) {
+      //TODO: i remove this url updated on index.js
       axios
-        .post(
-          "http://104.238.249.113:8080/clientapp-web/webresources/account/login/api",
-          inicioDatos
-        )
+        .post("/clientapp-web/webresources/account/login/api", inicioDatos)
         .then((resp) => {
           if (resp.data.result === true) {
             swal("Bien hecho!", `${resp.data.msg}`, "success");
@@ -89,11 +87,9 @@ class FormularioRegistro extends Component {
       token: ` ${response.accessToken}`,
     };
     if (response !== undefined) {
+      //TODO: i remove this url updated on index.js
       axios
-        .post(
-          "http://104.238.249.113:8080/clientapp-web/webresources/account/login/api",
-          inicioDatos
-        )
+        .post("/clientapp-web/webresources/account/login/api", inicioDatos)
         .then((resp) => {
           if (resp.data.result === true) {
             swal("Bien Hecho!", `${resp.data.msg}`, "success");
@@ -125,12 +121,9 @@ class FormularioRegistro extends Component {
       genero: `${this.state.genero}`,
       clave: `${this.state.password}`,
     };
-
+    //TODO: i remove this url updated on index.js
     axios
-      .post(
-        "http://104.238.249.113:8080/clientapp-web/webresources/account/save",
-        data
-      )
+      .post("/clientapp-web/webresources/account/save", data)
       .then((resp) => {
         if (resp.data.result === true) {
           swal("Bien hecho!", `${resp.data.msg}`, "success");

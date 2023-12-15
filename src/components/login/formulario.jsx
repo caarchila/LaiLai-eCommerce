@@ -49,12 +49,11 @@ class Formulario extends Component {
       email: `${respuesta.profileObj.email}`,
       token: `${respuesta.accessToken}`,
     };
+    console.log(inicioDatos);
     if (respuesta !== undefined) {
+      //TODO: i remove this url updated on index.js
       axios
-        .post(
-          "http://104.238.249.113:8080/clientapp-web/webresources/account/login/api",
-          inicioDatos
-        )
+        .post("/clientapp-web/webresources/account/login/api", inicioDatos)
         .then((resp) => {
           if (resp.data.result === true) {
             swal("Bien hecho!", `${resp.data.msg}`, "success");
@@ -83,32 +82,30 @@ class Formulario extends Component {
       token: ` ${response.accessToken}`,
     };
 
-    if (response !== undefined) {
-      axios
-        .post(
-          "http://104.238.249.113:8080/clientapp-web/webresources/account/login/api",
-          inicioDatos
-        )
-        .then((resp) => {
-          if (resp.data.result === true) {
-            swal("Bien Hecho!", `${resp.data.msg}`, "success");
-            resp.data.client.token = response.accessToken;
-            this.props.updateUser(resp.data.client);
-            if (this.props.anyWhere === false) {
-              this.setState({
-                login: true,
-              });
-            } else {
-              this.props.onHide();
-              this.props.agregarAlCarrito();
-            }
-          } else {
-            swal("Ocurrio un error!", `${resp.data.msg}`, "error");
-          }
-        });
-    } else {
-      swal("Ocurrio un error!", `revisa tu cuenta de facebook`, "error");
-    }
+    // if (response !== undefined) {
+    //   //TODO: i remove this url updated on index.js
+    //   axios
+    //     .post("/clientapp-web/webresources/account/login/api", inicioDatos)
+    //     .then((resp) => {
+    //       if (resp.data.result === true) {
+    //         swal("Bien Hecho!", `${resp.data.msg}`, "success");
+    //         resp.data.client.token = response.accessToken;
+    //         this.props.updateUser(resp.data.client);
+    //         if (this.props.anyWhere === false) {
+    //           this.setState({
+    //             login: true,
+    //           });
+    //         } else {
+    //           this.props.onHide();
+    //           this.props.agregarAlCarrito();
+    //         }
+    //       } else {
+    //         swal("Ocurrio un error!", `${resp.data.msg}`, "error");
+    //       }
+    //     });
+    // } else {
+    //   swal("Ocurrio un error!", `revisa tu cuenta de facebook`, "error");
+    // }
   };
   handleEmailChange(e) {
     this.setState({ email: e.target.value });
@@ -134,11 +131,9 @@ class Formulario extends Component {
         email: `${this.state.email}`,
         clave: `${this.state.password}`,
       };
+      //TODO: i remove this url updated on index.js
       axios
-        .post(
-          `http://104.238.249.113:8080/clientapp-web/webresources/account/login/local`,
-          data
-        )
+        .post(`/clientapp-web/webresources/account/login/local`, data)
         // .get(
         //   `http://104.238.249.113:8080/clientapp-web/webresources/account/login/local?email=${data.email}&clave=${data.clave}`
         // )
@@ -215,7 +210,6 @@ class Formulario extends Component {
             <br />
             <p>O también</p>
             <GoogleLogin
-              // clientId="147967074326-n0mm039vb3p30697pd0r7not6blbc0bk.apps.googleusercontent.com"
               clientId="728422646612-budam0lbd8gp7gric6015bks6p5tav47.apps.googleusercontent.com"
               render={(renderProps) => (
                 <button
@@ -226,7 +220,7 @@ class Formulario extends Component {
                   <MDBIcon fab icon="google" /> Continuar con Google
                 </button>
               )}
-              buttonText="Continuar con Google"
+              buttonText="  Continuar con Google"
               onSuccess={this.respuestaGoogle}
               onFailure={this.respuestaGoogle}
               cookiePolicy={"single_host_origin"}
@@ -240,11 +234,6 @@ class Formulario extends Component {
               fields="name,email"
               callback={this.respuestaFacebook}
               icon={<MDBIcon fab icon="facebook-f" />}
-              render={(renderProps) => (
-                <button onClick={renderProps.onClick}>
-                  This is my custom FB button
-                </button>
-              )}
             />
           </center>
           <Redireccionar url={"/"} estado={inicio} />

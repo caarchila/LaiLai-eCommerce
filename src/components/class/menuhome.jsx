@@ -10,17 +10,13 @@ class MenuHome extends Component {
       menu: [],
     };
   }
-
+  //TODO: i remove this url updated on index.js
   componentDidMount() {
-    axios
-      .get(
-        "http://104.238.249.113:8080/clientapp-web/webresources/getMenus/APP"
-      )
-      .then((resp) => {
-        this.setState({
-          menu: resp.data.categorias,
-        });
+    axios.get("/clientapp-web/webresources/getMenus/APP").then((resp) => {
+      this.setState({
+        menu: resp.data.categorias,
       });
+    });
   }
 
   render() {

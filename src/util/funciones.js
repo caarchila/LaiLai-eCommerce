@@ -53,7 +53,7 @@ export function transformarFecha(pfecha) {
 export function validarHorarioSeleccionado(
   horaProgramada,
   horaApertura,
-  horaCierre,
+  horaCierre
 ) {
   let respuesta = { estado: false, msj: "" };
   //hora y fecha programada seleccionada
@@ -127,4 +127,17 @@ export function validarHorarioSeleccionado(
     }
   }
   return respuesta;
+}
+
+export function utcFormatToIso(fecha) {
+  const nuevaFecha = new Date(fecha);
+  // Restando la diferencia de tiempos en los formatos
+  const offsetMinutes = nuevaFecha.getTimezoneOffset();
+
+  nuevaFecha.setMinutes(nuevaFecha.getMinutes() - offsetMinutes);
+
+  // Devolviendo ISO format
+  const isoString = nuevaFecha.toISOString();
+
+  return isoString;
 }

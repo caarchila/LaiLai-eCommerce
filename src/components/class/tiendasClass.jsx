@@ -13,15 +13,12 @@ class TiendasClass extends React.Component {
   }
 
   componentDidMount() {
-    axios
-      .get(
-        "http://104.238.249.113:8080/clientapp-web/webresources/tiendas/list"
-      )
-      .then((resp) => {
-        this.setState({
-          Tiendas: resp.data.tiendas,
-        });
+    //TODO: i remove this url updated on index.js
+    axios.get("/clientapp-web/webresources/tiendas/list").then((resp) => {
+      this.setState({
+        Tiendas: resp.data.tiendas,
       });
+    });
   }
 
   render() {

@@ -17,11 +17,11 @@ class Promociones extends Component {
   handleSelect = (selectedIndex, e) => {
     this.setState({ index: selectedIndex });
   };
-
+  //TODO: i remove this url updated on index.js
   componentDidMount() {
     axios
       .get(
-        "http://104.238.249.113:8080/clientapp-web/webresources/getMenusPromo/APP"
+        "/clientapp-web/webresources/getMenusPromo/APP"
       )
       .then((resp) => {
         this.setState({

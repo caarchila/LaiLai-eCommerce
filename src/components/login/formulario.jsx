@@ -82,30 +82,30 @@ class Formulario extends Component {
       token: ` ${response.accessToken}`,
     };
 
-    // if (response !== undefined) {
-    //   //TODO: i remove this url updated on index.js
-    //   axios
-    //     .post("/clientapp-web/webresources/account/login/api", inicioDatos)
-    //     .then((resp) => {
-    //       if (resp.data.result === true) {
-    //         swal("Bien Hecho!", `${resp.data.msg}`, "success");
-    //         resp.data.client.token = response.accessToken;
-    //         this.props.updateUser(resp.data.client);
-    //         if (this.props.anyWhere === false) {
-    //           this.setState({
-    //             login: true,
-    //           });
-    //         } else {
-    //           this.props.onHide();
-    //           this.props.agregarAlCarrito();
-    //         }
-    //       } else {
-    //         swal("Ocurrio un error!", `${resp.data.msg}`, "error");
-    //       }
-    //     });
-    // } else {
-    //   swal("Ocurrio un error!", `revisa tu cuenta de facebook`, "error");
-    // }
+    if (response !== undefined) {
+      //TODO: i remove this url updated on index.js
+      axios
+        .post("/clientapp-web/webresources/account/login/api", inicioDatos)
+        .then((resp) => {
+          if (resp.data.result === true) {
+            swal("Bien Hecho!", `${resp.data.msg}`, "success");
+            resp.data.client.token = response.accessToken;
+            this.props.updateUser(resp.data.client);
+            if (this.props.anyWhere === false) {
+              this.setState({
+                login: true,
+              });
+            } else {
+              this.props.onHide();
+              this.props.agregarAlCarrito();
+            }
+          } else {
+            swal("Ocurrio un error!", `${resp.data.msg}`, "error");
+          }
+        });
+    } else {
+      swal("Ocurrio un error!", `revisa tu cuenta de facebook`, "error");
+    }
   };
   handleEmailChange(e) {
     this.setState({ email: e.target.value });

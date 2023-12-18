@@ -12,8 +12,6 @@ const Categorias = ({ match }) => {
   const [menusSubCategorias, setMenuSubcategorias] = useState([]);
   const [esSubCategoria, setEsSubCategoria] = useState(false);
 
-  // console.log({ menus });
-
   const cambiarEsSubCategoria = (id) => {
     cambiarEstadoCategoria();
     if (menus[0].subcategorias !== undefined) {
@@ -31,7 +29,6 @@ const Categorias = ({ match }) => {
     axios.get("/clientapp-web/webresources/getMenus/APP").then((resp) => {
       setMenusCategoria(resp.data.categorias);
       if (parseInt(match.params.idSub) === 0) {
-        console.log("entre");
         const menu = resp.data.categorias.filter(
           (c) => parseInt(c.id) === parseInt(match.params.id)
         );

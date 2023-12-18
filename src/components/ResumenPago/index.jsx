@@ -10,11 +10,19 @@ import useHorario from "../customHooks/useHorario";
 import useHorarioHome from "../customHooks/useHorarioHome";
 import axios from "axios";
 import { validarHorarioSeleccionado } from "../../util/funciones";
+import useHorarioFuturo from "../customHooks/useHorarioFuturo";
 
 const Resumen = (props) => {
   const [estado, setEstado] = useState(false);
   const [token, setToken] = useState("");
-  console.log("props", props);
+
+  //TODO: adding horario habil futuro
+  const horarioHabilFuturo = useHorarioFuturo(
+    props.direccion.horaApertura,
+    props.direccion.horaCierre,
+    props.fechaEntrega
+  );
+
   const horarioHabil = useHorario(
     props.direccion.horaApertura,
     props.direccion.horaCierre
@@ -37,14 +45,30 @@ const Resumen = (props) => {
     var mensaje = "";
     var tipo = "";
 
+    console.log("ocasion", props.ocasion);
+    console.log("pedido futuro", props.pedidoFuturo);
+    console.log("pedido fecha ", props.fechaEntrega);
+    console.log("hora apertura", props.direccion.horaApertura);
+    console.log("hora cierre", props.direccion.horaCierre);
+    console.log("horario habil", horarioHabil);
+
+    const fechaEntrega = new Date(props.fechaEntrega);
+    const horaEntrega =
+      fechaEntrega.getHours() +
+      ":" +
+      fechaEntrega.getMinutes().toString().padStart(2, 0);
+    //TODO: entra cuando es pick up y pedido futuro
     if (props.ocasion === "LLV") {
       direccion = "idTienda";
       if (props.pedidoFuturo === "S") {
         let response = validarHorarioSeleccionado(
-          props.fechaEntrega,
+          horaEntrega,
           props.direccion.horaApertura,
-          props.direccion.horaCierre
+          props.direccion.horaCierre,
+          props.fechaEntrega
         );
+        console.log("respuesta de validar hora", response);
+        //TODO: works
         if (!response.estado) {
           estado = false;
           mensaje = response.msj;
@@ -57,15 +81,19 @@ const Resumen = (props) => {
             "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega.";
           tipo = "warning";
         }
-        //TODO: al Seleccionar pick up: LLV y Entrega inmediata: EI, entramos LLV pero pedidoFuturo=N entramos al else, horarioHabil=true| no hace nada
       }
     } else {
+      console.log("estoy aca");
       await horarioHabilHome.then((data) => {
         if (data.result === "ACT") {
+          console.log("fecha entrega resumen: ", props.fechaEntrega);
+          console.log("hora Apertura : ", data.tiendas[0].horaApertura);
+          console.log("hora cierre : ", data.tiendas[0].horaCierre);
           let response = validarHorarioSeleccionado(
-            props.fechaEntrega,
+            horaEntrega,
             data.tiendas[0].horaApertura,
-            data.tiendas[0].horaCierre
+            data.tiendas[0].horaCierre,
+            props.fechaEntrega
           );
           if (!response.estado) {
             estado = false;
@@ -124,7 +152,6 @@ const Resumen = (props) => {
       mensaje =
         "No se puede procesar la compra porque no ha especificado un metodo de pago.";
     }
-    console.log(tomaPedido);
 
     var days = [
       "Sunday",

@@ -4,6 +4,7 @@ import { Col, Collapse, Form } from "react-bootstrap";
 import "./styles.css";
 import { connect } from "react-redux";
 import useHorario from "../../customHooks/useHorario";
+import useHorarioFuturo from "../../customHooks/useHorarioFuturo";
 import useHorarioHome from "../../customHooks/useHorarioHome";
 import DateFnsUtils from "@date-io/date-fns";
 import { ThemeProvider } from "@material-ui/styles";
@@ -12,12 +13,18 @@ import red from "@material-ui/core/colors/red";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { updateFechaEntrega } from "../../../actions/fechaEntregaActions";
 import { updatePedidoFuturo } from "../../../actions/pedidoFuturoActions";
-import { utcFormatToIso } from "../../../util/funciones";
+import { DateFormatter } from "../../../util/funciones";
 
 const DetalleProgramarEntrega = (props) => {
+  console.log("props", props);
   const horarioHabil = useHorario(
     props.direccion.horaApertura,
     props.direccion.horaCierre
+  );
+  const horarioHabilFuturo = useHorarioFuturo(
+    props.direccion.horaApertura,
+    props.direccion.horaCierre,
+    props.fechaEntrega
   );
   const horarioHabilHome = useHorarioHome(
     props.direccion.longitud,
@@ -60,12 +67,11 @@ const DetalleProgramarEntrega = (props) => {
     },
   });
   const handleChange = (e) => {
-    //TODO: borrar console logs
-    console.log("valor de programar entrega", e.target.value);
     setEntrega(e.target.value);
     if (e.target.value === "EI") {
       if (props.ocasion === "LLV") {
         if (horarioHabil) {
+          props.updatePedidoFuturo("N");
           let fecha = new Date();
           fecha.setMinutes(fecha.getMinutes() + 45);
           props.updateFechaEntrega(fecha);
@@ -89,9 +95,14 @@ const DetalleProgramarEntrega = (props) => {
       }
     } else {
       let fechaFin = new Date(fechaProgramada);
-      console.log(fechaProgramada);
       props.updateFechaEntrega(fechaFin);
       props.updatePedidoFuturo("S");
+
+      //TODO: not sure on this
+      if (!horarioHabilFuturo) {
+        setEntrega("");
+        setHabilitar(false);
+      }
     }
   };
   const today = new Date(
@@ -104,15 +115,24 @@ const DetalleProgramarEntrega = (props) => {
   );
   const getFecha = (date) => {
     setFechaProgramada(date);
-    let fecha = utcFormatToIso(date);
-    console.log("fecha", fecha);
-    let fechaFin = fecha;
+    let fechaFin = DateFormatter(date);
     props.updateFechaEntrega(fechaFin);
     props.updatePedidoFuturo("S");
   };
 
   useEffect(() => {
-    if (parseInt(props.boton) === 1) {
+    //si pedido futuro está declarado significa que no tiene que volver a validar horarios si no solo asignar el valor ya guardado
+    if (props.pedidoFuturo) {
+      //TODO: validar para pedido futuro o PI la hora
+      if (props.pedidoFuturo === "S") {
+        //TODO: not sure on this
+        if (!horarioHabilFuturo) {
+          setEntrega("");
+          setHabilitar(false);
+        }
+        setEntrega("PI");
+      } else if (props.pedidoFuturo === "N") setEntrega("EI");
+    } else if (parseInt(props.boton) === 1) {
       setEntrega("EI");
       if (props.ocasion === "LLV") {
         if (horarioHabil) {
@@ -218,6 +238,7 @@ function mapStateToProps(state, props) {
     direccion: state.direccion,
     ocasion: state.ocasion,
     fechaEntrega: state.fechaEntrega,
+    pedidoFuturo: state.pedidoFuturo,
   };
 }
 function mapDispatchToProps(dispatch) {

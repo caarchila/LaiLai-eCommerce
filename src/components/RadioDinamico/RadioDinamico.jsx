@@ -10,7 +10,7 @@ const RadioDinamico = ({
   onShow,
   getDireccionSeleccionada,
   actualizarDirecciones,
-  emptyPromise
+  emptyPromise,
 }) => {
   const [selectedItem, setSelectedItem] = useState(direccion.id);
   return (
@@ -27,9 +27,11 @@ const RadioDinamico = ({
             onShow={onShow}
           />
         ))
-      ) : (emptyPromise)?(
+      ) : emptyPromise ? (
         <Spinner animation="border" />
-      ):"No hay resultados..."}
+      ) : (
+        "No hay resultados..."
+      )}
     </div>
   );
 };

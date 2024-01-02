@@ -20,7 +20,7 @@ const Resumen = (props) => {
   const horarioHabilFuturo = useHorarioFuturo(
     props.direccion.horaApertura,
     props.direccion.horaCierre,
-    props.fechaEntrega
+    props.fechaentrega
   );
 
   const horarioHabil = useHorario(
@@ -45,18 +45,25 @@ const Resumen = (props) => {
     var mensaje = "";
     var tipo = "";
 
-    console.log("ocasion", props.ocasion);
-    console.log("pedido futuro", props.pedidoFuturo);
-    console.log("pedido fecha ", props.fechaEntrega);
+    if (
+      props.ocasion === "" ||
+      props.fechaentrega === "" ||
+      props.direccion === "" ||
+      props.detallepago === "" ||
+      (!props.cart && props.cart.length < 1)
+    )
+      return;
+    console.log("pedido fecha ", props.fechaentrega);
     console.log("hora apertura", props.direccion.horaApertura);
     console.log("hora cierre", props.direccion.horaCierre);
     console.log("horario habil", horarioHabil);
+    console.log("tienda", props.direccion);
 
-    const fechaEntrega = new Date(props.fechaEntrega);
+    const fechaentrega = new Date(props.fechaentrega);
     const horaEntrega =
-      fechaEntrega.getHours() +
+      fechaentrega.getHours() +
       ":" +
-      fechaEntrega.getMinutes().toString().padStart(2, 0);
+      fechaentrega.getMinutes().toString().padStart(2, 0);
     //TODO: entra cuando es pick up y pedido futuro
     if (props.ocasion === "LLV") {
       direccion = "idTienda";
@@ -65,7 +72,7 @@ const Resumen = (props) => {
           horaEntrega,
           props.direccion.horaApertura,
           props.direccion.horaCierre,
-          props.fechaEntrega
+          props.fechaentrega
         );
         console.log("respuesta de validar hora", response);
         //TODO: works
@@ -83,18 +90,20 @@ const Resumen = (props) => {
         }
       }
     } else {
-      console.log("estoy aca");
+      console.log("delivery");
       await horarioHabilHome.then((data) => {
         if (data.result === "ACT") {
-          console.log("fecha entrega resumen: ", props.fechaEntrega);
+          console.log("fecha entrega resumen: ", props.fechaentrega);
           console.log("hora Apertura : ", data.tiendas[0].horaApertura);
           console.log("hora cierre : ", data.tiendas[0].horaCierre);
+          console.log("hora entrega", horaEntrega);
           let response = validarHorarioSeleccionado(
             horaEntrega,
             data.tiendas[0].horaApertura,
             data.tiendas[0].horaCierre,
-            props.fechaEntrega
+            props.fechaentrega
           );
+          console.log({ response: response });
           if (!response.estado) {
             estado = false;
             mensaje = response.msj;
@@ -108,13 +117,13 @@ const Resumen = (props) => {
         }
       });
     }
-
+    //TODO: default phone number
     const tomaPedido = {
       monto: subtotal,
       canal: "APP",
       idCliente: props.user.idCliente,
       [direccion]: props.direccion.id,
-      telefono: props.direccion.telefono,
+      telefono: props.direccion.telefono || 5544332211,
       ocasion: props.ocasion,
       indicaciones:
         props.direccion.referencias === undefined
@@ -122,9 +131,9 @@ const Resumen = (props) => {
           : props.direccion.referencias,
       factura: false,
       menus: props.cart,
-      detallePago: [{ formaPago: props.detallePago || props.detallePago[0] }],
+      detallePago: [{ formaPago: props.detallepago || props.detallepago[0] }],
       pedidoFuturo: props.pedidoFuturo,
-      fechaEntrega: props.fechaEntrega,
+      fechaEntrega: props.fechaentrega,
     };
 
     console.log("verdadero tomapedido", tomaPedido);
@@ -146,7 +155,7 @@ const Resumen = (props) => {
       mensaje = "No existe un usuario en la store.";
     }
 
-    if (props.detallePago === "") {
+    if (props.detallepago === "") {
       estado = false;
       tipo = "warning";
       mensaje =
@@ -162,7 +171,7 @@ const Resumen = (props) => {
       "Friday",
       "Saturday",
     ];
-    var d = new Date(props.fechaEntrega);
+    var d = new Date(props.fechaentrega);
     var dayName = days[d.getDay()];
     if (dayName === "Sunday") {
       estado = false;
@@ -170,7 +179,6 @@ const Resumen = (props) => {
       tipo = "warning";
     }
     if (estado) {
-      //TODO: i remove this url updated on index.js
       axios
         .post("/clientapp-web/webresources/order/register", tomaPedido)
         .then(async function (response) {
@@ -279,9 +287,9 @@ function mapStateToProps(state, props) {
     user: state.user,
     direccion: state.direccion,
     ocasion: state.ocasion,
-    detallePago: state.detallePago,
+    detallepago: state.detallepago,
     pedidoFuturo: state.pedidoFuturo,
-    fechaEntrega: state.fechaEntrega,
+    fechaentrega: state.fechaentrega,
   };
 }
 
@@ -293,8 +301,8 @@ function mapDispatchToProps(dispatch) {
 
 Resumen.defaultProps = {
   pedidoFuturo: "N",
-  fechaEntrega: "",
-  detallePago: "",
+  fechaentrega: "",
+  detallepago: "",
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Resumen);

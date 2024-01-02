@@ -4,7 +4,7 @@ import './style.css';
 import {connect} from 'react-redux';
 import { growl } from "@crystallize/react-growl";
 import {updateDireccion} from '../../actions/direccionActions';
-import {updateOcasion} from "../../actions/ocasionActions"
+import {updateocasion} from "../../actions/ocasionActions"
 
 
 const Tiendas = props => {
@@ -22,7 +22,7 @@ const Tiendas = props => {
           message: "Se cambio la dirección correctamente",
           timeout: 2000,
         });
-        props.updateOcasion("LLV");
+        props.updateocasion("LLV");
         if(props.tiendas.longitud !== undefined){
           props.marker.setLngLat([parseFloat(props.tiendas.longitud), parseFloat(props.tiendas.latitud)])
           props.mapa.flyTo({
@@ -56,7 +56,7 @@ Tiendas.defaultProps ={
 function mapDispatchToProps(dispatch){
   return{
     updateDireccion: item=>dispatch(updateDireccion(item)),
-    updateOcasion:(item)=> dispatch(updateOcasion(item)),
+    updateocasion:(item)=> dispatch(updateocasion(item)),
   }
 }
 

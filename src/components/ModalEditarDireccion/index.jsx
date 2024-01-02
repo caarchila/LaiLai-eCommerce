@@ -4,6 +4,8 @@ import RadioDinamico from "../RadioDinamico/RadioDinamico";
 import axios from "axios";
 import { connect } from "react-redux";
 import Direcciones from "../../views/Direcciones/direccion";
+import direccion from "../../views/Direcciones/direccion";
+import "./style.css";
 
 class ModalEditarDireccion extends React.Component {
   constructor(props) {
@@ -13,6 +15,7 @@ class ModalEditarDireccion extends React.Component {
       direccionEditar: {},
       show: false,
       emptyPromise: true,
+      showNoDirectionError: false,
     };
     this.getDirecciones = this.getDirecciones.bind(this);
     this.getDireccionEditar = this.getDireccionEditar.bind(this);
@@ -22,13 +25,13 @@ class ModalEditarDireccion extends React.Component {
       direccionEditar: direccionSeleccionada,
     });
   }
+
   componentDidMount() {
     this.getDirecciones();
   }
   async getDirecciones() {
     let idCliente = this.props.user.idCliente;
     var direcciones = [];
-    //TODO: i remove this url updated on index.js
     await axios
       .get(`/clientapp-web/webresources/direccion/list/${idCliente}`)
       .then((resp) => {
@@ -57,13 +60,27 @@ class ModalEditarDireccion extends React.Component {
             <Modal.Title>Elija una dirección</Modal.Title>
           </Modal.Header>
           <Modal.Body className="px-5">
-            <RadioDinamico
-              emptyPromise={emptyPromise}
-              direcciones={direcciones}
-              onShow={() => this.setState({ show: true })}
-              getDireccionSeleccionada={this.getDireccionEditar}
-              actualizarDirecciones={this.getDirecciones}
-            />
+            {direcciones && direcciones.length > 0 ? (
+              <RadioDinamico
+                emptyPromise={emptyPromise}
+                direcciones={direcciones}
+                onShow={() => this.setState({ show: true })}
+                getDireccionSeleccionada={this.getDireccionEditar}
+                actualizarDirecciones={this.getDirecciones}
+                direccion={this.props.direccion ? direccion.id : undefined}
+              />
+            ) : (
+              <p style={{ color: "#55555" }}>
+                ¿Aún sin dirección de entrega? Agregalas ahora
+              </p>
+            )}
+            {this.state.showNoDirectionError ? (
+              <p className="error-direccion">
+                ¡No te olvides de seleccionar una dirección!
+              </p>
+            ) : (
+              <></>
+            )}
           </Modal.Body>
           <Modal.Footer>
             <Button
@@ -77,9 +94,22 @@ class ModalEditarDireccion extends React.Component {
             <Button
               variant="danger"
               id="btn-modal-editar"
-              onClick={this.props.onHide}
+              disabled={direcciones.length < 1 ? true : false}
+              onClick={() => {
+                console.log(Object.keys(this.props.direccion).length > 0);
+                if (Object.keys(this.props.direccion).length > 0) {
+                  this.setState({ showNoDirectionError: false });
+                  console.log("cart", this.props.cart);
+                  if (this.props.cart && this.props.cart.length < 1)
+                    this.props.agregaralcarrito();
+                  this.props.onAccept();
+                } else {
+                  console.log("nodireccion");
+                  this.setState({ showNoDirectionError: true });
+                }
+              }}
             >
-              Cancelar
+              Aceptar
             </Button>
           </Modal.Footer>
         </Modal>
@@ -101,6 +131,8 @@ class ModalEditarDireccion extends React.Component {
 function mapStateToProps(state, props) {
   return {
     user: state.user,
+    direccion: state.direccion,
+    cart: state.cart,
   };
 }
 

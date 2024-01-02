@@ -6,7 +6,7 @@ import withModal from "../../components/HOC/withModal";
 import swal from "sweetalert";
 import Button from "react-bootstrap/Button";
 import { ultimaDireccion } from "../../util/funciones";
-import { updateOcasion } from "../../actions/ocasionActions";
+import { updateocasion } from "../../actions/ocasionActions";
 import { updateDireccion } from "../../actions/direccionActions";
 import InputMask from "react-input-mask";
 import axios from "axios";
@@ -66,7 +66,6 @@ class Direcciones extends Component {
   componentDidMount() {
     if (Object.keys(this.props.direccionSeleccionada).length !== 0) {
       this.cargarDatos();
-      //TODO: i remove this url updated on index.js
       axios
         .get(
           `/clientapp-web/webresources/direccion/municipios/${this.props.direccionSeleccionada.departamento.id}`
@@ -77,7 +76,6 @@ class Direcciones extends Component {
           });
         });
     }
-    //TODO: i remove this url updated on index.js
     axios
       .get("/clientapp-web/webresources/direccion/departamentos")
       .then((resp) => {
@@ -97,7 +95,6 @@ class Direcciones extends Component {
   }
   onchange(e) {
     let id = e.target.value;
-    //TODO: i remove this url updated on index.js
     axios
       .get(`/clientapp-web/webresources/direccion/municipios/${id}`)
       .then((resp) => {
@@ -140,10 +137,10 @@ class Direcciones extends Component {
         longitud: `${this.state.ubicacion.lng}`,
       };
 
+      console.log("data direccion", dataDireccion);
       if (Object.keys(this.state.ubicacion).length > 0) {
         swal("Felicidades", `si hay cobertura`, "success");
         if (Object.keys(this.props.direccionSeleccionada).length === 0) {
-          //TODO: i remove this url updated on index.js
           axios
             .post("/clientapp-web/webresources/direccion/save", dataDireccion)
             .then((resp) => {
@@ -152,14 +149,13 @@ class Direcciones extends Component {
                 //    this.props.updateDireccion(ultimaDireccion());
                 //TODO:para automatizar
                 this.props.getDirecciones();
-                this.props.updateOcasion("DOM");
+                this.props.updateocasion("DOM");
                 this.props.onHide();
               } else {
                 swal("Ocurrio un error!", `${resp.data.msg}`, "error");
               }
             });
         } else {
-          //TODO: i remove this url updated on index.js
           axios
             .post("/clientapp-web/webresources/direccion/update", dataDireccion)
             .then((resp) => {
@@ -249,6 +245,7 @@ class Direcciones extends Component {
                   <div className="invalid-tooltip">Ingresa una Dirección</div>
                 </Form.Group>
                 <Form.Group as={Col} controlId="colonia">
+                  {console.log("colonia", this.state.colonia)}
                   <p className="etiquetas">Colonia* </p>
                   <Form.Control
                     defaultValue={this.state.colonia}
@@ -391,7 +388,7 @@ class Direcciones extends Component {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    updateOcasion: (item) => dispatch(updateOcasion(item)),
+    updateocasion: (item) => dispatch(updateocasion(item)),
     updateDireccion: (item) => dispatch(updateDireccion(item)),
   };
 }

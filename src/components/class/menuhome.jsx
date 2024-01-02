@@ -10,7 +10,6 @@ class MenuHome extends Component {
       menu: [],
     };
   }
-  //TODO: i remove this url updated on index.js
   componentDidMount() {
     axios.get("/clientapp-web/webresources/getMenus/APP").then((resp) => {
       this.setState({

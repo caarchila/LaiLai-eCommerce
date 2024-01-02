@@ -1,6 +1,6 @@
-export function updatePedidoFuturo(item) {
+export function updatepedidofuturo(item) {
   return {
-      type: 'UPDATE_PEDIDO',
-      item: item
+    type: "UPDATE_PEDIDO",
+    item: item,
   };
 }

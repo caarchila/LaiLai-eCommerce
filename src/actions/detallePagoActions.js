@@ -1,6 +1,6 @@
-export function updateDetallePago(item) {
+export function updatedetallepago(item) {
   return {
-      type: 'UPDATE_PAGO',
-      item: item
+    type: "UPDATE_PAGO",
+    item: item,
   };
 }

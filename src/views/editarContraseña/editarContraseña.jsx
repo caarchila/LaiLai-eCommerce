@@ -13,10 +13,10 @@ import { connect } from "react-redux";
 import InputGroup from "react-bootstrap/InputGroup";
 import { updateDireccion } from "../../actions/direccionActions";
 import { updateUser } from "../../actions/userActions";
-import { updateOcasion } from "../../actions/ocasionActions";
-import { updateFechaEntrega } from "../../actions/fechaEntregaActions";
-import { updateDetallePago } from "../../actions/detallePagoActions";
-import { updatePedidoFuturo } from "../../actions/pedidoFuturoActions";
+import { updateocasion } from "../../actions/ocasionActions";
+import { updatefechaentrega } from "../../actions/fechaEntregaActions";
+import { updatedetallepago } from "../../actions/detallePagoActions";
+import { updatepedidofuturo } from "../../actions/pedidoFuturoActions";
 import "./style.css";
 const eye = <FontAwesomeIcon icon={faEye} />;
 
@@ -53,10 +53,10 @@ class EditarDatosPersonales extends Component {
   cerrarSesion = () => {
     this.props.updateUser({});
     this.props.updateDireccion({});
-    this.props.updateOcasion("");
-    this.props.updatePedidoFuturo("N");
-    this.props.updateFechaEntrega("");
-    this.props.updateDetallePago("");
+    this.props.updateocasion("");
+    this.props.updatepedidofuturo("N");
+    this.props.updatefechaentrega("");
+    this.props.updatedetallepago("");
   };
   submit = (e) => {
     e.preventDefault();
@@ -78,7 +78,6 @@ class EditarDatosPersonales extends Component {
       nuevaClave: `${this.state.confirmPassword}`,
     };
     if (comprobacion) {
-      //TODO: i remove this url updated on index.js
       axios
         .post("/clientapp-web/webresources/account/changePassword", datos)
         .then((resp) => {
@@ -264,10 +263,10 @@ function mapDispatchToProps(dispatch) {
   return {
     updateUser: (item) => dispatch(updateUser(item)),
     updateDireccion: (item) => dispatch(updateDireccion(item)),
-    updateOcasion: (item) => dispatch(updateOcasion(item)),
-    updateFechaEntrega: (item) => dispatch(updateFechaEntrega(item)),
-    updateDetallePago: (item) => dispatch(updateDetallePago(item)),
-    updatePedidoFuturo: (item) => dispatch(updatePedidoFuturo(item)),
+    updateocasion: (item) => dispatch(updateocasion(item)),
+    updatefechaentrega: (item) => dispatch(updatefechaentrega(item)),
+    updatedetallepago: (item) => dispatch(updatedetallepago(item)),
+    updatepedidofuturo: (item) => dispatch(updatepedidofuturo(item)),
   };
 }
 

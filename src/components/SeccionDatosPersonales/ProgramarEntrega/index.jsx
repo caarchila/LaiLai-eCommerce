@@ -8,11 +8,11 @@ import useHorarioFuturo from "../../customHooks/useHorarioFuturo";
 import useHorarioHome from "../../customHooks/useHorarioHome";
 import DateFnsUtils from "@date-io/date-fns";
 import { ThemeProvider } from "@material-ui/styles";
-import { createMuiTheme } from "@material-ui/core";
+import { createTheme } from "@material-ui/core";
 import red from "@material-ui/core/colors/red";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { updateFechaEntrega } from "../../../actions/fechaEntregaActions";
-import { updatePedidoFuturo } from "../../../actions/pedidoFuturoActions";
+import { updatefechaentrega } from "../../../actions/fechaEntregaActions";
+import { updatepedidofuturo } from "../../../actions/pedidoFuturoActions";
 import { DateFormatter } from "../../../util/funciones";
 
 const DetalleProgramarEntrega = (props) => {
@@ -24,7 +24,7 @@ const DetalleProgramarEntrega = (props) => {
   const horarioHabilFuturo = useHorarioFuturo(
     props.direccion.horaApertura,
     props.direccion.horaCierre,
-    props.fechaEntrega
+    props.fechaentrega
   );
   const horarioHabilHome = useHorarioHome(
     props.direccion.longitud,
@@ -32,7 +32,7 @@ const DetalleProgramarEntrega = (props) => {
   );
   const [entrega, setEntrega] = useState("");
   const [habilitar, setHabilitar] = useState(true);
-  const materialTheme = createMuiTheme({
+  const materialTheme = createTheme({
     overrides: {
       MuiPickersToolbar: {
         toolbar: {
@@ -59,22 +59,19 @@ const DetalleProgramarEntrega = (props) => {
           color: red["900"],
         },
       },
-      MuiPickersModal: {
-        dialogAction: {
-          color: red["400"],
-        },
-      },
     },
   });
   const handleChange = (e) => {
     setEntrega(e.target.value);
     if (e.target.value === "EI") {
+      //TODO: pedido futuro no
+      props.updatepedidofuturo("N");
       if (props.ocasion === "LLV") {
         if (horarioHabil) {
-          props.updatePedidoFuturo("N");
+          props.updatepedidofuturo("N");
           let fecha = new Date();
           fecha.setMinutes(fecha.getMinutes() + 45);
-          props.updateFechaEntrega(fecha);
+          props.updatefechaentrega(fecha);
           //TODO: seleccionar pick up y entrega inmediata genera nueva fecha + 45
         } else {
           setEntrega("");
@@ -82,10 +79,12 @@ const DetalleProgramarEntrega = (props) => {
         }
       } else {
         horarioHabilHome.then((data) => {
+          //TODO: no hace hook
           if (data.result === "ACT") {
             let fecha = new Date();
-            fecha.setMinutes(fecha.getMinutes() + 45);
-            props.updateFechaEntrega(fecha);
+            //TODO: le sume 50 en lugar de 45 por el tiempo de espera
+            fecha.setMinutes(fecha.getMinutes() + 50);
+            props.updatefechaentrega(fecha);
             setHabilitar(true);
           } else {
             setEntrega("");
@@ -94,51 +93,11 @@ const DetalleProgramarEntrega = (props) => {
         });
       }
     } else {
-      let fechaFin = new Date(fechaProgramada);
-      props.updateFechaEntrega(fechaFin);
-      props.updatePedidoFuturo("S");
-
-      //TODO: not sure on this
-      if (!horarioHabilFuturo) {
-        setEntrega("");
-        setHabilitar(false);
-      }
-    }
-  };
-  const today = new Date(
-    new Date().getTime() - new Date().getTimezoneOffset() * 60000
-  )
-    .toISOString()
-    .substring(0, 16);
-  const [fechaProgramada, setFechaProgramada] = useState(
-    props.fechaEntrega !== "" ? props.fechaEntrega : today
-  );
-  const getFecha = (date) => {
-    setFechaProgramada(date);
-    let fechaFin = DateFormatter(date);
-    props.updateFechaEntrega(fechaFin);
-    props.updatePedidoFuturo("S");
-  };
-
-  useEffect(() => {
-    //si pedido futuro está declarado significa que no tiene que volver a validar horarios si no solo asignar el valor ya guardado
-    if (props.pedidoFuturo) {
-      //TODO: validar para pedido futuro o PI la hora
-      if (props.pedidoFuturo === "S") {
-        //TODO: not sure on this
-        if (!horarioHabilFuturo) {
-          setEntrega("");
-          setHabilitar(false);
-        }
-        setEntrega("PI");
-      } else if (props.pedidoFuturo === "N") setEntrega("EI");
-    } else if (parseInt(props.boton) === 1) {
-      setEntrega("EI");
       if (props.ocasion === "LLV") {
         if (horarioHabil) {
-          let fecha = new Date();
-          fecha.setMinutes(fecha.getMinutes() + 45);
-          props.updateFechaEntrega(fecha);
+          let fechaFin = new Date(fechaProgramada);
+          props.updatefechaentrega(fechaFin);
+          props.updatepedidofuturo("S");
           setHabilitar(true);
         } else {
           setEntrega("");
@@ -147,9 +106,9 @@ const DetalleProgramarEntrega = (props) => {
       } else {
         horarioHabilHome.then((data) => {
           if (data.result === "ACT") {
-            let fecha = new Date();
-            fecha.setMinutes(fecha.getMinutes() + 45);
-            props.updateFechaEntrega(fecha);
+            let fechaFin = new Date(fechaProgramada);
+            props.updatefechaentrega(fechaFin);
+            props.updatepedidofuturo("S");
             setHabilitar(true);
           } else {
             setEntrega("");
@@ -157,8 +116,82 @@ const DetalleProgramarEntrega = (props) => {
           }
         });
       }
+
+      // //TODO: not sure on this
+      // if (!horarioHabilFuturo) {
+      //   setEntrega("");
+      //   // setHabilitar(false);
+      // }
     }
+  };
+  const today = new Date(
+    new Date().getTime() - new Date().getTimezoneOffset() * 60000
+  )
+    .toISOString()
+    .substring(0, 16);
+  const [fechaProgramada, setFechaProgramada] = useState(
+    props.fechaentrega !== "" ? props.fechaentrega : today
+  );
+  const getFecha = (date) => {
+    setFechaProgramada(date);
+    let fechaFin = DateFormatter(date);
+    props.updatefechaentrega(fechaFin);
+    props.updatepedidofuturo("S");
+  };
+
+  useEffect(() => {
+    // //si pedido futuro está declarado significa que no tiene que volver a validar horarios si no solo asignar el valor ya guardado
+    // if (props.pedidoFuturo) {
+    //   //TODO: validar para pedido futuro o PI la hora
+    //   if (props.pedidoFuturo === "S") {
+    //     //TODO: not sure on this
+    //     if (!horarioHabilFuturo) {
+    //       setEntrega("");
+    //       setHabilitar(false);
+    //     }
+    //     setEntrega("PI");
+    //   } else if (props.pedidoFuturo === "N") setEntrega("EI");
+    // } else
+    // if (parseInt(props.boton) === 1) {
+    //   // setEntrega("EI");
+    //   // setEntrega("");
+    //   // props.updatefechaentrega(null);
+    //   if (props.ocasion === "LLV") {
+    //     if (horarioHabil) {
+    //       let fecha = new Date();
+    //       fecha.setMinutes(fecha.getMinutes() + 45);
+    //       props.updatefechaentrega(fecha);
+    //       setHabilitar(true);
+    //     } else {
+    //       setEntrega("");
+    //       setHabilitar(false);
+    //     }
+    //   } else {
+    //     horarioHabilHome.then((data) => {
+    //       if (data.result === "ACT") {
+    //         let fecha = new Date();
+    //         fecha.setMinutes(fecha.getMinutes() + 45);
+    //         props.updatefechaentrega(fecha);
+    //         setHabilitar(true);
+    //       } else {
+    //         setEntrega("");
+    //         setHabilitar(false);
+    //       }
+    //     });
+    //   }
+    // }
+
+    //TODO: use effect not sure if needed (error when selecting 45 minutos before)
+    //making sure there is not time neather "entrega" type selected by default
+    setEntrega("");
+    props.updatefechaentrega("");
   }, []);
+
+  //useEffect utilizado para habilitar y deshabilitar pedido inmediato cuando no se ha seleccionado una dirección
+  useEffect(() => {
+    if (props.direccion !== "" && props.ocasion !== "") setHabilitar(true);
+    else setHabilitar(false);
+  }, [props.direccion]);
 
   return (
     <>
@@ -229,6 +262,11 @@ const DetalleProgramarEntrega = (props) => {
             </MuiPickersUtilsProvider>
           </div>
         </Collapse>
+        {props.fechaentrega === "" || props.fechaentrega === null ? (
+          <p className="error">Por favor, especificar datos de orden.</p>
+        ) : (
+          <></>
+        )}
       </Col>
     </>
   );
@@ -237,16 +275,16 @@ function mapStateToProps(state, props) {
   return {
     direccion: state.direccion,
     ocasion: state.ocasion,
-    fechaEntrega: state.fechaEntrega,
+    fechaentrega: state.fechaentrega,
     pedidoFuturo: state.pedidoFuturo,
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    updateFechaEntrega: (item) => {
-      dispatch(updateFechaEntrega(item));
+    updatefechaentrega: (item) => {
+      dispatch(updatefechaentrega(item));
     },
-    updatePedidoFuturo: (item) => dispatch(updatePedidoFuturo(item)),
+    updatepedidofuturo: (item) => dispatch(updatepedidofuturo(item)),
   };
 }
 DetalleProgramarEntrega.defaultProps = {

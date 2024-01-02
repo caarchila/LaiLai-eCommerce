@@ -28,7 +28,6 @@ class MapaGL extends Component {
           lat: position.coords.latitude,
         },
         () => {
-          //TODO: i remove this url updated on index.js
           axios
             .get(
               `/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`

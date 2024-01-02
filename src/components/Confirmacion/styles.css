@@ -1,27 +1,31 @@
-#btnIrAlCarrito{
-  background-color: #E52822 !important;
+#btnIrAlCarrito {
+  background-color: #e52822 !important;
   border-radius: 10px;
   font-weight: bold;
 }
-#btnSeguirOrdenando{
-  background: #E5E7EB;
- border-radius: 10px;
- color:black;
- font-weight: bold;
+#btnSeguirOrdenando {
+  background: #e5e7eb;
+  border-radius: 10px;
+  color: black;
+  font-weight: bold;
 }
-.modal-content-confirmacion{
+.modal-content-confirmacion {
   border-radius: 14px !important;
   padding: 10px;
 }
-.modal-body{
+.modal-body {
   font-weight: bold;
   text-align: center;
 }
 
-.modal-header{
+.modal-header {
   border-bottom: none !important;
 }
 
-.modal-footer{
+.modal-footer {
   border-top: none !important;
+}
+.link-navigation {
+  width: 100%;
+  margin: 0 !important;
 }

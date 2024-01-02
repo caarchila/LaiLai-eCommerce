@@ -3,17 +3,17 @@ import { Form, Fade, Col, Row } from "react-bootstrap";
 import "./styles.css";
 import { connect } from "react-redux";
 import { updateDireccion } from "../../../actions/direccionActions";
-import { updateOcasion } from "../../../actions/ocasionActions";
+import { updateocasion } from "../../../actions/ocasionActions";
 import { growl } from "@crystallize/react-growl";
 import TooltipRadioDinamico from "../ToolTipRadioDinamico";
-import useHorarioHome from '../../customHooks/useHorarioHome';
-import {validarHorarioSeleccionado} from '../../../util/funciones';
+import useHorarioHome from "../../customHooks/useHorarioHome";
+import { validarHorarioSeleccionado } from "../../../util/funciones";
 const Radio = ({
   obj,
   value,
   setSelected,
   updateDireccion,
-  updateOcasion,
+  updateocasion,
   onShow,
   getDireccionSeleccionada,
   getDirecciones,
@@ -24,28 +24,30 @@ const Radio = ({
     var estado = true;
     var mensaje = "";
     var tipo = "";
-    await horarioHabilHome.then(data=>{
-      if(data.result !== "ACT"){
+    await horarioHabilHome.then((data) => {
+      if (data.result !== "ACT") {
         estado = false;
-        mensaje = "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega.";
+        mensaje =
+          "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega.";
         tipo = "warning";
       }
     });
 
-    if(estado){
+    if (estado) {
       mensaje = "Se agrego la direccion correctamente";
       tipo = "info";
       setSelected(obj.id);
+
+      //update direccion
       updateDireccion(obj);
-      updateOcasion("DOM");
+      updateocasion("DOM");
     }
     const myGrowl = await growl({
       type: tipo,
       title: "información",
-      message:mensaje,
+      message: mensaje,
       timeout: 2000,
     });
-
   };
 
   return (
@@ -82,7 +84,7 @@ const Radio = ({
 function mapDispatchToProps(dispatch) {
   return {
     updateDireccion: (item) => dispatch(updateDireccion(item)),
-    updateOcasion: (item) => dispatch(updateOcasion(item)),
+    updateocasion: (item) => dispatch(updateocasion(item)),
   };
 }
 

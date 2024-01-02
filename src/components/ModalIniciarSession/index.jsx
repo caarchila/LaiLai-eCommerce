@@ -88,8 +88,8 @@ class ModalIniciarSession extends React.Component {
               onHide={() => {
                 this.props.onHide();
               }}
-              agregarAlCarrito={() => {
-                this.props.agregarAlCarrito();
+              agregaralcarrito={() => {
+                this.props.agregaralcarrito();
               }}
             />
           </div>
@@ -101,8 +101,8 @@ class ModalIniciarSession extends React.Component {
               onHide={() => {
                 this.props.onHide();
               }}
-              agregarAlCarrito={() => {
-                this.props.agregarAlCarrito();
+              agregaralcarrito={() => {
+                this.props.agregaralcarrito();
               }}
             />
           </div>
@@ -113,7 +113,7 @@ class ModalIniciarSession extends React.Component {
 }
 
 ModalIniciarSession.defaultProps = {
-  agregarAlCarrito: () => {},
+  agregaralcarrito: () => {},
   onHide: () => {},
 };
 export default ModalIniciarSession;

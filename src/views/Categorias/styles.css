@@ -1,7 +1,15 @@
-.botonCambiarEstado{
+.botonCambiarEstado {
   background: none;
-  border:none;
-  margin:auto;
+  border: none;
+  margin: auto;
   padding: 0px;
   width: 100%;
+}
+.title {
+  font-family: "neuekabel", sans-serif;
+  color: #e52822;
+  font-weight: 900;
+  font-size: 3rem;
+  margin-top: 1rem;
+  margin-left: 1rem;
 }

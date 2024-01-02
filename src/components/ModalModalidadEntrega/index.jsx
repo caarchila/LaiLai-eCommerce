@@ -14,13 +14,16 @@ import DetalleMetodoPago from "../SeccionDatosPersonales/DetalleMetodoPago";
 import ProgramarEntrega from "../SeccionDatosPersonales/ProgramarEntrega";
 import "./index.css";
 
+import { updateocasion } from "../../actions/ocasionActions";
+
 const ModalidadEntrega = (props) => {
-  const estado =
-    Object.keys(props.direccion).length === 0 ||
-    props.fechaEntrega === "" ||
-    props.detallePago === ""
-      ? false
-      : true;
+  /*
+  TODO: since fecha entrega en detallepago are not used any more i remove this on const estado:
+  ||
+    props.fechaentrega === "" ||
+    props.detallepago === ""
+  */
+  const estado = Object.keys(props.direccion).length === 0 ? false : true;
   const [inicio, setInicio] = useState(0);
   const [flipped, set] = useState(false);
   const [paso, setPaso] = useState(
@@ -37,11 +40,20 @@ const ModalidadEntrega = (props) => {
   return (
     <>
       <div className="contenedor-modal-delivery">
+        {console.log("length", Object.keys(props.direccion).length === 0)}
         <a.div
           className="c"
           style={{
             opacity: opacity.interpolate((o) => 1 - o),
-            transform,
+            transform:
+              props.ocasion === "" && paso === 1
+                ? transform.interpolate((t) => `${t} rotatey(0deg)`)
+                : props.ocasion === "LLV"
+                ? transform.interpolate(
+                    (t) => `${t} rotatey(${inicio - 360}deg)`
+                  ) // 0
+                : transform.interpolate((t) => `${t} rotatey(${inicio}deg)`), //180
+
             display: paso === 1 ? "block" : "none",
           }}
         >
@@ -62,8 +74,9 @@ const ModalidadEntrega = (props) => {
                 />
                 <Button
                   onClick={() => {
-                    props.openModalEditarDireccion();
+                    props.agregaralcarritoopenmodaleditardireccion();
                     props.onHide();
+                    props.updateocasion("DOM");
                   }}
                   className={`btn-block`}
                   id="btn-danger"
@@ -84,6 +97,7 @@ const ModalidadEntrega = (props) => {
                     setPaso(2);
                     setInicio(inicio + 180);
                     set((state) => !state);
+                    props.updateocasion("LLV");
                   }}
                 >
                   Pick and Go
@@ -107,7 +121,15 @@ const ModalidadEntrega = (props) => {
           className="mapaC"
           style={{
             opacity: opacity,
-            transform: transform.interpolate((t) => `${t} rotatey(180deg)`),
+            //TODO: flipped
+            transform:
+              paso === 2
+                ? transform.interpolate((t) => {
+                    return `${t} rotatey(${inicio}deg)`;
+                  }) //180
+                : transform.interpolate(
+                    (t) => `${t} rotatey(${inicio - 180}deg)`
+                  ), ///0
             display: paso === 2 ? "block" : "none",
           }}
         >
@@ -122,32 +144,46 @@ const ModalidadEntrega = (props) => {
           >
             <MDBIcon icon="arrow-left" />
           </Button>
-        {
-          (Object.keys(props.direccion).length > 0)?(<Button
+          {Object.keys(props.direccion).length > 0 ? (
+            <Button
               variant="outline-dark"
               className="btn-continuar"
               onClick={() => {
                 setInicio(inicio + 180);
-                setPaso(3);
                 set((state) => !state);
+                props.updatepedidofuturo("N");
+                props.updateocasion("");
+                props.agregaralcarrito();
+                props.onHide();
               }}
             >
               <MDBIcon icon="arrow-right" />
-            </Button>):''
-        }
+            </Button>
+          ) : (
+            ""
+          )}
           <PickAndGo
+            agregaralcarrito={props.agregaralcarrito}
             nextstep={() => {
-              setPaso(3);
-              setInicio(inicio + 180);
-              set((state) => !state);
+              // setPaso(3);
+              // setInicio(inicio + 180);
+              // set((state) => !state);
+              // props.agregaralcarrito();
+              // props.onHide();
             }}
           />
         </a.div>
-        <a.div
+        {/* TODO: here commented third step */}
+        {/* <a.div
           className="mapaC"
           style={{
             opacity: opacity.interpolate((o) => 1 - o),
-            transform: transform.interpolate((t) => `${t} rotatey(360deg)`),
+            transform:
+              paso === 3
+                ? transform.interpolate((t) => `${t} rotatey(${inicio - 0}deg)`) //0
+                : transform.interpolate(
+                    (t) => `${t} rotatey(${inicio - 180}deg)`
+                  ), //180
             display: paso === 3 ? "block" : "none",
           }}
         >
@@ -158,12 +194,19 @@ const ModalidadEntrega = (props) => {
                   variant="outline-dark"
                   className="btn-volver"
                   onClick={() => {
-                    set((state) => !state);
-                    setInicio(inicio + 180);
-                    setPaso(2);
+                    if (props.ocasion === "DOM") {
+                      //TODO: fix this
+                      setInicio(inicio + 180);
+                      setPaso(1);
+                      set((state) => state);
+                    } else {
+                      setInicio(inicio + 180);
+                      setPaso(2);
+                      set((state) => !state);
+                    }
                   }}
                 >
-                  <MDBIcon icon="arrow-left" />
+                  <MDBIcon icon="arrow-left" /> 2
                 </Button>
               </Col>
               <Col sm={10}>
@@ -180,12 +223,12 @@ const ModalidadEntrega = (props) => {
               <ProgramarEntrega />
             </Row>
           </Container>
-        </a.div>
+        </a.div> */}
       </div>
-      {estado ? (
+      {/* {estado ? (
         <Button
           onClick={() => {
-            props.agregarAlCarrito();
+            props.agregaralcarrito();
           }}
           size="lg"
           id="btn-danger"
@@ -194,24 +237,37 @@ const ModalidadEntrega = (props) => {
         </Button>
       ) : (
         ""
-      )}
+      )} */}
     </>
   );
 };
 //definiendo valores por defecto de la modalidad.
 ModalidadEntrega.defaultProps = {
-  agregarAlCarrito: () => {},
+  agregaralcarrito: () => {},
   onHide: () => {},
   ocasion: "",
-  openModalEditarDireccion: () => {},
+  agregaralcarritoopenmodaleditardireccion: () => {},
 };
 
 function mapStateToProps(state, props) {
   return {
     ocasion: state.ocasion,
     direccion: state.direccion,
-    fechaEntrega: state.fechaEntrega,
-    detallePago: state.detallePago,
+    fechaentrega: state.fechaentrega,
+    detallepago: state.detallepago,
   };
 }
-export default connect(mapStateToProps, null)(withModal(ModalidadEntrega));
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateocasion: (item) => {
+      dispatch(updateocasion(item));
+    },
+    updatepedidofuturo: (item) => dispatch(updateocasion(item)),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withModal(ModalidadEntrega));

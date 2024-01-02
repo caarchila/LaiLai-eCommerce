@@ -3,6 +3,8 @@ import Mapa from "../Mapa/Mapa";
 import { Container, Row, Col } from "react-bootstrap";
 import Tienda from "../class/tiendasClass";
 import "./style.css";
+import { connect } from "react-redux";
+import { updateDireccion } from "../../actions/direccionActions";
 
 class PickAndGo extends React.Component {
   constructor(props) {
@@ -29,6 +31,7 @@ class PickAndGo extends React.Component {
               <div className="tiendas-container">
                 <Row>
                   <Tienda
+                    agregaralcarrito={this.props.agregaralcarrito}
                     getLocation={(ubicacion) => {
                       this.setState({ ubicacion: ubicacion });
                     }}
@@ -62,7 +65,12 @@ class PickAndGo extends React.Component {
 }
 
 PickAndGo.defaultProps = {
-  nextstep:()=>{}
+  nextstep: () => {},
+};
+function mapDispatchToProps(dispatch) {
+  return {
+    updateDireccion: (item) => dispatch(updateDireccion(item)),
+  };
 }
 
-export default PickAndGo;
+export default connect(null, mapDispatchToProps)(PickAndGo);

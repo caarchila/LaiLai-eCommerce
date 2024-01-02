@@ -23,7 +23,6 @@ class RestablecerPassword extends Component {
     let informacion = {
       email: `${this.state.email}`,
     };
-    //TODO: i remove this url updated on index.js
     axios
       .post("/clientapp-web/webresources/account/resetPassword", informacion)
       .then((resp) => {

@@ -137,9 +137,23 @@ class MapaGL extends Component {
                   },
                   () => {
                     this.state.map.on("load", () => {
+                      console.log("Conjunto de poligonos a imprimir de color rojo", this.state.Poligono);
                       this.state.Poligono.map((poligono) => {
-                        console.log(poligono.poligono);
-                        if (poligono.poligono !== undefined) {
+                        //TODO: fix this elements in API
+                        //TODO: local solution 
+                        if(poligono.id === 6 || poligono.id === 36 || poligono.id === 14 || poligono.id === 23 || poligono.id === 10 || poligono.id === 31 || poligono.id === 18 || poligono.id === 26 || poligono.id === 11 || poligono.id ===7){
+                          console.log("con errores");
+                          console.log("sinjsonparse2.1", poligono.poligono);
+                          poligono.poligono = poligono.poligono.replace(/[!^a-zA-Z()]/g, "");
+                          console.log("id", poligono.id);
+                          console.log("sinjsonparse2", poligono.poligono);
+                        }
+                        else if (poligono.poligono !== undefined) {
+
+                          console.log("pol id", poligono.id);
+                          console.log("sinjsonparse",poligono.poligono);
+                          console.log("jsonparse",[JSON.parse(poligono.poligono)]);
+
                           this.state.map.addSource(`maine${poligono.id}`, {
                             type: "geojson",
                             data: {
@@ -157,7 +171,7 @@ class MapaGL extends Component {
                             layout: {},
                             paint: {
                               "fill-color": "#E52822",
-                              "fill-opacity": 0.8,
+                              "fill-opacity": 0.4,
                             },
                           });
                         }
@@ -179,6 +193,8 @@ class MapaGL extends Component {
                 .addTo(this.state.map),
             },
             () => {
+              console.log("actual long", this.state.lng);
+              console.log("actual lat", this.state.lat)
               this.props.getMarker(this.state.marker);
             }
           );

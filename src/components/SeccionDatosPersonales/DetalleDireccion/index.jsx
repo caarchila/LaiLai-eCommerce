@@ -56,7 +56,7 @@ const DetalleDireccion = ({
         onHide={() => {
           setShowModalPick(false);
         }}
-        size={"lg"}
+        size={ "lg" }
       />
       <Col sm={12} md={3} xl={3}>
         <h6 className="titulo-detalle">Dirección de envio</h6>

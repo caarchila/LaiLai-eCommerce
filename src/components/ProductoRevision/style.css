@@ -2,6 +2,13 @@
 border-radius: 20px !important;
 }
 
-.cantidades-producto-revision{
+/*TODO: fix and find color 
+*/
+.cantidades-producto-revision  {
   font-size: 15px !important;
+  background-color: #F4B11A !important;
+}
+
+.celda-producto-revision {
+  vertical-align: middle !important;
 }

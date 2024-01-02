@@ -1,10 +1,11 @@
 import React from 'react';
 import {Badge, Image} from 'react-bootstrap';
+import "./style.css";
 
 const Fila = ({historial}) =>(
   <>
     <tr>
-      <td> <Badge className="cantidades-producto-revision" variant="dark">{historial.cantidad}</Badge></td>
+      <td className='celda-producto-revision'> <Badge className="cantidades-producto-revision" variant="dark">{historial.cantidad}</Badge></td>
       <td>
       {
         (historial.imagenes !== undefined)
@@ -15,8 +16,8 @@ const Fila = ({historial}) =>(
         </>
         :<span>{historial.nombre}</span>
       }</td>
-      <td><Badge className="cantidades-producto-revision" variant="warning">Q.{parseFloat(historial.precioUnitario).toFixed(2)}</Badge></td>
-      <td><Badge className="cantidades-producto-revision" variant="warning">Q.{parseFloat(historial.precioFinal).toFixed(2)}</Badge></td>
+      <td className='celda-producto-revision'><Badge className="cantidades-producto-revision" variant="warning">Q.{parseFloat(historial.precioUnitario).toFixed(2)}</Badge></td>
+      <td className='celda-producto-revision'><Badge className="cantidades-producto-revision" variant="warning">Q.{parseFloat(historial.precioFinal).toFixed(2)}</Badge></td>
     </tr>
   </>
 )

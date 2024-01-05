@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { updatedetallepago } from "../../../actions/detallePagoActions";
 import { growl } from "@crystallize/react-growl";
 
-//TODO: se ha cambiado CRD (tarjeta) por MiPOS
+//TODO: se ha cambiado CRD (tarjeta) por MIP
 const DetalleHistorial = (props) => {
   const [selectedOption, setSelectedOption] = useState(props.detallepago);
   useEffect(() => {
@@ -15,7 +15,7 @@ const DetalleHistorial = (props) => {
         if (props.historial.detallepago[0].formaPago.trim() === "EFE") {
           setSelectedOption("EFE");
         } else {
-          setSelectedOption("MiPOS");
+          setSelectedOption("MIP");
         }
       }
     }
@@ -34,7 +34,7 @@ const DetalleHistorial = (props) => {
   };
 
   return (
-    //TODO: se ha cambiado CRD por MiPOS
+    //TODO: se ha cambiado CRD por MIP
     <>
       <Col sm={12} md={3} xl={3}>
         <h6 className="titulo-detalle">Método de pago</h6>
@@ -46,12 +46,12 @@ const DetalleHistorial = (props) => {
           label="Tarjeta de crédito/débito"
           name="group2"
           id="radio1"
-          value="MiPOS"
-          checked={selectedOption === "MiPOS"}
+          value="MIP"
+          checked={selectedOption === "MIP"}
           disabled={parseInt(props.boton) === 1 ? false : true}
           onChange={handleChange}
         />
-        <Collapse in={selectedOption === "MiPOS"}>
+        <Collapse in={selectedOption === "MIP"}>
           <div
             id="example-collapse-text"
             className="descripcion-radio-dinamico"

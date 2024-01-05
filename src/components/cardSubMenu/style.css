@@ -9,10 +9,11 @@
 @media screen only and (max-width: 600px) {
   .menusimg: 0px !important;
 }
+
 .contentMenus {
   text-align: left;
   font-size: 15px;
-  width: 51%;
+  /* width: 51%; */
   float: right;
   height: 100%;
   display: inline-block;
@@ -20,9 +21,7 @@
   left: 51%;
   padding: 12px;
   color: black;
-
 }
-
 
 .cardSubMenu {
   background: #f5f4f4 !important;
@@ -31,7 +30,6 @@
   max-width: 475px;
   cursor: pointer;
   min-width: 340px !important;
-
 }
 
 .precioSubMenu {
@@ -50,27 +48,20 @@
   width: 90%;
 }
 
-
 @media only screen and (max-width: 375px) {
-  
-.cardSubMenu {
-
-  min-width: 240px !important;
-  height: 15rem;
-
-}
-.menusImg {
-  width: 100%;
-  border-radius: 15px 15px 0px 0px;
-  height: 10rem;
-
-
-}
-.contentMenus {
-  text-align: left;
-  font-size: 15px;
-  width: 100%;
-  display: contents;
-
-}
+  .cardSubMenu {
+    min-width: 240px !important;
+    height: 15rem;
+  }
+  .menusImg {
+    width: 100%;
+    border-radius: 15px 15px 0px 0px;
+    height: 10rem;
+  }
+  .contentMenus {
+    text-align: left;
+    font-size: 15px;
+    width: 100%;
+    display: contents;
+  }
 }

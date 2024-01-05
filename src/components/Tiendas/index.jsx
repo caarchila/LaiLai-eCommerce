@@ -41,7 +41,7 @@ const Tiendas = (props) => {
         message: "Se cambio la dirección correctamente",
         timeout: 2000,
       });
-      props.agregaralcarrito();
+      // TODO: this functions goes on onclick aceptar from modal props.agregaralcarrito();
     } else {
       const myGrowl = await growl({
         type: "warning",

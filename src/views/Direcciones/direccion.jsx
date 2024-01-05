@@ -13,6 +13,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import "./style.css";
 
+//TODO: remove commented colonia
 class Direcciones extends Component {
   constructor(props) {
     super(props);
@@ -23,15 +24,16 @@ class Direcciones extends Component {
       nombre: "",
       telefono: "",
       direccion: "",
-      colonia: "",
-      zona: "",
-      codigoAcceso: "",
-      numeroCasa: "",
+      // colonia: "",
+      // zona: "",
+      // codigoAcceso: "",
+      // numeroCasa: "",
       departamento: {},
       municipio: 0,
       nombreMunicipios: "",
       referencias: "",
       id: 0,
+      map: {},
     };
     this.onchange = this.onchange.bind(this);
     this.setField = this.setField.bind(this);
@@ -53,10 +55,10 @@ class Direcciones extends Component {
       nombre: this.props.direccionSeleccionada.nombre,
       telefono: this.props.direccionSeleccionada.telefono,
       direccion: this.props.direccionSeleccionada.direccion,
-      colonia: this.props.direccionSeleccionada.colonia,
-      zona: this.props.direccionSeleccionada.zona,
+      // colonia: this.props.direccionSeleccionada.colonia,
+      // zona: this.props.direccionSeleccionada.zona,
       codigoAcceso: this.props.direccionSeleccionada.codigoAcceso,
-      numeroCasa: this.props.direccionSeleccionada.numeroCasa,
+      // numeroCasa: this.props.direccionSeleccionada.numeroCasa,
       departamento: this.props.direccionSeleccionada.departamento,
       municipio: this.props.direccionSeleccionada.municipio.id,
       nombreMunicipios: this.props.direccionSeleccionada.municipio.nombre,
@@ -124,10 +126,10 @@ class Direcciones extends Component {
         telefono: `${this.state.telefono}`,
         direccion: `${this.state.direccion}`,
         referencias: `${this.state.referencias}`,
-        colonia: `${this.state.colonia}`,
-        zona: `${this.state.zona}`,
-        codigoAcceso: `${this.state.codigoAcceso}`,
-        numeroCasa: `${this.state.numeroCasa}`,
+        // colonia: `${this.state.colonia}`,
+        // zona: `${this.state.zona}`,
+        // codigoAcceso: `${this.state.codigoAcceso}`,
+        // numeroCasa: `${this.state.numeroCasa}`,
         municipio: {
           id: parseInt(this.state.municipio),
           nombre: `${this.state.nombreMunicipios}`,
@@ -180,6 +182,7 @@ class Direcciones extends Component {
     }
   }
 
+  //TODO: add function phone
   render() {
     const departamentos = this.state.Departamentos;
     const municipios = this.state.Municipios;
@@ -196,9 +199,12 @@ class Direcciones extends Component {
               buscador={true}
               boton={true}
               cobertura={true}
+              getMapa={(mapa) => {
+                this.setState({ map: mapa });
+              }}
             />
           </Col>
-          <Col sm={12} xl={6} md={6}>
+          <Col sm={12} xl={6} md={12}>
             <Form className="needs-validation" noValidate>
               <Form.Row>
                 <Form.Group as={Col} controlId="nombreUbicacion">
@@ -244,7 +250,7 @@ class Direcciones extends Component {
                   />
                   <div className="invalid-tooltip">Ingresa una Dirección</div>
                 </Form.Group>
-                <Form.Group as={Col} controlId="colonia">
+                {/* <Form.Group as={Col} controlId="colonia">
                   {console.log("colonia", this.state.colonia)}
                   <p className="etiquetas">Colonia* </p>
                   <Form.Control
@@ -256,10 +262,10 @@ class Direcciones extends Component {
                     required
                   />
                   <div className="invalid-tooltip">Ingresa una Colonia</div>
-                </Form.Group>
+                </Form.Group> */}
               </Form.Row>
               <Form.Row>
-                <Form.Group as={Col} controlId="zona">
+                {/* <Form.Group as={Col} controlId="zona">
                   <p className="etiquetas">Zona* </p>
                   <Form.Control
                     defaultValue={this.state.zona}
@@ -270,8 +276,8 @@ class Direcciones extends Component {
                     required
                   />
                   <div className="invalid-tooltip">Ingresa una Zona</div>
-                </Form.Group>
-                <Form.Group as={Col} controlId="codigoAcceso">
+                </Form.Group> */}
+                {/* <Form.Group as={Col} controlId="codigoAcceso">
                   <p className="etiquetas">Código Acceso* </p>
                   <Form.Control
                     defaultValue={this.state.codigoAcceso}
@@ -284,9 +290,9 @@ class Direcciones extends Component {
                   <div className="invalid-tooltip">
                     Ingresa un Código Acceso
                   </div>
-                </Form.Group>
+                </Form.Group> */}
               </Form.Row>
-              <Form.Row>
+              {/* <Form.Row>
                 <Form.Group as={Col} controlId="edificio">
                   <p className="etiquetas">
                     Número de casa,apartamento, edificio*{" "}
@@ -303,7 +309,7 @@ class Direcciones extends Component {
                     Ingresa un Número de casa,apartamento, edificio
                   </div>
                 </Form.Group>
-              </Form.Row>
+              </Form.Row> */}
               <Form.Row>
                 <Form.Group as={Col} controlId="departamento">
                   <p className="etiquetas">Departamento*</p>
@@ -377,7 +383,7 @@ class Direcciones extends Component {
                 onClick={this.save}
                 id="btn-danger"
               >
-                Guardar
+                Aceptar
               </Button>
             </Form>
           </Col>

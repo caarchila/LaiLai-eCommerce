@@ -1,6 +1,6 @@
 import React from "react";
 import Mapa from "../Mapa/Mapa";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import Tienda from "../class/tiendasClass";
 import "./style.css";
 import { connect } from "react-redux";
@@ -31,22 +31,23 @@ class PickAndGo extends React.Component {
               <div className="tiendas-container">
                 <Row>
                   <Tienda
-                    agregaralcarrito={this.props.agregaralcarrito}
+                    agregaralcarrito={() => {}}
                     getLocation={(ubicacion) => {
                       this.setState({ ubicacion: ubicacion });
                     }}
-                    nextstep={this.props.nextstep}
                     mapa={this.state.map}
+                    nextstep={this.props.nextstep}
                     marker={this.state.marker}
                   />
                 </Row>
               </div>
             </Col>
             <Col sm={12} md={6} xl={6}>
+              {/* TODO: fix here */}
               <Mapa
                 buscador={false}
                 boton={false}
-                cobertura={false}
+                cobertura={true}
                 id={"1"}
                 getMarker={(marker) => {
                   this.setState({ marker: marker });
@@ -56,6 +57,23 @@ class PickAndGo extends React.Component {
                   this.setState({ map: mapa });
                 }}
               />
+              {this.props.showSaveButton ? (
+                <Button
+                  variant="danger"
+                  type="button"
+                  className="registrar"
+                  onClick={
+                    Object.keys(this.state.ubicacion).length > 0
+                      ? this.props.agregaralcarrito
+                      : () => {}
+                  }
+                  id="btn-danger"
+                >
+                  Guardar
+                </Button>
+              ) : (
+                <></>
+              )}
             </Col>
           </Row>
         </Container>
@@ -66,6 +84,8 @@ class PickAndGo extends React.Component {
 
 PickAndGo.defaultProps = {
   nextstep: () => {},
+  agregaralcarrito: () => {},
+  showSaveButton: false,
 };
 function mapDispatchToProps(dispatch) {
   return {

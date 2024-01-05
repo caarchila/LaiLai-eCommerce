@@ -123,7 +123,12 @@ const Resumen = (props) => {
       canal: "APP",
       idCliente: props.user.idCliente,
       [direccion]: props.direccion.id,
-      telefono: props.direccion.telefono || 5544332211,
+      telefono:
+        props.ocasion === "LLV"
+          ? props.direccion.telefonoPedido
+            ? props.direccion.telefonoPedido
+            : null
+          : props.direccion.telefono,
       ocasion: props.ocasion,
       indicaciones:
         props.direccion.referencias === undefined
@@ -136,6 +141,7 @@ const Resumen = (props) => {
       fechaEntrega: props.fechaentrega,
     };
 
+    console.log("telefono de pedido", tomaPedido.telefono);
     console.log("verdadero tomapedido", tomaPedido);
     if (props.cart.length === 0) {
       estado = false;
@@ -160,6 +166,12 @@ const Resumen = (props) => {
       tipo = "warning";
       mensaje =
         "No se puede procesar la compra porque no ha especificado un metodo de pago.";
+    }
+
+    if (!tomaPedido.telefono) {
+      estado = false;
+      tipo = "warning";
+      mensaje = "Añadir un número de teléfono para el pedido";
     }
 
     var days = [

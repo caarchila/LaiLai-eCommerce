@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Collapse, Form, Row } from "react-bootstrap";
 import "./styles.css";
 import { MDBIcon } from "mdbreact";
@@ -8,6 +8,7 @@ import Tienda from "../../Tiendas";
 import ModalPickAndGo from "../../ModalPickAndGo";
 import { updateocasion } from "../../../actions/ocasionActions";
 import { updateDireccion } from "../../../actions/direccionActions";
+import ReactInputMask from "react-input-mask";
 
 const DetalleDireccion = ({
   historial,
@@ -22,6 +23,8 @@ const DetalleDireccion = ({
   const [ocasionDom, setOcasionDom] = useState(
     parseInt(boton) === 1 ? ocasion : historial.ocasion
   );
+
+  const [telefonoPedido, setTelefonoPedido] = useState("");
 
   const direccionDom =
     ocasion === "DOM"
@@ -42,6 +45,18 @@ const DetalleDireccion = ({
     updateDireccion("");
     updateocasion(e.target.value);
   };
+
+  //TODO: check this phone number not working well
+  const handleTelefonoChange = (e) => {
+    setTelefonoPedido(e.target.value);
+  };
+
+  //TODO: use effect para controlar estado de telefono pedido
+  useEffect(() => {
+    direccion.telefonoPedido = telefonoPedido;
+    updateDireccion(direccion);
+  }, [telefonoPedido]);
+
   return (
     <>
       <ModalEditarDireccion
@@ -56,7 +71,7 @@ const DetalleDireccion = ({
         onHide={() => {
           setShowModalPick(false);
         }}
-        size={ "lg" }
+        size={"lg"}
       />
       <Col sm={12} md={3} xl={3}>
         <h6 className="titulo-detalle">Dirección de envio</h6>
@@ -88,7 +103,6 @@ const DetalleDireccion = ({
                   </p>
                 </Col>
               )}
-
               <Col sm={12} md={1} xl={1}>
                 {parseInt(boton) === 0 ? (
                   ""
@@ -103,6 +117,32 @@ const DetalleDireccion = ({
                   </button>
                 )}
               </Col>
+              {ocasion === "LLV" && Object.keys(direccion).length > 0 ? (
+                <Col>
+                  {/* TODO: Add functionality to phone */}
+                  <Form.Group as={Col} controlId="telefono">
+                    <p className="etiquetas">Teléfono de contacto </p>
+                    <ReactInputMask
+                      mask="9999-9999"
+                      value={telefonoPedido}
+                      onChange={handleTelefonoChange}
+                      name="telefono"
+                      type="text"
+                      placeholder=" Telefono"
+                      required
+                    >
+                      <Form.Control />
+                    </ReactInputMask>
+                    {telefonoPedido !== "" ? (
+                      <></>
+                    ) : (
+                      <p className="error">Teléfono obligatorio</p>
+                    )}
+                  </Form.Group>
+                </Col>
+              ) : (
+                <></>
+              )}
             </Row>
           </div>
         </Collapse>

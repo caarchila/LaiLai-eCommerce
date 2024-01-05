@@ -1,13 +1,12 @@
-#btn-agregar-carrito{
-  background-color: #E52822 !important;
+#btn-agregar-carrito {
+  background-color: #e52822 !important;
   border-radius: 10px;
 }
 
 @media only screen and (max-width: 600px) {
-  #btn-agregar-carrito{
-    background-color: #E52822 !important;
+  #btn-agregar-carrito {
+    background-color: #e52822 !important;
     width: 100%;
     border-radius: 10px;
   }
-
 }

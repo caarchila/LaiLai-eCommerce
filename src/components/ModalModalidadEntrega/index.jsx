@@ -39,7 +39,7 @@ const ModalidadEntrega = (props) => {
 
   return (
     <>
-      <div className="contenedor-modal-delivery">
+      <div className="contenedor-modal-delivery modal-pick-and-go">
         {console.log("length", Object.keys(props.direccion).length === 0)}
         <a.div
           className="c"
@@ -144,7 +144,10 @@ const ModalidadEntrega = (props) => {
           >
             <MDBIcon icon="arrow-left" />
           </Button>
-          {Object.keys(props.direccion).length > 0 ? (
+          {/* TODO: force this element to not be displayed 
+              Object.keys(props.direccion).length > 0 
+           */}
+          {false ? (
             <Button
               variant="outline-dark"
               className="btn-continuar"
@@ -171,6 +174,7 @@ const ModalidadEntrega = (props) => {
               // props.agregaralcarrito();
               // props.onHide();
             }}
+            showSaveButton={true}
           />
         </a.div>
         {/* TODO: here commented third step */}

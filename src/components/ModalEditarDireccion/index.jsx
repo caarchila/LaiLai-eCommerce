@@ -16,6 +16,7 @@ class ModalEditarDireccion extends React.Component {
       show: false,
       emptyPromise: true,
       showNoDirectionError: false,
+      onAccept: () => {},
     };
     this.getDirecciones = this.getDirecciones.bind(this);
     this.getDireccionEditar = this.getDireccionEditar.bind(this);
@@ -55,7 +56,13 @@ class ModalEditarDireccion extends React.Component {
 
     return (
       <>
-        <Modal size="md" centered {...this.props} id="modal-editar-direccion">
+        <Modal
+          size="md"
+          centered
+          id="modal-editar-direccion"
+          show={this.props.show}
+          onHide={this.props.onHide}
+        >
           <Modal.Header closeButton>
             <Modal.Title>Elija una dirección</Modal.Title>
           </Modal.Header>

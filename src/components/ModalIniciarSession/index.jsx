@@ -16,10 +16,12 @@ class ModalIniciarSession extends React.Component {
     };
   }
   render() {
+    console.log("props de modaliniciarsesion", this.props);
     return (
       <Modal
         centered
-        {...this.props}
+        show={this.props.show}
+        size={this.props.size}
         className="modal-editar-producto"
         dialogClassName="modal-90w"
         onHide={() => {

@@ -67,7 +67,6 @@ class FormularioDetalleProducto extends React.Component {
         //&& this.props.fechaentrega !== "" && this.props.detallepago !== "";
 
         //TODO: pick and go does not update direccion check it
-        console.log("si");
         console.log("direcciones", this.props.direccion);
         if (Object.keys(this.props.direccion).length > 0) {
           this.props.addToCart(producto);
@@ -204,10 +203,13 @@ class FormularioDetalleProducto extends React.Component {
           }}
         />
         <ModalModalidadEntrega
+          className="modal-pick-and-go"
           show={showModal}
           size="lg"
           onHide={() => {
             this.setState({ showModalidad: false });
+            this.props.updateDireccion("");
+            this.props.updateocasion("");
           }}
           agregaralcarrito={() => {
             this.agregaralcarrito();

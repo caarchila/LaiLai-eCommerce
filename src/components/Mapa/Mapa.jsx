@@ -4,6 +4,8 @@ import mapboxgl from "mapbox-gl";
 import axios from "axios";
 import swal from "sweetalert";
 import "./style.css";
+
+//TODO: check mapa rendering
 class MapaGL extends Component {
   constructor(props) {
     super(props);
@@ -59,6 +61,7 @@ class MapaGL extends Component {
       "pk.eyJ1IjoidG9iZXJhbDk4IiwiYSI6ImNrajh2N3hpcTBjc3IydXA3MWZwMWNtZnYifQ.nrwnBSuM3s8or0EJkhBZEw";
     navigator.geolocation.getCurrentPosition((position) => {
       if (Object.keys(this.props.direccionSeleccionada).length > 0) {
+        console.log("entramos en el if");
         var latitud = parseFloat(this.props.direccionSeleccionada.latitud);
         var longitud = parseFloat(this.props.direccionSeleccionada.longitud);
         this.setState(
@@ -67,7 +70,6 @@ class MapaGL extends Component {
             lat: latitud,
           },
           () => {
-            //TODO: i remove this url updated on index.js
             axios
               .get(
                 `/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
@@ -86,26 +88,29 @@ class MapaGL extends Component {
           }
         );
       } else {
+        console.log("entramos en el else");
         this.setState(
           {
             lng: position.coords.longitude,
             lat: position.coords.latitude,
           },
           () => {
-            //TODO: i remove this url updated on index.js
             axios
               .get(
                 `/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
               )
               .then((resp) => {
-                swal("Felicidades", `si hay cobertura`, "success");
+                //TODO: remove this messages, reasons:
+                // At the moment of first open de modal of map it immediately throw message information which is uncomfortable for users
+                // swal("Felicidades", `si hay cobertura`, "success");
                 if (resp.data.result === "ACT") {
                   this.props.getLocation({
                     lng: this.state.lng,
                     lat: this.state.lat,
                   });
                 } else {
-                  swal("¡Mensaje de información!", `${resp.data.msg}`, "info");
+                  console.log("mensaje", resp.data.msg);
+                  // swal("¡Mensaje de información!", `${resp.data.msg}`, "info");
                 }
               });
           }
@@ -127,7 +132,6 @@ class MapaGL extends Component {
         () => {
           this.props.getMapa(this.state.map);
           if (this.props.cobertura) {
-            //TODO: i remove this url updated on index.js
             axios
               .get("/clientapp-web/webresources/tiendas/list")
               .then((resp) => {
@@ -136,23 +140,39 @@ class MapaGL extends Component {
                     Poligono: resp.data.tiendas,
                   },
                   () => {
+                    //not working
                     this.state.map.on("load", () => {
-                      console.log("Conjunto de poligonos a imprimir de color rojo", this.state.Poligono);
                       this.state.Poligono.map((poligono) => {
                         //TODO: fix this elements in API
-                        //TODO: local solution 
-                        if(poligono.id === 6 || poligono.id === 36 || poligono.id === 14 || poligono.id === 23 || poligono.id === 10 || poligono.id === 31 || poligono.id === 18 || poligono.id === 26 || poligono.id === 11 || poligono.id ===7){
+                        //TODO: local solution
+                        if (
+                          poligono.id === 6 ||
+                          poligono.id === 36 ||
+                          poligono.id === 14 ||
+                          poligono.id === 23 ||
+                          poligono.id === 10 ||
+                          poligono.id === 31 ||
+                          poligono.id === 18 ||
+                          poligono.id === 26 ||
+                          poligono.id === 11 ||
+                          poligono.id === 7
+                        ) {
                           console.log("con errores");
-                          console.log("sinjsonparse2.1", poligono.poligono);
-                          poligono.poligono = poligono.poligono.replace(/[!^a-zA-Z()]/g, "");
-                          console.log("id", poligono.id);
-                          console.log("sinjsonparse2", poligono.poligono);
-                        }
-                        else if (poligono.poligono !== undefined) {
+                          // console.log("sinjsonparse2.1", poligono.poligono);
+                          // poligono.poligono = poligono.poligono.replace(
+                          //   /[!^a-zA-Z()]/g,
+                          //   ""
+                          // );
+                          // console.log("id", poligono.id);
+                          // console.log("sinjsonparse2", poligono.poligono);
+                        } else if (poligono.poligono !== undefined) {
+                          console.log("it end all marked points");
 
-                          console.log("pol id", poligono.id);
-                          console.log("sinjsonparse",poligono.poligono);
-                          console.log("jsonparse",[JSON.parse(poligono.poligono)]);
+                          // console.log("pol id", poligono.id);
+                          // console.log("sinjsonparse", poligono.poligono);
+                          // console.log("jsonparse", [
+                          //   JSON.parse(poligono.poligono),
+                          // ]);
 
                           this.state.map.addSource(`maine${poligono.id}`, {
                             type: "geojson",
@@ -194,7 +214,7 @@ class MapaGL extends Component {
             },
             () => {
               console.log("actual long", this.state.lng);
-              console.log("actual lat", this.state.lat)
+              console.log("actual lat", this.state.lat);
               this.props.getMarker(this.state.marker);
             }
           );
@@ -218,7 +238,7 @@ class MapaGL extends Component {
               () => {
                 console.log(this.state.lng);
                 console.log(this.state.lat);
-                //TODO: i remove this url updated on index.js
+                console.log("this part of code return mensaje de informacion");
                 axios
                   .get(
                     `/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`

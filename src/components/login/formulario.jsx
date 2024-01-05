@@ -49,7 +49,6 @@ class Formulario extends Component {
       email: `${respuesta.profileObj.email}`,
       token: `${respuesta.accessToken}`,
     };
-    console.log(inicioDatos);
     if (respuesta !== undefined) {
       axios
         .post("/clientapp-web/webresources/account/login/api", inicioDatos)

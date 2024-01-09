@@ -18,7 +18,7 @@ import { updateocasion } from "../../actions/ocasionActions";
 
 const ModalidadEntrega = (props) => {
   /*
-  TODO: since fecha entrega en detallepago are not used any more i remove this on const estado:
+  TODO: since fecha entrega and detallepago are not used any more i remove this on const estado:
   ||
     props.fechaentrega === "" ||
     props.detallepago === ""
@@ -40,7 +40,6 @@ const ModalidadEntrega = (props) => {
   return (
     <>
       <div className="contenedor-modal-delivery modal-pick-and-go">
-        {console.log("length", Object.keys(props.direccion).length === 0)}
         <a.div
           className="c"
           style={{

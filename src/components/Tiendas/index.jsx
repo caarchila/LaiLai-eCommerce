@@ -29,19 +29,21 @@ const Tiendas = (props) => {
         zoom: 15.99,
       });
     }
-    if (horarioHabil) {
+    //TODO: horariohabil change here to be true avoid validation
+    if (true) {
       props.getLocation(props.tiendas);
       props.updateDireccion(props.tiendas);
       props.getTiendaSeleccionada(props.tiendas);
       props.updateocasion("LLV");
       props.nextstep();
-      const myGrowl = await growl({
-        type: "info",
-        title: "información",
-        message: "Se cambio la dirección correctamente",
-        timeout: 2000,
-      });
-      // TODO: this functions goes on onclick aceptar from modal props.agregaralcarrito();
+
+      //TODO: commented this messaje information
+      // const myGrowl = await growl({
+      //   type: "info",
+      //   title: "información",
+      //   message: "Se cambio la dirección correctamente",
+      //   timeout: 2000,
+      // });
     } else {
       const myGrowl = await growl({
         type: "warning",

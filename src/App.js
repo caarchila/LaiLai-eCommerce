@@ -10,7 +10,7 @@ import { BrowserRouter as Router} from 'react-router-dom'
 const App = () =>(
     <Router>
         <Nav />
-        <GrowlScene />
+        <GrowlScene  />
         <Rutas/>
         <Footer />
     </Router>

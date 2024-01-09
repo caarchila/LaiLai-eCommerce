@@ -45,25 +45,68 @@ const Resumen = (props) => {
     var mensaje = "";
     var tipo = "";
 
+    //Validando los datos de entrada
+    if (props.cart.length === 0) {
+      estado = false;
+      tipo = "warning";
+      mensaje =
+        "No se puede procesar la compra porque no tiene productos en el carrito.";
+    }
+    if (Object.keys(props.direccion).length === 0) {
+      estado = false;
+      tipo = "warning";
+      mensaje =
+        "No se puede procesar la compra porque no ha especificado una dirección.";
+    }
+    if (Object.keys(props.user).length === 0) {
+      estado = false;
+      tipo = "warning";
+      mensaje = "No existe un usuario en la store.";
+    }
+    if (props.detallepago === "") {
+      estado = false;
+      tipo = "warning";
+      mensaje =
+        "No se puede procesar la compra porque no ha especificado un metodo de pago.";
+    }
     if (
-      props.ocasion === "" ||
-      props.fechaentrega === "" ||
-      props.direccion === "" ||
-      props.detallepago === "" ||
-      (!props.cart && props.cart.length < 1)
-    )
+      (props.ocasion === "DOM" &&
+        (!props.direccion.telefono || props.direccion.telefono === "")) ||
+      (props.ocasion === "LLV" &&
+        (!props.direccion.telefonoPedido ||
+          props.direccion.telefonoPedido === ""))
+    ) {
+      estado = false;
+      tipo = "warning";
+      mensaje = "Añadir un número de teléfono para el pedido";
+    }
+    if (props.fechaentrega === "") {
+      estado = false;
+      tipo = "warning";
+      mensaje = "Añadir una hora para la entrega";
+    }
+    if (estado === false) {
+      const myGrowl = await growl({
+        type: tipo,
+        title: "información",
+        message: mensaje,
+      });
+
       return;
-    console.log("pedido fecha ", props.fechaentrega);
-    console.log("hora apertura", props.direccion.horaApertura);
-    console.log("hora cierre", props.direccion.horaCierre);
-    console.log("horario habil", horarioHabil);
-    console.log("tienda", props.direccion);
+    }
+
+    // console.log("pedido fecha ", props.fechaentrega);
+    // console.log("hora apertura", props.direccion.horaApertura);
+    // console.log("hora cierre", props.direccion.horaCierre);
+    // console.log("horario habil", horarioHabil);
+    // console.log("tienda", props.direccion);
 
     const fechaentrega = new Date(props.fechaentrega);
     const horaEntrega =
       fechaentrega.getHours() +
       ":" +
       fechaentrega.getMinutes().toString().padStart(2, 0);
+
     //TODO: entra cuando es pick up y pedido futuro
     if (props.ocasion === "LLV") {
       direccion = "idTienda";
@@ -74,14 +117,14 @@ const Resumen = (props) => {
           props.direccion.horaCierre,
           props.fechaentrega
         );
-        console.log("respuesta de validar hora", response);
-        //TODO: works
+        // console.log("respuesta de validar hora", response);
         if (!response.estado) {
           estado = false;
           mensaje = response.msj;
           tipo = "warning";
         }
       } else {
+        //TODO: horario habil change here
         if (!horarioHabil) {
           estado = false;
           mensaje =
@@ -93,10 +136,16 @@ const Resumen = (props) => {
       console.log("delivery");
       await horarioHabilHome.then((data) => {
         if (data.result === "ACT") {
-          console.log("fecha entrega resumen: ", props.fechaentrega);
-          console.log("hora Apertura : ", data.tiendas[0].horaApertura);
-          console.log("hora cierre : ", data.tiendas[0].horaCierre);
-          console.log("hora entrega", horaEntrega);
+          // console.log("fecha entrega resumen: ", props.fechaentrega);
+          // console.log("hora Apertura : ", data.tiendas[0].horaApertura);
+          // console.log("hora cierre : ", data.tiendas[0].horaCierre);
+          // console.log("hora entrega", horaEntrega);
+          if (!props.fechaentrega) {
+            estado = false;
+            mensaje = "No olvides seleccionar una hora para tu entrega";
+            tipo = "warning";
+            return;
+          }
           let response = validarHorarioSeleccionado(
             horaEntrega,
             data.tiendas[0].horaApertura,
@@ -117,7 +166,6 @@ const Resumen = (props) => {
         }
       });
     }
-    //TODO: default phone number
     const tomaPedido = {
       monto: subtotal,
       canal: "APP",
@@ -141,38 +189,8 @@ const Resumen = (props) => {
       fechaEntrega: props.fechaentrega,
     };
 
-    console.log("telefono de pedido", tomaPedido.telefono);
-    console.log("verdadero tomapedido", tomaPedido);
-    if (props.cart.length === 0) {
-      estado = false;
-      tipo = "warning";
-      mensaje =
-        "No se puede procesar la compra porque no tiene productos en el carrito.";
-    }
-    if (Object.keys(props.direccion).length === 0) {
-      estado = false;
-      tipo = "warning";
-      mensaje =
-        "No se puede procesar la compra porque no ha especificado una dirección.";
-    }
-    if (Object.keys(props.user).length === 0) {
-      estado = false;
-      tipo = "warning";
-      mensaje = "No existe un usuario en la store.";
-    }
-
-    if (props.detallepago === "") {
-      estado = false;
-      tipo = "warning";
-      mensaje =
-        "No se puede procesar la compra porque no ha especificado un metodo de pago.";
-    }
-
-    if (!tomaPedido.telefono) {
-      estado = false;
-      tipo = "warning";
-      mensaje = "Añadir un número de teléfono para el pedido";
-    }
+    // console.log("telefono de pedido", tomaPedido.telefono);
+    // console.log("verdadero tomapedido", tomaPedido);
 
     var days = [
       "Sunday",
@@ -204,7 +222,6 @@ const Resumen = (props) => {
               title: "información",
               message: response.data.msg,
             });
-            console.log(response.data);
           }
         })
         .catch((e) => console.log(e));

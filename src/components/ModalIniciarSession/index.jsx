@@ -16,7 +16,6 @@ class ModalIniciarSession extends React.Component {
     };
   }
   render() {
-    console.log("props de modaliniciarsesion", this.props);
     return (
       <Modal
         centered

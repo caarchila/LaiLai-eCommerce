@@ -103,15 +103,14 @@ class ModalEditarDireccion extends React.Component {
               id="btn-modal-editar"
               disabled={direcciones.length < 1 ? true : false}
               onClick={() => {
-                console.log(Object.keys(this.props.direccion).length > 0);
+                // console.log(Object.keys(this.props.direccion).length > 0);
                 if (Object.keys(this.props.direccion).length > 0) {
                   this.setState({ showNoDirectionError: false });
-                  console.log("cart", this.props.cart);
+                  // console.log("cart", this.props.cart);
                   if (this.props.cart && this.props.cart.length < 1)
                     this.props.agregaralcarrito();
                   this.props.onAccept();
                 } else {
-                  console.log("nodireccion");
                   this.setState({ showNoDirectionError: true });
                 }
               }}

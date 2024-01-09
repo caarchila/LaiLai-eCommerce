@@ -69,7 +69,6 @@ const Categorias = ({ match }) => {
         handleEstadoCategoria={cambiarEstadoCategoria}
       />
       <Container fluid>
-        {/* TODO: title changes display 4 to title own style */}
         <div className="title">
           {menus.length === 0 ? (
             <Spinner animation="spinner" variant="primary" />

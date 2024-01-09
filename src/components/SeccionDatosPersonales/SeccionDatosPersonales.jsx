@@ -22,7 +22,10 @@ class SeccionDatosPersonales extends React.Component {
           />
         </Row>
         <Row className="contenido-direccion">
-          <ProgramarEntrega boton={this.props.boton} />
+          <ProgramarEntrega
+            boton={this.props.boton}
+            historial={this.props.historial}
+          />
         </Row>
       </Card>
     );

@@ -24,21 +24,23 @@ const DetalleDireccion = ({
     parseInt(boton) === 1 ? ocasion : historial.ocasion
   );
 
-  const [telefonoPedido, setTelefonoPedido] = useState("");
+  const [telefonoPedido, setTelefonoPedido] = useState(
+    boton !== "0" ? "" : historial ? historial.telefono : ""
+  );
 
   const direccionDom =
     ocasion === "DOM"
       ? Object.keys(direccion).length > 0 && parseInt(boton) === 1
         ? direccion
         : historial.tienda
-      : {};
+      : historial.tienda; // TODO: update {} to historial.tienda
 
   const direccionLlv =
     ocasion === "LLV"
       ? Object.keys(direccion).length > 0 && parseInt(boton) === 1
         ? direccion
         : historial.tienda
-      : {};
+      : historial.tienda; //TODO: remove {} to historial.tienda
 
   const handleChange = (e) => {
     setOcasionDom(e.target.value);
@@ -46,14 +48,13 @@ const DetalleDireccion = ({
     updateocasion(e.target.value);
   };
 
-  //TODO: check this phone number not working well
   const handleTelefonoChange = (e) => {
     setTelefonoPedido(e.target.value);
   };
 
   //TODO: use effect para controlar estado de telefono pedido
   useEffect(() => {
-    direccion.telefonoPedido = telefonoPedido;
+    if (boton !== "0") direccion.telefonoPedido = telefonoPedido;
     updateDireccion(direccion);
   }, [telefonoPedido]);
 
@@ -117,7 +118,8 @@ const DetalleDireccion = ({
                   </button>
                 )}
               </Col>
-              {ocasion === "LLV" && Object.keys(direccion).length > 0 ? (
+              {(ocasion === "LLV" && Object.keys(direccion).length > 0) ||
+              historial.ocasion === "LLV" ? (
                 <Col>
                   {/* TODO: Add functionality to phone */}
                   <Form.Group as={Col} controlId="telefono">
@@ -130,6 +132,7 @@ const DetalleDireccion = ({
                       type="text"
                       placeholder=" Telefono"
                       required
+                      disabled={boton === "0" ? true : false}
                     >
                       <Form.Control />
                     </ReactInputMask>
@@ -193,10 +196,14 @@ const DetalleDireccion = ({
             </Row>
           </div>
         </Collapse>
-        {direccion === "" || ocasion === "" ? (
-          <p className="error">
-            Por favor, especificar una dirección y tipo de entrega.
-          </p>
+        {boton !== "0" ? (
+          direccion === "" || ocasion === "" ? (
+            <p className="error">
+              Por favor, especificar una dirección y tipo de entrega.
+            </p>
+          ) : (
+            <></>
+          )
         ) : (
           <></>
         )}

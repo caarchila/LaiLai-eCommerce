@@ -67,6 +67,8 @@ const DetalleProgramarEntrega = (props) => {
       //TODO: pedido futuro no
       props.updatepedidofuturo("N");
       if (props.ocasion === "LLV") {
+        //TODO: horario habil change here
+        //TODO: change validation always be validate to select
         if (horarioHabil) {
           props.updatepedidofuturo("N");
           let fecha = new Date();
@@ -79,7 +81,6 @@ const DetalleProgramarEntrega = (props) => {
         }
       } else {
         horarioHabilHome.then((data) => {
-          //TODO: no hace hook
           if (data.result === "ACT") {
             let fecha = new Date();
             //TODO: le sume 50 en lugar de 45 por el tiempo de espera
@@ -94,6 +95,7 @@ const DetalleProgramarEntrega = (props) => {
       }
     } else {
       if (props.ocasion === "LLV") {
+        //TODO: horario habil change here
         if (horarioHabil) {
           let fechaFin = new Date(fechaProgramada);
           props.updatefechaentrega(fechaFin);
@@ -116,12 +118,6 @@ const DetalleProgramarEntrega = (props) => {
           }
         });
       }
-
-      // //TODO: not sure on this
-      // if (!horarioHabilFuturo) {
-      //   setEntrega("");
-      //   // setHabilitar(false);
-      // }
     }
   };
   const today = new Date(
@@ -181,10 +177,13 @@ const DetalleProgramarEntrega = (props) => {
     //   }
     // }
 
-    //TODO: use effect not sure if needed (error when selecting 45 minutos before)
-    //making sure there is not time neather "entrega" type selected by default
-    setEntrega("");
-    props.updatefechaentrega("");
+    if (props.boton !== "0") {
+      setEntrega("");
+      props.updatefechaentrega("");
+    } else {
+      if (props.historial.PedidoFuturo === "N") setEntrega("EI");
+      else setEntrega("PI");
+    }
   }, []);
 
   //useEffect utilizado para habilitar y deshabilitar pedido inmediato cuando no se ha seleccionado una dirección
@@ -254,16 +253,22 @@ const DetalleProgramarEntrega = (props) => {
                   value={fechaProgramada}
                   onChange={getFecha}
                   minDate={today}
+                  maxDate={today}
                   keyboardbuttonprops={{
                     "aria-label": "change date",
                   }}
+                  disabled={props.boton === "0" ? true : false}
                 />
               </ThemeProvider>
             </MuiPickersUtilsProvider>
           </div>
         </Collapse>
-        {props.fechaentrega === "" || props.fechaentrega === null ? (
-          <p className="error">Por favor, especificar datos de orden.</p>
+        {props.boton !== "0" ? (
+          props.fechaentrega === "" || props.fechaentrega === null ? (
+            <p className="error">Por favor, especificar datos de orden.</p>
+          ) : (
+            <></>
+          )
         ) : (
           <></>
         )}

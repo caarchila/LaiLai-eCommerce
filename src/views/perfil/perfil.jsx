@@ -23,7 +23,7 @@ class Perfil extends Component {
     this.getDireccionEditar = this.getDireccionEditar.bind(this);
   }
   getDireccionEditar(direccionSeleccionada) {
-    console.log("funcion get direccion editar", direccionSeleccionada);
+    // console.log("funcion get direccion editar", direccionSeleccionada);
     this.setState({
       direccionEditar: direccionSeleccionada,
     });

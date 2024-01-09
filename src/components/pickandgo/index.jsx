@@ -43,7 +43,6 @@ class PickAndGo extends React.Component {
               </div>
             </Col>
             <Col sm={12} md={6} xl={6}>
-              {/* TODO: fix here */}
               <Mapa
                 buscador={false}
                 boton={false}

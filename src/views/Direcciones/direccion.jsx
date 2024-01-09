@@ -34,6 +34,7 @@ class Direcciones extends Component {
       referencias: "",
       id: 0,
       map: {},
+      nombreDepartamento: "",
     };
     this.onchange = this.onchange.bind(this);
     this.setField = this.setField.bind(this);
@@ -57,7 +58,7 @@ class Direcciones extends Component {
       direccion: this.props.direccionSeleccionada.direccion,
       // colonia: this.props.direccionSeleccionada.colonia,
       // zona: this.props.direccionSeleccionada.zona,
-      codigoAcceso: this.props.direccionSeleccionada.codigoAcceso,
+      // codigoAcceso: this.props.direccionSeleccionada.codigoAcceso,
       // numeroCasa: this.props.direccionSeleccionada.numeroCasa,
       departamento: this.props.direccionSeleccionada.departamento,
       municipio: this.props.direccionSeleccionada.municipio.id,
@@ -95,6 +96,7 @@ class Direcciones extends Component {
       nombreMunicipios: nombreMunicipio,
     });
   }
+
   onchange(e) {
     let id = e.target.value;
     axios
@@ -104,8 +106,53 @@ class Direcciones extends Component {
           Municipios: resp.data.municipios,
         });
       });
+    this.setState({
+      departamento: id,
+      nombreDepartamento: e.nativeEvent.target[id].text,
+    });
   }
 
+  saveHook(dataDireccion) {
+    if (!Object.keys(dataDireccion).length > 0) return;
+    if (Object.keys(this.props.direccionSeleccionada).length === 0) {
+      axios
+        .post("/clientapp-web/webresources/direccion/save", dataDireccion)
+        .then((resp) => {
+          // if (resp.data.result === true) {
+          swal("Bien hecho!", `${resp.data.msg}`, "success");
+          //    this.props.updateDireccion(ultimaDireccion());
+          //TODO:para automatizar
+          this.props.getDirecciones();
+          // this.props.updateocasion("DOM");
+          this.props.onHide();
+          // } else {
+          //   swal("Ocurrio un error!", `${resp.data.msg}`, "error");
+          // }
+        });
+    } else {
+      axios
+        .post("/clientapp-web/webresources/direccion/update", dataDireccion)
+        .then((resp) => {
+          if (resp.data.result === true) {
+            swal("Bien hecho!", `${resp.data.msg}`, "success");
+            //this.props.updateDireccion(ultimaDireccion(this.props.getDirecciones()));
+            this.props.getDirecciones();
+            this.props.onHide();
+          } else {
+            swal("Ocurrio un error!", `${resp.data.msg}`, "error");
+          }
+        });
+    }
+    if (Object.keys(this.state.ubicacion).length > 0) {
+      swal("Felicidades", `si hay cobertura`, "success");
+    } else {
+      swal(
+        "Ocurrio un error!",
+        `Lo sentimos, por el momento no contamos con cobertura para esa dirección, puede ordenar para pasar a traer en su restaurante mas cercano`,
+        "info"
+      );
+    }
+  }
   save(e) {
     var forms = document.getElementsByClassName("needs-validation");
     // Loop over them and prevent submission
@@ -134,55 +181,33 @@ class Direcciones extends Component {
           id: parseInt(this.state.municipio),
           nombre: `${this.state.nombreMunicipios}`,
         },
+        departamento: {
+          id: parseInt(this.state.departamento),
+          nombre: this.state.nombreDepartamento,
+        },
         idCliente: this.props.user.idCliente,
         latitud: `${this.state.ubicacion.lat}`,
         longitud: `${this.state.ubicacion.lng}`,
       };
 
-      console.log("data direccion", dataDireccion);
-      if (Object.keys(this.state.ubicacion).length > 0) {
-        swal("Felicidades", `si hay cobertura`, "success");
-        if (Object.keys(this.props.direccionSeleccionada).length === 0) {
-          axios
-            .post("/clientapp-web/webresources/direccion/save", dataDireccion)
-            .then((resp) => {
-              if (resp.data.result === true) {
-                swal("Bien hecho!", `${resp.data.msg}`, "success");
-                //    this.props.updateDireccion(ultimaDireccion());
-                //TODO:para automatizar
-                this.props.getDirecciones();
-                this.props.updateocasion("DOM");
-                this.props.onHide();
-              } else {
-                swal("Ocurrio un error!", `${resp.data.msg}`, "error");
-              }
-            });
-        } else {
-          axios
-            .post("/clientapp-web/webresources/direccion/update", dataDireccion)
-            .then((resp) => {
-              if (resp.data.result === true) {
-                swal("Bien hecho!", `${resp.data.msg}`, "success");
-                //this.props.updateDireccion(ultimaDireccion(this.props.getDirecciones()));
-                this.props.getDirecciones();
-                this.props.onHide();
-              } else {
-                swal("Ocurrio un error!", `${resp.data.msg}`, "error");
-              }
-            });
-        }
-      } else {
-        swal(
-          "Ocurrio un error!",
-          `Lo sentimos, por el momento no contamos con cobertura para esa dirección, puede ordenar para pasar a traer en su restaurante mas cercano`,
-          "error"
-        );
-      }
+      //TODO: saving state
+      if (!this.state.ubicacion.error)
+        //TODO: remove this errorMsg (errors are related to "pedido" and not for "ubicacion") this.state.ubicacion.errorMsg
+        swal({
+          title: "¿Deseas guardar esta dirección?",
+          text: "Lo sentimos, por el momento no contamos con cobertura para esa dirección, puede ordenar para pasar a traer en su restaurante mas cercano",
+          icon: "info",
+          buttons: true,
+          dangerMode: true,
+        }).then((confirmSaving) => {
+          if (confirmSaving) this.saveHook(dataDireccion);
+          else return;
+        });
+      else this.saveHook(dataDireccion);
       e.preventDefault();
     }
   }
 
-  //TODO: add function phone
   render() {
     const departamentos = this.state.Departamentos;
     const municipios = this.state.Municipios;

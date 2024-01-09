@@ -3,13 +3,10 @@ import { Modal, Button } from "react-bootstrap";
 
 const withModal = (WrappedComponent) => {
   return class WithLoader extends React.Component {
-    constructor(props) {
-      super(props);
-    }
+    // constructor(props) {
+    //   super(props);
+    // }
     render() {
-      {
-        console.log("props with modal", this.props);
-      }
       return (
         <Modal
           centered

@@ -15,12 +15,14 @@ const Tiendas = (props) => {
 
     props.getTiendaSeleccionada(props.tiendas);
     props.updateDireccion(props.tiendas);
-    const myGrowl = await growl({
-      type: "info",
-      title: "información",
-      message: "Se cambio la dirección correctamente",
-      timeout: 2000,
-    });
+
+    //TODO: commented this direccion change
+    // const myGrowl = await growl({
+    //   type: "info",
+    //   title: "información",
+    //   message: "Se cambio la dirección correctamente",
+    //   timeout: 2000,
+    // });
     props.updateocasion("LLV");
     if (props.tiendas.longitud !== undefined) {
       props.marker.setLngLat([

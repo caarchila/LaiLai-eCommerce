@@ -7,7 +7,6 @@ import { updateocasion } from "../../../actions/ocasionActions";
 import { growl } from "@crystallize/react-growl";
 import TooltipRadioDinamico from "../ToolTipRadioDinamico";
 import useHorarioHome from "../../customHooks/useHorarioHome";
-import { validarHorarioSeleccionado } from "../../../util/funciones";
 const Radio = ({
   obj,
   value,
@@ -25,15 +24,22 @@ const Radio = ({
     var mensaje = "";
     var tipo = "";
     await horarioHabilHome.then((data) => {
-      if (data.result !== "ACT") {
+      console.log("estado de las tiendas: ", data.result);
+      if (data.result === "NCB") {
         estado = false;
         mensaje =
-          "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega.";
+          "No contamos con servicio a domilicio en esta dirección, puedes seleccionar otra o pasarlo a traer";
+        tipo = "warning";
+      } else if (data.result !== "ACT") {
+        estado = false;
+        mensaje =
+          "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega. ";
         tipo = "warning";
       }
     });
 
     if (estado) {
+      //TODO: this will be ignored
       mensaje = "Se agrego la direccion correctamente";
       tipo = "info";
       setSelected(obj.id);
@@ -42,12 +48,14 @@ const Radio = ({
       updateDireccion(obj);
       updateocasion("DOM");
     }
-    const myGrowl = await growl({
-      type: tipo,
-      title: "información",
-      message: mensaje,
-      timeout: 2000,
-    });
+    if (!estado) {
+      const myGrowl = await growl({
+        type: tipo,
+        title: "información",
+        message: mensaje,
+        timeout: 2000,
+      });
+    }
   };
 
   return (

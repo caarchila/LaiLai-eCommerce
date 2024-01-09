@@ -11,8 +11,8 @@ const DetalleHistorial = (props) => {
   const [selectedOption, setSelectedOption] = useState(props.detallepago);
   useEffect(() => {
     if (parseInt(props.boton) === 0) {
-      if (props.historial.detallepago !== undefined) {
-        if (props.historial.detallepago[0].formaPago.trim() === "EFE") {
+      if (props.historial.detallePago !== undefined) {
+        if (props.historial.detallePago[0].formaPago.trim() === "EFE") {
           setSelectedOption("EFE");
         } else {
           setSelectedOption("MIP");
@@ -22,15 +22,16 @@ const DetalleHistorial = (props) => {
   }, []);
 
   const handleChange = async (e) => {
-    var mensaje = "Se aplico el metodo de pago correctamente.";
-    var tipo = "info";
+    // var mensaje = "co el metodo de pago correctamente.";
+    // var tipo = "info";
     props.updatedetallepago(e.target.value);
     setSelectedOption(e.target.value);
-    const myGrowl = await growl({
-      type: tipo,
-      title: "información",
-      message: mensaje,
-    });
+
+    // const myGrowl = await growl({
+    //   type: tipo,
+    //   title: "información",
+    //   message: mensaje,
+    // });
   };
 
   return (
@@ -72,9 +73,12 @@ const DetalleHistorial = (props) => {
           checked={selectedOption === "EFE"}
           onChange={handleChange}
         />
-        {console.log("detalle", props.detallepago)}
-        {props.detallepago === "" ? (
-          <p className="error">Por favor, especificar un metodo de pago.</p>
+        {props.boton !== "0" ? (
+          props.detallepago === "" ? (
+            <p className="error">Por favor, especificar un metodo de pago.</p>
+          ) : (
+            <></>
+          )
         ) : (
           <></>
         )}

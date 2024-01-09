@@ -3,32 +3,41 @@
   height: 300px;
   margin-bottom: 10px;
 }
-.location{
+.location {
   position: absolute;
   left: 11px;
   top: 35px;
   z-index: 8;
+  font-family: "Roboto", sans-serif !important;
+  margin-top: 1rem !important;
+  margin-left: 1rem !important;
+  font-weight: 600 !important;
+  padding: 1rem !important;
+  border-radius: 100% !important;
 }
-.mapboxgl-canvas{
+.mapboxgl-canvas {
   width: 100% !important;
 }
 
-.esconder1{
-  display: none
+.esconder1 {
+  display: none;
 }
 
-.esconder2{
-  display: none
+.esconder2 {
+  display: none;
+}
+.search-bar input {
+  font-family: "Roboto", sans-serif !important;
 }
 
 @media only screen and (max-width: 767px) {
-  .location{
+  .location {
     position: absolute;
     left: 9px;
     top: 49px;
     z-index: 8;
   }
-  .mapContainer{
+  .mapContainer {
     width: 100% !important;
     margin-top: 1rem !important;
   }

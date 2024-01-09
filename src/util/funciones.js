@@ -60,7 +60,7 @@ export function validarHorarioSeleccionado(
   //hora y fecha programada seleccionada
   let horaProgramadaFin = horaProgramada
     .toString()
-    //TODO: comment this do to "pedido futuro" this function know receives hours .substring(16, 21)
+    //TODO: comment this do to "pedido futuro" this function now receives hours .substring(16, 21)
     .split(":")
     .map((i) => Number(i));
   let fechaProgramadaFin = new Date(fechaProgramada);
@@ -95,9 +95,9 @@ export function validarHorarioSeleccionado(
     HoraFin.setHours(horaC[0] < 12 ? horaC[0] + 12 : horaC[0], horaC[1]);
 
     //TODO: logs
-    console.log("fecha programada fin funciones ", fechaProgramadaFin);
-    console.log("fecha actual", fechaActual);
-    console.log("hora programada date", horaProgramadaDate);
+    // console.log("fecha programada fin funciones ", fechaProgramadaFin);
+    // console.log("fecha actual", fechaActual);
+    // console.log("hora programada date", horaProgramadaDate);
 
     //si la fecha actual es igual a la fecha programada
     if (fechaProgramadaFin.toString() === fechaActual.toString()) {
@@ -124,9 +124,9 @@ export function validarHorarioSeleccionado(
       if (horaProgramadaDate >= horaInicio && horaProgramadaDate <= HoraFin) {
         horaInicio.setMinutes(horaInicio.getMinutes() + 45);
         HoraFin.setMinutes(HoraFin.getMinutes() - 90);
-        console.log("horaprogramadadate", horaProgramadaDate);
-        console.log("horainicio", horaInicio);
-        console.log("horafin", HoraFin);
+        // console.log("horaprogramadadate", horaProgramadaDate);
+        // console.log("horainicio", horaInicio);
+        // console.log("horafin", HoraFin);
         if (horaProgramadaDate > horaInicio && horaProgramadaDate < HoraFin) {
           respuesta.estado = true;
         } else {

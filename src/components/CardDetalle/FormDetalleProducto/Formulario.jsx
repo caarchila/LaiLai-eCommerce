@@ -63,11 +63,9 @@ class FormularioDetalleProducto extends React.Component {
     };
     if (estado) {
       if (isLogged) {
-        //TODO: also removed this do to no need of feceha entrega neather detalle pago
+        //TODO: also removed this do to not need of feceha entrega neather detalle pago
         //&& this.props.fechaentrega !== "" && this.props.detallepago !== "";
 
-        //TODO: pick and go does not update direccion check it
-        console.log("direcciones", this.props.direccion);
         if (Object.keys(this.props.direccion).length > 0) {
           this.props.addToCart(producto);
           this.setState({

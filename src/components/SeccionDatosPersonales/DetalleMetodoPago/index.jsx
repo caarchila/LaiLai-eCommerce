@@ -3,36 +3,39 @@ import Form from "react-bootstrap/Form";
 import { Col, Collapse } from "react-bootstrap";
 import "./styles.css";
 import { connect } from "react-redux";
-import { updateDetallePago } from "../../../actions/detallePagoActions";
+import { updatedetallepago } from "../../../actions/detallePagoActions";
 import { growl } from "@crystallize/react-growl";
 
+//TODO: se ha cambiado CRD (tarjeta) por MIP
 const DetalleHistorial = (props) => {
-  const [selectedOption, setSelectedOption] = useState(props.detallePago);
+  const [selectedOption, setSelectedOption] = useState(props.detallepago);
   useEffect(() => {
     if (parseInt(props.boton) === 0) {
       if (props.historial.detallePago !== undefined) {
         if (props.historial.detallePago[0].formaPago.trim() === "EFE") {
           setSelectedOption("EFE");
         } else {
-          setSelectedOption("CRD");
+          setSelectedOption("MIP");
         }
       }
     }
   }, []);
 
   const handleChange = async (e) => {
-    var mensaje = "Se aplico el metodo de pago correctamente.";
-    var tipo = "info";
-    props.updateDetallePago(e.target.value);
+    // var mensaje = "co el metodo de pago correctamente.";
+    // var tipo = "info";
+    props.updatedetallepago(e.target.value);
     setSelectedOption(e.target.value);
-    const myGrowl = await growl({
-      type: tipo,
-      title: "información",
-      message: mensaje,
-    });
+
+    // const myGrowl = await growl({
+    //   type: tipo,
+    //   title: "información",
+    //   message: mensaje,
+    // });
   };
 
   return (
+    //TODO: se ha cambiado CRD por MIP
     <>
       <Col sm={12} md={3} xl={3}>
         <h6 className="titulo-detalle">Método de pago</h6>
@@ -44,12 +47,12 @@ const DetalleHistorial = (props) => {
           label="Tarjeta de crédito/débito"
           name="group2"
           id="radio1"
-          value="CRD"
-          checked={selectedOption === "CRD"}
+          value="MIP"
+          checked={selectedOption === "MIP"}
           disabled={parseInt(props.boton) === 1 ? false : true}
           onChange={handleChange}
         />
-        <Collapse in={selectedOption === "CRD"}>
+        <Collapse in={selectedOption === "MIP"}>
           <div
             id="example-collapse-text"
             className="descripcion-radio-dinamico"
@@ -70,6 +73,15 @@ const DetalleHistorial = (props) => {
           checked={selectedOption === "EFE"}
           onChange={handleChange}
         />
+        {props.boton !== "0" ? (
+          props.detallepago === "" ? (
+            <p className="error">Por favor, especificar un metodo de pago.</p>
+          ) : (
+            <></>
+          )
+        ) : (
+          <></>
+        )}
       </Col>
     </>
   );
@@ -77,16 +89,16 @@ const DetalleHistorial = (props) => {
 DetalleHistorial.defaultProps = {
   boton: 1,
   historial: {},
-  updateDetallePago: () => {},
+  updatedetallepago: () => {},
 };
 function mapDispatchToProps(dispatch) {
   return {
-    updateDetallePago: (item) => dispatch(updateDetallePago(item)),
+    updatedetallepago: (item) => dispatch(updatedetallepago(item)),
   };
 }
 function mapStateToProps(state, props) {
   return {
-    detallePago: state.detallePago,
+    detallepago: state.detallepago,
   };
 }
 

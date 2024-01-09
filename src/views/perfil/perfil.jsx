@@ -23,13 +23,13 @@ class Perfil extends Component {
     this.getDireccionEditar = this.getDireccionEditar.bind(this);
   }
   getDireccionEditar(direccionSeleccionada) {
+    // console.log("funcion get direccion editar", direccionSeleccionada);
     this.setState({
       direccionEditar: direccionSeleccionada,
     });
   }
   getDirecciones() {
     let idCliente = this.props.user.idCliente;
-    //TODO: i remove this url updated on index.js
     axios
       .get(`/clientapp-web/webresources/direccion/list/${idCliente}`)
       .then((resp) => {

@@ -1,6 +1,6 @@
-export function updateOcasion(item) {
+export function updateocasion(item) {
   return {
-      type: 'UPDATE_OCASION',
-      item: item
+    type: "UPDATE_OCASION",
+    item: item,
   };
 }

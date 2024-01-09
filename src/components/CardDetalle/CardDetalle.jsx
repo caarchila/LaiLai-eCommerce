@@ -13,7 +13,10 @@ const CardDetalle = ({ detalleMenu, detalleSelected, edi, onHide }) => {
     (x - window.innerWidth / 2) / 40,
     1.1,
   ];
-  const [props, set] = useSpring(() => ({ xys: [0, 0, 1], config: { mass: 5, tension: 350, friction: 40 } }))
+  const [props, set] = useSpring(() => ({
+    xys: [0, 0, 1],
+    config: { mass: 5, tension: 350, friction: 40 },
+  }));
   const trans = (x, y, s) =>
     `perspective(700px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`;
   return (
@@ -42,12 +45,13 @@ const CardDetalle = ({ detalleMenu, detalleSelected, edi, onHide }) => {
               />
             </animated.div>
           </Col>
-          <Col sm={12} md={6} xl={6}>
+          <Col sm={12} md={6} xl={6} className="action-card">
             <ContentMenus
               obj={detalleMenu}
               totalProducto={totalProducto}
               totalOpciones={totalOpciones}
             />
+
             <Formulario
               onHide={onHide}
               detalle={detalleMenu}
@@ -55,6 +59,11 @@ const CardDetalle = ({ detalleMenu, detalleSelected, edi, onHide }) => {
               getTotalOpciones={setTotalOpciones}
               edi={edi}
               detalleSelected={detalleSelected}
+              mostrarOpciones={
+                detalleMenu.opciones &&
+                (detalleMenu.opciones.length > 1 ||
+                  detalleMenu.opciones[0].variantes.length > 1)
+              }
             />
           </Col>
         </Row>

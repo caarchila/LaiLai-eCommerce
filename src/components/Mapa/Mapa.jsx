@@ -4,6 +4,12 @@ import mapboxgl from "mapbox-gl";
 import axios from "axios";
 import swal from "sweetalert";
 import "./style.css";
+
+import MyLocationIcon from "@material-ui/icons/MyLocation";
+import { act } from "react-dom/test-utils";
+import { AcUnitTwoTone } from "@material-ui/icons";
+
+//TODO: check mapa rendering
 class MapaGL extends Component {
   constructor(props) {
     super(props);
@@ -17,6 +23,7 @@ class MapaGL extends Component {
       map: {},
       marker: [],
       Poligono: [],
+      msgError: "",
     };
     this.setLocation = this.setLocation.bind(this);
   }
@@ -28,21 +35,27 @@ class MapaGL extends Component {
           lat: position.coords.latitude,
         },
         () => {
-          //TODO: i remove this url updated on index.js
           axios
             .get(
               `/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
             )
             .then((resp) => {
+              const actualLocation = {
+                lng: this.state.lng,
+                lat: this.state.lat,
+              };
               if (resp.data.result === "ACT") {
-                swal("Felicidades", `si hay cobertura`, "success");
-                this.props.getLocation({
-                  lng: this.state.lng,
-                  lat: this.state.lat,
-                });
+                //TODO: change here if dont want to see information always
+                // swal("Felicidades", `si hay cobertura`, "success");
+                actualLocation.active = true;
+                actualLocation.errorMsg = "";
               } else {
-                swal("¡Mensaje de información!", `${resp.data.msg}`, "info");
+                actualLocation.active = false;
+                actualLocation.errorMsg = resp.data.msg;
+                //TODO: change here if want to see information always
+                // swal("¡Mensaje de información!", `${resp.data.msg}`, "info");
               }
+              this.props.getLocation(actualLocation);
             });
         }
       );
@@ -55,6 +68,85 @@ class MapaGL extends Component {
     });
   };
 
+  onReady(Poligonos) {
+    if (this.state.map.loaded()) {
+      this.Mapping(Poligonos);
+    } else {
+      this.state.map.once("data", () => this.Mapping(Poligonos));
+    }
+  }
+
+  Mapping(Poligonos) {
+    if (Poligonos !== null) {
+      // this.state.Poligono.map((poligono) => {
+      Poligonos.map((poligono) => {
+        //TODO: fix this elements in API
+        //TODO: local solution
+        if (
+          poligono.id === 6 ||
+          poligono.id === 36 ||
+          poligono.id === 14 ||
+          poligono.id === 23 ||
+          poligono.id === 10 ||
+          poligono.id === 31 ||
+          poligono.id === 18 ||
+          poligono.id === 26 ||
+          poligono.id === 11 ||
+          poligono.id === 7
+        ) {
+          console.log("con errores", poligono.id);
+        } else if (poligono.poligono !== undefined) {
+          this.state.map.addSource(`maine${poligono.id}`, {
+            type: "geojson",
+            data: {
+              type: "Feature",
+              geometry: {
+                type: "Polygon",
+                coordinates: [JSON.parse(poligono.poligono)],
+              },
+            },
+          });
+          this.state.map.addLayer({
+            id: `maine${poligono.id}`,
+            type: "fill",
+            source: `maine${poligono.id}`,
+            layout: {},
+            paint: {
+              "fill-color": "#E52822",
+              "fill-opacity": 0.4,
+            },
+          });
+        }
+      });
+    }
+  }
+
+  validateLocation(showDialogs = false) {
+    axios
+      .get(
+        `/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
+      )
+      .then((resp) => {
+        const actualLocation = {
+          lng: this.state.lng,
+          lat: this.state.lat,
+        };
+        if (resp.data.result === "ACT") {
+          if (showDialogs) swal("Felicidades", `si hay cobertura`, "success");
+          actualLocation.active = true;
+          actualLocation.errorMsg = "";
+        } else {
+          if (showDialogs)
+            swal("¡Mensaje de información!", `${resp.data.msg}`, "info");
+          actualLocation.active = false;
+          actualLocation.errorMsg = resp.data.msg;
+        }
+        // console.log({ actualLocation });
+        this.props.getLocation(actualLocation);
+      });
+  }
+
+  //TODO: finish this
   componentDidMount() {
     mapboxgl.accessToken =
       "pk.eyJ1IjoidG9iZXJhbDk4IiwiYSI6ImNrajh2N3hpcTBjc3IydXA3MWZwMWNtZnYifQ.nrwnBSuM3s8or0EJkhBZEw";
@@ -68,21 +160,25 @@ class MapaGL extends Component {
             lat: latitud,
           },
           () => {
-            //TODO: i remove this url updated on index.js
             axios
               .get(
                 `/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
               )
               .then((resp) => {
-                swal("Felicidades", `si hay cobertura`, "success");
+                const actualLocation = {
+                  lng: this.state.lng,
+                  lat: this.state.lat,
+                };
                 if (resp.data.result === "ACT") {
-                  this.props.getLocation({
-                    lng: this.state.lng,
-                    lat: this.state.lat,
-                  });
+                  swal("Felicidades", `si hay cobertura`, "success");
+                  actualLocation.active = true;
+                  actualLocation.errorMsg = "";
                 } else {
                   swal("¡Mensaje de información!", `${resp.data.msg}`, "info");
+                  actualLocation.active = false;
+                  actualLocation.errorMsg = resp.data.msg;
                 }
+                this.props.getLocation(actualLocation);
               });
           }
         );
@@ -93,21 +189,28 @@ class MapaGL extends Component {
             lat: position.coords.latitude,
           },
           () => {
-            //TODO: i remove this url updated on index.js
             axios
               .get(
                 `/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
               )
               .then((resp) => {
-                swal("Felicidades", `si hay cobertura`, "success");
+                //TODO: remove this messages, reasons:
+                // At the moment of first open de modal of map it immediately throw message information which is uncomfortable for users
+                // swal("Felicidades", `si hay cobertura`, "success");
+                const actualLocation = {
+                  lng: this.state.lng,
+                  lat: this.state.lat,
+                };
                 if (resp.data.result === "ACT") {
-                  this.props.getLocation({
-                    lng: this.state.lng,
-                    lat: this.state.lat,
-                  });
+                  actualLocation.active = true;
+                  actualLocation.errorMsg = "";
                 } else {
-                  swal("¡Mensaje de información!", `${resp.data.msg}`, "info");
+                  // console.log("mensaje 2", resp.data.msg);
+                  // swal("¡Mensaje de información!", `${resp.data.msg}`, "info");
+                  actualLocation.errorMsg = resp.data.msg;
+                  actualLocation.active = false;
                 }
+                this.props.getLocation(actualLocation);
               });
           }
         );
@@ -128,7 +231,6 @@ class MapaGL extends Component {
         () => {
           this.props.getMapa(this.state.map);
           if (this.props.cobertura) {
-            //TODO: i remove this url updated on index.js
             axios
               .get("/clientapp-web/webresources/tiendas/list")
               .then((resp) => {
@@ -137,35 +239,68 @@ class MapaGL extends Component {
                     Poligono: resp.data.tiendas,
                   },
                   () => {
-                    this.state.map.on("load", () => {
-                      this.state.Poligono.map((poligono) => {
-                        console.log(poligono.poligono);
-                        if (poligono.poligono !== undefined) {
-                          this.state.map.addSource(`maine${poligono.id}`, {
-                            type: "geojson",
-                            data: {
-                              type: "Feature",
-                              geometry: {
-                                type: "Polygon",
-                                coordinates: [JSON.parse(poligono.poligono)],
-                              },
-                            },
-                          });
-                          this.state.map.addLayer({
-                            id: `maine${poligono.id}`,
-                            type: "fill",
-                            source: `maine${poligono.id}`,
-                            layout: {},
-                            paint: {
-                              "fill-color": "#E52822",
-                              "fill-opacity": 0.8,
-                            },
-                          });
-                        }
-                      });
-                    });
+                    this.onReady(this.state.Poligono);
+                    // this.state.map.on("load", () => {
+                    //   this.state.Poligono.map((poligono) => {
+                    //     //TODO: fix this elements in API
+                    //     //TODO: local solution
+                    //     if (
+                    //       poligono.id === 6 ||
+                    //       poligono.id === 36 ||
+                    //       poligono.id === 14 ||
+                    //       poligono.id === 23 ||
+                    //       poligono.id === 10 ||
+                    //       poligono.id === 31 ||
+                    //       poligono.id === 18 ||
+                    //       poligono.id === 26 ||
+                    //       poligono.id === 11 ||
+                    //       poligono.id === 7
+                    //     ) {
+                    //       console.log("con errores");
+                    //       // console.log("sinjsonparse2.1", poligono.poligono);
+                    //       // poligono.poligono = poligono.poligono.replace(
+                    //       //   /[!^a-zA-Z()]/g,
+                    //       //   ""
+                    //       // );
+                    //       // console.log("id", poligono.id);
+                    //       // console.log("sinjsonparse2", poligono.poligono);
+                    //     } else if (poligono.poligono !== undefined) {
+                    //       console.log("it end all marked points");
+
+                    //       // console.log("pol id", poligono.id);
+                    //       // console.log("sinjsonparse", poligono.poligono);
+                    //       // console.log("jsonparse", [
+                    //       //   JSON.parse(poligono.poligono),
+                    //       // ]);
+
+                    //       this.state.map.addSource(`maine${poligono.id}`, {
+                    //         type: "geojson",
+                    //         data: {
+                    //           type: "Feature",
+                    //           geometry: {
+                    //             type: "Polygon",
+                    //             coordinates: [JSON.parse(poligono.poligono)],
+                    //           },
+                    //         },
+                    //       });
+                    //       this.state.map.addLayer({
+                    //         id: `maine${poligono.id}`,
+                    //         type: "fill",
+                    //         source: `maine${poligono.id}`,
+                    //         layout: {},
+                    //         paint: {
+                    //           "fill-color": "#E52822",
+                    //           "fill-opacity": 0.4,
+                    //         },
+                    //       });
+                    //     }
+                    //   });
+                    // });
                   }
                 );
+              })
+              .catch((e) => {
+                console.log(e);
               });
           }
           this.state.map.addControl(new mapboxgl.NavigationControl());
@@ -201,29 +336,8 @@ class MapaGL extends Component {
                 lat: e.lngLat.lat,
               },
               () => {
-                console.log(this.state.lng);
-                console.log(this.state.lat);
-                //TODO: i remove this url updated on index.js
-                axios
-                  .get(
-                    `/clientapp-web/webresources/tiendas/cobertura?longitud=${this.state.lng}&latitud=${this.state.lat}`
-                  )
-                  .then((resp) => {
-                    console.log(resp);
-                    if (resp.data.result === "ACT") {
-                      swal("Felicidades", `si hay cobertura`, "success");
-                      this.props.getLocation({
-                        lng: this.state.lng,
-                        lat: this.state.lat,
-                      });
-                    } else {
-                      swal(
-                        "¡Mensaje de información!",
-                        `${resp.data.msg}`,
-                        "info"
-                      );
-                    }
-                  });
+                //change this if want information always to true
+                this.validateLocation(false);
               }
             );
             this.state.marker.setLngLat([this.state.lng, this.state.lat]);
@@ -247,7 +361,7 @@ class MapaGL extends Component {
             className="btn btn-danger location miUbicacion d-block"
           >
             {" "}
-            usar ubicacion actual
+            <MyLocationIcon />
           </button>
         ) : (
           <button
@@ -255,14 +369,20 @@ class MapaGL extends Component {
             className="btn btn-danger location miUbicacion d-none"
           >
             {" "}
-            usar ubicacion actual
+            <MyLocationIcon />
           </button>
         )}
         {
           this.props.buscador ? (
-            <div id={`coordenadas${this.props.id}`} className="d-block"></div>
+            <div
+              id={`coordenadas${this.props.id}`}
+              className="d-block search-bar"
+            ></div>
           ) : (
-            <div id={`coordenadas${this.props.id}`} className="d-none"></div>
+            <div
+              id={`coordenadas${this.props.id}`}
+              className="d-none search-bar"
+            ></div>
           )
           //colocamos id para ocultar o realizar ciertas cosas dependiendo donde este el mapa.
         }

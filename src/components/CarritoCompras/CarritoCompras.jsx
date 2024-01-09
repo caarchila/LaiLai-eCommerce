@@ -76,7 +76,6 @@ class CarritoCompras extends React.Component {
     }
   }
   getIdProducto(value) {
-    //TODO: i remove this url updated on <index className="js"></index>
     axios
       .get(`/clientapp-web/webresources/getMenuDetail/${value.idMenu}`)
       .then((resp) => {

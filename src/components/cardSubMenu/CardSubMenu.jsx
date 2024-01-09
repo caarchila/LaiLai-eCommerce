@@ -14,7 +14,7 @@ const CardSubMenu = (props) => {
     },
   });
   return (
-    <Col sm={12} md={4} xl={4}>
+    <Col sm={12} md={6} xl={4} className="d-flex justify-content-center">
       <animated.div
         style={propsAnimated}
         className="contenedor-animado-card-sub-menu"
@@ -27,17 +27,17 @@ const CardSubMenu = (props) => {
               className="menusImg"
             />
             <div className="contentMenus">
-              <h6>
+              <h6 className="pl-2 pt-2">
                 {" "}
                 <strong>{props.nombre} </strong>
               </h6>
-              <Link
+{/*               <Link
                 to={`/detalle/${props.idPapa}/${props.id}`}
                 className="text-muted leer-mas"
               >
                 Leer mas
-              </Link>
-              <span className="precioSubMenu">
+              </Link> */}
+              <span className="pl-2 precioSubMenu">
                 Q {parseFloat(props.precio).toFixed(2)}
               </span>
             </div>

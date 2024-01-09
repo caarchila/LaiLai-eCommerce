@@ -1,7 +1,15 @@
-.tabla-producto-revision{
-border-radius: 20px !important;
+.tabla-producto-revision {
+  border-radius: 20px !important;
 }
 
-.cantidades-producto-revision{
-  font-size: 15px !important;
+.celda-producto-revision > .cantidades-producto-revision.precio {
+  background-color: #e6a601 !important;
+}
+
+.celda-producto-revision {
+  font-size: 18px !important;
+}
+
+.celda-producto-revision {
+  vertical-align: middle !important;
 }

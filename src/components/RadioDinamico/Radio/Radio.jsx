@@ -3,17 +3,16 @@ import { Form, Fade, Col, Row } from "react-bootstrap";
 import "./styles.css";
 import { connect } from "react-redux";
 import { updateDireccion } from "../../../actions/direccionActions";
-import { updateOcasion } from "../../../actions/ocasionActions";
+import { updateocasion } from "../../../actions/ocasionActions";
 import { growl } from "@crystallize/react-growl";
 import TooltipRadioDinamico from "../ToolTipRadioDinamico";
-import useHorarioHome from '../../customHooks/useHorarioHome';
-import {validarHorarioSeleccionado} from '../../../util/funciones';
+import useHorarioHome from "../../customHooks/useHorarioHome";
 const Radio = ({
   obj,
   value,
   setSelected,
   updateDireccion,
-  updateOcasion,
+  updateocasion,
   onShow,
   getDireccionSeleccionada,
   getDirecciones,
@@ -24,28 +23,39 @@ const Radio = ({
     var estado = true;
     var mensaje = "";
     var tipo = "";
-    await horarioHabilHome.then(data=>{
-      if(data.result !== "ACT"){
+    await horarioHabilHome.then((data) => {
+      console.log("estado de las tiendas: ", data.result);
+      if (data.result === "NCB") {
         estado = false;
-        mensaje = "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega.";
+        mensaje =
+          "No contamos con servicio a domilicio en esta dirección, puedes seleccionar otra o pasarlo a traer";
+        tipo = "warning";
+      } else if (data.result !== "ACT") {
+        estado = false;
+        mensaje =
+          "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega. ";
         tipo = "warning";
       }
     });
 
-    if(estado){
+    if (estado) {
+      //TODO: this will be ignored
       mensaje = "Se agrego la direccion correctamente";
       tipo = "info";
       setSelected(obj.id);
-      updateDireccion(obj);
-      updateOcasion("DOM");
-    }
-    const myGrowl = await growl({
-      type: tipo,
-      title: "información",
-      message:mensaje,
-      timeout: 2000,
-    });
 
+      //update direccion
+      updateDireccion(obj);
+      updateocasion("DOM");
+    }
+    if (!estado) {
+      const myGrowl = await growl({
+        type: tipo,
+        title: "información",
+        message: mensaje,
+        timeout: 2000,
+      });
+    }
   };
 
   return (
@@ -82,7 +92,7 @@ const Radio = ({
 function mapDispatchToProps(dispatch) {
   return {
     updateDireccion: (item) => dispatch(updateDireccion(item)),
-    updateOcasion: (item) => dispatch(updateOcasion(item)),
+    updateocasion: (item) => dispatch(updateocasion(item)),
   };
 }
 

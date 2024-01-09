@@ -6,13 +6,14 @@ import withModal from "../../components/HOC/withModal";
 import swal from "sweetalert";
 import Button from "react-bootstrap/Button";
 import { ultimaDireccion } from "../../util/funciones";
-import { updateOcasion } from "../../actions/ocasionActions";
+import { updateocasion } from "../../actions/ocasionActions";
 import { updateDireccion } from "../../actions/direccionActions";
 import InputMask from "react-input-mask";
 import axios from "axios";
 import { connect } from "react-redux";
 import "./style.css";
 
+//TODO: remove commented colonia
 class Direcciones extends Component {
   constructor(props) {
     super(props);
@@ -23,15 +24,17 @@ class Direcciones extends Component {
       nombre: "",
       telefono: "",
       direccion: "",
-      colonia: "",
-      zona: "",
-      codigoAcceso: "",
-      numeroCasa: "",
+      // colonia: "",
+      // zona: "",
+      // codigoAcceso: "",
+      // numeroCasa: "",
       departamento: {},
       municipio: 0,
       nombreMunicipios: "",
       referencias: "",
       id: 0,
+      map: {},
+      nombreDepartamento: "",
     };
     this.onchange = this.onchange.bind(this);
     this.setField = this.setField.bind(this);
@@ -53,10 +56,10 @@ class Direcciones extends Component {
       nombre: this.props.direccionSeleccionada.nombre,
       telefono: this.props.direccionSeleccionada.telefono,
       direccion: this.props.direccionSeleccionada.direccion,
-      colonia: this.props.direccionSeleccionada.colonia,
-      zona: this.props.direccionSeleccionada.zona,
-      codigoAcceso: this.props.direccionSeleccionada.codigoAcceso,
-      numeroCasa: this.props.direccionSeleccionada.numeroCasa,
+      // colonia: this.props.direccionSeleccionada.colonia,
+      // zona: this.props.direccionSeleccionada.zona,
+      // codigoAcceso: this.props.direccionSeleccionada.codigoAcceso,
+      // numeroCasa: this.props.direccionSeleccionada.numeroCasa,
       departamento: this.props.direccionSeleccionada.departamento,
       municipio: this.props.direccionSeleccionada.municipio.id,
       nombreMunicipios: this.props.direccionSeleccionada.municipio.nombre,
@@ -66,7 +69,6 @@ class Direcciones extends Component {
   componentDidMount() {
     if (Object.keys(this.props.direccionSeleccionada).length !== 0) {
       this.cargarDatos();
-      //TODO: i remove this url updated on index.js
       axios
         .get(
           `/clientapp-web/webresources/direccion/municipios/${this.props.direccionSeleccionada.departamento.id}`
@@ -77,7 +79,6 @@ class Direcciones extends Component {
           });
         });
     }
-    //TODO: i remove this url updated on index.js
     axios
       .get("/clientapp-web/webresources/direccion/departamentos")
       .then((resp) => {
@@ -95,9 +96,9 @@ class Direcciones extends Component {
       nombreMunicipios: nombreMunicipio,
     });
   }
+
   onchange(e) {
     let id = e.target.value;
-    //TODO: i remove this url updated on index.js
     axios
       .get(`/clientapp-web/webresources/direccion/municipios/${id}`)
       .then((resp) => {
@@ -105,8 +106,53 @@ class Direcciones extends Component {
           Municipios: resp.data.municipios,
         });
       });
+    this.setState({
+      departamento: id,
+      nombreDepartamento: e.nativeEvent.target[id].text,
+    });
   }
 
+  saveHook(dataDireccion) {
+    if (!Object.keys(dataDireccion).length > 0) return;
+    if (Object.keys(this.props.direccionSeleccionada).length === 0) {
+      axios
+        .post("/clientapp-web/webresources/direccion/save", dataDireccion)
+        .then((resp) => {
+          // if (resp.data.result === true) {
+          swal("Bien hecho!", `${resp.data.msg}`, "success");
+          //    this.props.updateDireccion(ultimaDireccion());
+          //TODO:para automatizar
+          this.props.getDirecciones();
+          // this.props.updateocasion("DOM");
+          this.props.onHide();
+          // } else {
+          //   swal("Ocurrio un error!", `${resp.data.msg}`, "error");
+          // }
+        });
+    } else {
+      axios
+        .post("/clientapp-web/webresources/direccion/update", dataDireccion)
+        .then((resp) => {
+          if (resp.data.result === true) {
+            swal("Bien hecho!", `${resp.data.msg}`, "success");
+            //this.props.updateDireccion(ultimaDireccion(this.props.getDirecciones()));
+            this.props.getDirecciones();
+            this.props.onHide();
+          } else {
+            swal("Ocurrio un error!", `${resp.data.msg}`, "error");
+          }
+        });
+    }
+    if (Object.keys(this.state.ubicacion).length > 0) {
+      swal("Felicidades", `si hay cobertura`, "success");
+    } else {
+      swal(
+        "Ocurrio un error!",
+        `Lo sentimos, por el momento no contamos con cobertura para esa dirección, puede ordenar para pasar a traer en su restaurante mas cercano`,
+        "info"
+      );
+    }
+  }
   save(e) {
     var forms = document.getElementsByClassName("needs-validation");
     // Loop over them and prevent submission
@@ -127,59 +173,37 @@ class Direcciones extends Component {
         telefono: `${this.state.telefono}`,
         direccion: `${this.state.direccion}`,
         referencias: `${this.state.referencias}`,
-        colonia: `${this.state.colonia}`,
-        zona: `${this.state.zona}`,
-        codigoAcceso: `${this.state.codigoAcceso}`,
-        numeroCasa: `${this.state.numeroCasa}`,
+        // colonia: `${this.state.colonia}`,
+        // zona: `${this.state.zona}`,
+        // codigoAcceso: `${this.state.codigoAcceso}`,
+        // numeroCasa: `${this.state.numeroCasa}`,
         municipio: {
           id: parseInt(this.state.municipio),
           nombre: `${this.state.nombreMunicipios}`,
+        },
+        departamento: {
+          id: parseInt(this.state.departamento),
+          nombre: this.state.nombreDepartamento,
         },
         idCliente: this.props.user.idCliente,
         latitud: `${this.state.ubicacion.lat}`,
         longitud: `${this.state.ubicacion.lng}`,
       };
 
-      if (Object.keys(this.state.ubicacion).length > 0) {
-        swal("Felicidades", `si hay cobertura`, "success");
-        if (Object.keys(this.props.direccionSeleccionada).length === 0) {
-          //TODO: i remove this url updated on index.js
-          axios
-            .post("/clientapp-web/webresources/direccion/save", dataDireccion)
-            .then((resp) => {
-              if (resp.data.result === true) {
-                swal("Bien hecho!", `${resp.data.msg}`, "success");
-                //    this.props.updateDireccion(ultimaDireccion());
-                //TODO:para automatizar
-                this.props.getDirecciones();
-                this.props.updateOcasion("DOM");
-                this.props.onHide();
-              } else {
-                swal("Ocurrio un error!", `${resp.data.msg}`, "error");
-              }
-            });
-        } else {
-          //TODO: i remove this url updated on index.js
-          axios
-            .post("/clientapp-web/webresources/direccion/update", dataDireccion)
-            .then((resp) => {
-              if (resp.data.result === true) {
-                swal("Bien hecho!", `${resp.data.msg}`, "success");
-                //this.props.updateDireccion(ultimaDireccion(this.props.getDirecciones()));
-                this.props.getDirecciones();
-                this.props.onHide();
-              } else {
-                swal("Ocurrio un error!", `${resp.data.msg}`, "error");
-              }
-            });
-        }
-      } else {
-        swal(
-          "Ocurrio un error!",
-          `Lo sentimos, por el momento no contamos con cobertura para esa dirección, puede ordenar para pasar a traer en su restaurante mas cercano`,
-          "error"
-        );
-      }
+      //TODO: saving state
+      if (!this.state.ubicacion.error)
+        //TODO: remove this errorMsg (errors are related to "pedido" and not for "ubicacion") this.state.ubicacion.errorMsg
+        swal({
+          title: "¿Deseas guardar esta dirección?",
+          text: "Lo sentimos, por el momento no contamos con cobertura para esa dirección, puede ordenar para pasar a traer en su restaurante mas cercano",
+          icon: "info",
+          buttons: true,
+          dangerMode: true,
+        }).then((confirmSaving) => {
+          if (confirmSaving) this.saveHook(dataDireccion);
+          else return;
+        });
+      else this.saveHook(dataDireccion);
       e.preventDefault();
     }
   }
@@ -200,9 +224,12 @@ class Direcciones extends Component {
               buscador={true}
               boton={true}
               cobertura={true}
+              getMapa={(mapa) => {
+                this.setState({ map: mapa });
+              }}
             />
           </Col>
-          <Col sm={12} xl={6} md={6}>
+          <Col sm={12} xl={6} md={12}>
             <Form className="needs-validation" noValidate>
               <Form.Row>
                 <Form.Group as={Col} controlId="nombreUbicacion">
@@ -248,7 +275,8 @@ class Direcciones extends Component {
                   />
                   <div className="invalid-tooltip">Ingresa una Dirección</div>
                 </Form.Group>
-                <Form.Group as={Col} controlId="colonia">
+                {/* <Form.Group as={Col} controlId="colonia">
+                  {console.log("colonia", this.state.colonia)}
                   <p className="etiquetas">Colonia* </p>
                   <Form.Control
                     defaultValue={this.state.colonia}
@@ -259,10 +287,10 @@ class Direcciones extends Component {
                     required
                   />
                   <div className="invalid-tooltip">Ingresa una Colonia</div>
-                </Form.Group>
+                </Form.Group> */}
               </Form.Row>
               <Form.Row>
-                <Form.Group as={Col} controlId="zona">
+                {/* <Form.Group as={Col} controlId="zona">
                   <p className="etiquetas">Zona* </p>
                   <Form.Control
                     defaultValue={this.state.zona}
@@ -273,8 +301,8 @@ class Direcciones extends Component {
                     required
                   />
                   <div className="invalid-tooltip">Ingresa una Zona</div>
-                </Form.Group>
-                <Form.Group as={Col} controlId="codigoAcceso">
+                </Form.Group> */}
+                {/* <Form.Group as={Col} controlId="codigoAcceso">
                   <p className="etiquetas">Código Acceso* </p>
                   <Form.Control
                     defaultValue={this.state.codigoAcceso}
@@ -287,9 +315,9 @@ class Direcciones extends Component {
                   <div className="invalid-tooltip">
                     Ingresa un Código Acceso
                   </div>
-                </Form.Group>
+                </Form.Group> */}
               </Form.Row>
-              <Form.Row>
+              {/* <Form.Row>
                 <Form.Group as={Col} controlId="edificio">
                   <p className="etiquetas">
                     Número de casa,apartamento, edificio*{" "}
@@ -306,7 +334,7 @@ class Direcciones extends Component {
                     Ingresa un Número de casa,apartamento, edificio
                   </div>
                 </Form.Group>
-              </Form.Row>
+              </Form.Row> */}
               <Form.Row>
                 <Form.Group as={Col} controlId="departamento">
                   <p className="etiquetas">Departamento*</p>
@@ -380,7 +408,7 @@ class Direcciones extends Component {
                 onClick={this.save}
                 id="btn-danger"
               >
-                Guardar
+                Aceptar
               </Button>
             </Form>
           </Col>
@@ -391,7 +419,7 @@ class Direcciones extends Component {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    updateOcasion: (item) => dispatch(updateOcasion(item)),
+    updateocasion: (item) => dispatch(updateocasion(item)),
     updateDireccion: (item) => dispatch(updateDireccion(item)),
   };
 }

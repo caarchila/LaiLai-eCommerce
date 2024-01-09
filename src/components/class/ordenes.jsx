@@ -13,7 +13,6 @@ class Ordenes extends Component {
 
   componentDidMount() {
     let id = this.props.user.idCliente;
-    //TODO: i remove this url updated on index.js
     axios
       .get(
         `/clientapp-web/webresources/order/activas/${id}`

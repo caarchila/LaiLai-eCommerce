@@ -17,7 +17,6 @@ class Historial extends Component {
 
   componentDidMount() {
     if (parseInt(this.props.match.params.tipo) === 0) {
-      //TODO: i remove this url updated on index.js
       axios
         .get(`/clientapp-web/webresources/order/${this.props.match.params.id}`)
         .then((resp) => {

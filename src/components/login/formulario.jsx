@@ -49,9 +49,7 @@ class Formulario extends Component {
       email: `${respuesta.profileObj.email}`,
       token: `${respuesta.accessToken}`,
     };
-    console.log(inicioDatos);
     if (respuesta !== undefined) {
-      //TODO: i remove this url updated on index.js
       axios
         .post("/clientapp-web/webresources/account/login/api", inicioDatos)
         .then((resp) => {
@@ -65,7 +63,7 @@ class Formulario extends Component {
               });
             } else {
               this.props.onHide();
-              this.props.agregarAlCarrito();
+              this.props.agregaralcarrito();
             }
           } else {
             swal("Ocurrio un error!", `${resp.data.msg}`, "error");
@@ -83,7 +81,6 @@ class Formulario extends Component {
     };
 
     if (response !== undefined) {
-      //TODO: i remove this url updated on index.js
       axios
         .post("/clientapp-web/webresources/account/login/api", inicioDatos)
         .then((resp) => {
@@ -97,7 +94,7 @@ class Formulario extends Component {
               });
             } else {
               this.props.onHide();
-              this.props.agregarAlCarrito();
+              this.props.agregaralcarrito();
             }
           } else {
             swal("Ocurrio un error!", `${resp.data.msg}`, "error");
@@ -131,7 +128,6 @@ class Formulario extends Component {
         email: `${this.state.email}`,
         clave: `${this.state.password}`,
       };
-      //TODO: i remove this url updated on index.js
       axios
         .post(`/clientapp-web/webresources/account/login/local`, data)
         // .get(
@@ -148,7 +144,7 @@ class Formulario extends Component {
               });
             } else {
               this.props.onHide();
-              this.props.agregarAlCarrito();
+              this.props.agregaralcarrito();
             }
           } else {
             swal("Ocurrio un error!", `${resp.data.msg}`, "error");
@@ -246,7 +242,7 @@ class Formulario extends Component {
 Formulario.defaultProps = {
   anyWhere: false,
   onHide: () => {},
-  agregarAlCarrito: () => {},
+  agregaralcarrito: () => {},
 };
 
 function mapDispatchToProps(dispatch) {

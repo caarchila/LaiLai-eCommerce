@@ -3,13 +3,12 @@ import { Container, Col, Row } from "react-bootstrap";
 import CardDetalle from "../../components/CardDetalle/CardDetalle";
 import axios from "axios";
 import HeaderMenu from "../../components/headerMenu/HeaderMenu";
-
+import "./style.css";
 const Detalle = ({ match }) => {
   const [detalle, setDetalle] = useState({});
   const [menusCategoria, setMenusCategoria] = useState([]);
   const [categoria, setCategoria] = useState([]);
   useEffect(() => {
-    //TODO: i remove this url updated on index.js
     axios
       .get(
         `/clientapp-web/webresources/getMenuDetail/${match.params.idDetalle}`
@@ -33,7 +32,8 @@ const Detalle = ({ match }) => {
     <>
       <HeaderMenu id={match.params.id} categorias={menusCategoria} />
       <Container fluid>
-        <h1 className="my-2 display-4">{categoria}</h1>
+        {/* removed style: my-2 display-4 */}
+        <h1 className=" title">{categoria}</h1>
         <Row>
           <Col sm={12} md={12} xl={12}>
             <CardDetalle detalleMenu={detalle} edi={""} />

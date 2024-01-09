@@ -55,7 +55,6 @@ class FormularioRegistro extends Component {
       token: ` ${respuesta.accessToken}`,
     };
     if (respuesta !== undefined) {
-      //TODO: i remove this url updated on index.js
       axios
         .post("/clientapp-web/webresources/account/login/api", inicioDatos)
         .then((resp) => {
@@ -69,7 +68,7 @@ class FormularioRegistro extends Component {
               });
             } else {
               this.props.onHide();
-              this.props.agregarAlCarrito();
+              this.props.agregaralcarrito();
             }
           } else {
             swal("Ocurrio un error!", `${resp.data.msg}`, "error");
@@ -87,7 +86,6 @@ class FormularioRegistro extends Component {
       token: ` ${response.accessToken}`,
     };
     if (response !== undefined) {
-      //TODO: i remove this url updated on index.js
       axios
         .post("/clientapp-web/webresources/account/login/api", inicioDatos)
         .then((resp) => {
@@ -101,7 +99,7 @@ class FormularioRegistro extends Component {
               });
             } else {
               this.props.onHide();
-              this.props.agregarAlCarrito();
+              this.props.agregaralcarrito();
             }
           } else {
             swal("Ocurrio un error!", `${resp.data.msg}`, "error");
@@ -121,7 +119,6 @@ class FormularioRegistro extends Component {
       genero: `${this.state.genero}`,
       clave: `${this.state.password}`,
     };
-    //TODO: i remove this url updated on index.js
     axios
       .post("/clientapp-web/webresources/account/save", data)
       .then((resp) => {
@@ -138,7 +135,7 @@ class FormularioRegistro extends Component {
       <>
         <Form>
           <Form.Row>
-            <Form.Group as={Col} controlId="formGridEmail">
+            <Form.Group as={Col} controlId="formGridName">
               <Form.Label>Nombres:</Form.Label>
               <Form.Control
                 onChange={this.setField}
@@ -250,7 +247,7 @@ class FormularioRegistro extends Component {
 FormularioRegistro.defaultProps = {
   anyWhere: false,
   onHide: () => {},
-  agregarAlCarrito: () => {},
+  agregaralcarrito: () => {},
 };
 function mapDispatchToProps(dispatch) {
   return {

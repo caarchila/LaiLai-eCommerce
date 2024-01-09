@@ -1,13 +1,13 @@
-.parrafosModal{
+.parrafosModal {
   left: 12.7%;
   right: 12.7%;
   top: 82.25%;
   bottom: 9.84%;
   text-align: center;
-  color: #6A6969;
+  color: #6a6969;
 }
 
-.recoger{
+.recoger {
   left: 53.91%;
   right: 14.48%;
   top: 69.27%;
@@ -15,24 +15,23 @@
 
   text-align: center;
 
-  color: #AAAAAA;
+  color: #aaaaaa;
 }
-.delivery{
-
+.delivery {
   left: 16.25%;
   right: 55.68%;
   top: 69.27%;
   bottom: 26.88%;
   text-align: center;
 
-  color: #AAAAAA;
+  color: #aaaaaa;
 }
 
-#titulos{
+#titulos {
   position: absolute;
   left: 0%;
   right: 0%;
-  top: 4.08%;
+  top: 1.08%;
   bottom: 4.08%;
   text-align: center;
   color: #000000;
@@ -43,27 +42,26 @@
   margin: 0px 10px;
 }
 
-.contenedor-modal-delivery
-  {
-    width: 100%;
-    height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .mapaC{
-    width: 100%;
-    height: 100%;
-    margin: -46px 0px 0px 0px;
-  }
+.contenedor-modal-delivery {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mapaC {
+  width: 100%;
+  height: 100%;
+  margin: -46px 0px 0px 0px;
+}
 
-  .btn-volver{
-    float: left;
-  }
+.btn-volver {
+  float: left;
+}
 
-  .btn-continuar{
-    float: right;
-  }
-  .metodo-pago-modalidad-entrega{
-    text-align: left;
-  }
+.btn-continuar {
+  float: right;
+}
+.metodo-pago-modalidad-entrega {
+  text-align: left;
+}

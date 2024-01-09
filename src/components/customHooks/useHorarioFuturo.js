@@ -1,14 +1,14 @@
 import React from "react";
 
 //TODO: use horario futuro logs here
-function useHorarioFuturo(horaApertura, horaCierre, fechaEntrega) {
-  // console.log("fecha texto ", fechaEntrega);
+function useHorarioFuturo(horaApertura, horaCierre, fechaentrega) {
+  // console.log("fecha texto ", fechaentrega);
   var estado = false;
   if (horaApertura !== undefined) {
     var _inicio = horaApertura.split(":").map((i) => Number(i));
     var _cierre = horaCierre.split(":").map((i) => Number(i));
 
-    var entrega = new Date(fechaEntrega);
+    var entrega = new Date(fechaentrega);
     // console.log("entrega", entrega);
     var horaInicio = new Date(entrega);
     horaInicio.setHours(_inicio[0], _inicio[1]);

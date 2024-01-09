@@ -1,6 +1,7 @@
 .menusImg {
   right: 50%;
   width: 50%;
+  min-width: 179.33px;
   height: 150px;
   border-radius: 15px 0px 0px 15px;
 }
@@ -8,15 +9,16 @@
 @media screen only and (max-width: 600px) {
   .menusimg: 0px !important;
 }
+
 .contentMenus {
   text-align: left;
   font-size: 15px;
-  width: 51%;
+  /* width: 51%; */
   float: right;
   height: 100%;
   display: inline-block;
   position: absolute;
-  left: 50%;
+  left: 51%;
   padding: 12px;
   color: black;
 }
@@ -25,8 +27,9 @@
   background: #f5f4f4 !important;
   height: auto;
   border-radius: 15px !important;
-  max-width: 420px;
+  max-width: 475px;
   cursor: pointer;
+  min-width: 340px !important;
 }
 
 .precioSubMenu {
@@ -39,4 +42,26 @@
 }
 .leer-mas {
   text-decoration: underline;
+}
+
+.contenedor-animado-card-sub-menu {
+  width: 90%;
+}
+
+@media only screen and (max-width: 375px) {
+  .cardSubMenu {
+    min-width: 240px !important;
+    height: 15rem;
+  }
+  .menusImg {
+    width: 100%;
+    border-radius: 15px 15px 0px 0px;
+    height: 10rem;
+  }
+  .contentMenus {
+    text-align: left;
+    font-size: 15px;
+    width: 100%;
+    display: contents;
+  }
 }

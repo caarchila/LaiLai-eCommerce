@@ -17,7 +17,6 @@ class Promociones extends Component {
   handleSelect = (selectedIndex, e) => {
     this.setState({ index: selectedIndex });
   };
-  //TODO: i remove this url updated on index.js
   componentDidMount() {
     axios
       .get(

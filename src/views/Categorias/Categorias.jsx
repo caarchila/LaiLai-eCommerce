@@ -25,7 +25,6 @@ const Categorias = ({ match }) => {
     setEsSubCategoria(false);
   };
   useEffect(() => {
-    //TODO: i remove this url updated on index.js
     axios.get("/clientapp-web/webresources/getMenus/APP").then((resp) => {
       setMenusCategoria(resp.data.categorias);
       if (parseInt(match.params.idSub) === 0) {
@@ -70,7 +69,7 @@ const Categorias = ({ match }) => {
         handleEstadoCategoria={cambiarEstadoCategoria}
       />
       <Container fluid>
-        <div className="display-4 my-2">
+        <div className="title">
           {menus.length === 0 ? (
             <Spinner animation="spinner" variant="primary" />
           ) : (

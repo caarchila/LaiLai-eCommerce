@@ -1,16 +1,25 @@
-#root{
-  background-image: url('./images/texturasLailai.png');
+#root {
+  background-image: url("./images/texturasLailai.png");
   background-repeat: no-repeat;
-   background-size: cover;
-   max-width:1300px;
-
+  background-size: cover;
+  max-width: 1300px;
 }
-body{
+body {
   background-color: black !important;
   justify-content: center;
-  display:flex;
+  display: flex;
 }
 
-.display-4{
+.display-4 {
   font-family: sans-serif !important;
+}
+
+/*Fonts:*/
+@font-face {
+  font-family: "neuekabel";
+  src: url("./assets/fonts/neue-kabel/neue_kabel.otf"),
+    url("./assets/fonts/neue-kabel/neue_kabel_black_italic.otf"),
+    url("./assets/fonts/neue-kabel/neue_kabel_extra_bold.otf"),
+    url("./assets/fonts/neue-kabel/neue_kabel_light_italic.otf"),
+    url("./assets/fonts/neue-kabel/neue_kabel_bold.otf");
 }

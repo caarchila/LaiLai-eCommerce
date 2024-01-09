@@ -11,6 +11,8 @@ import { growl } from "@crystallize/react-growl";
 import ModalIniciarSession from "../../ModalIniciarSession";
 import ModalModalidadEntrega from "../../ModalModalidadEntrega";
 import ModalEditarDireccion from "../../ModalEditarDireccion";
+import { updateocasion } from "../../../actions/ocasionActions";
+import { updateDireccion } from "../../../actions/direccionActions";
 
 class FormularioDetalleProducto extends React.Component {
   constructor(props) {
@@ -22,14 +24,14 @@ class FormularioDetalleProducto extends React.Component {
       mostrarModal: false,
       showSession: false,
       showModalidad: false,
-      modalShow:false
+      modalShow: false,
     };
     this.subirTotal = this.subirTotal.bind(this);
     this.getOpciones = this.getOpciones.bind(this);
-    this.agregarAlCarrito = this.agregarAlCarrito.bind(this);
+    this.agregaralcarrito = this.agregaralcarrito.bind(this);
     this.oculatModal = this.oculatModal.bind(this);
   }
-  async agregarAlCarrito() {
+  async agregaralcarrito() {
     const opciones = this.state.opciones;
     const menu = this.props.detalle;
     const totalOpciones = this.state.totalOpciones;
@@ -61,15 +63,16 @@ class FormularioDetalleProducto extends React.Component {
     };
     if (estado) {
       if (isLogged) {
-        if(Object.keys(this.props.direccion).length>0
-            && this.props.fechaEntrega !== ""
-            && this.props.detallePago !== ""){
+        //TODO: also removed this do to not need of feceha entrega neather detalle pago
+        //&& this.props.fechaentrega !== "" && this.props.detallepago !== "";
+
+        if (Object.keys(this.props.direccion).length > 0) {
           this.props.addToCart(producto);
           this.setState({
             mostrarModal: true,
-            showModalidad:false
+            showModalidad: false,
           });
-        }else{
+        } else {
           this.setState({
             showModalidad: true,
           });
@@ -152,6 +155,7 @@ class FormularioDetalleProducto extends React.Component {
                   edi={this.props.edi}
                   getOpciones={this.getOpciones}
                   obj={o}
+                  mostrarOpciones={this.props.mostrarOpciones}
                 />
               ) : (
                 ""
@@ -173,7 +177,7 @@ class FormularioDetalleProducto extends React.Component {
               id="btn-agregar-carrito"
               disabled={estado}
               className="my-2"
-              onClick={this.agregarAlCarrito}
+              onClick={this.agregaralcarrito}
             >
               {this.props.detalleSelected === undefined
                 ? "Agregar al carrito"
@@ -192,25 +196,48 @@ class FormularioDetalleProducto extends React.Component {
           onHide={() => {
             this.setState({ showSession: false });
           }}
-          agregarAlCarrito={()=>{this.agregarAlCarrito()}}
+          agregaralcarrito={() => {
+            this.agregaralcarrito();
+          }}
         />
-      <ModalModalidadEntrega
+        <ModalModalidadEntrega
+          className="modal-pick-and-go"
           show={showModal}
           size="lg"
           onHide={() => {
             this.setState({ showModalidad: false });
+            this.props.updateDireccion("");
+            this.props.updateocasion("");
           }}
-          agregarAlCarrito={()=>{this.agregarAlCarrito()}}
-          openModalEditarDireccion={()=>{ this.setState({modalShow:true})}}
+          agregaralcarrito={() => {
+            this.agregaralcarrito();
+            this.setState({ showModal: false });
+          }}
+          agregaralcarritoopenmodaleditardireccion={() => {
+            this.setState({ modalShow: true });
+          }}
         />
-      {(Object.keys(this.props.user).length > 0)?
-        <ModalEditarDireccion
-          show={modalShow}
-          onHide={() => {
-              this.setState({ modalShow:false,showModalidad:true });
-          }}
-        />:''
-      }
+        {Object.keys(this.props.user).length > 0 ? (
+          <ModalEditarDireccion
+            show={modalShow}
+            onHide={() => {
+              this.setState({
+                showModalidad: true,
+                modalShow: false,
+              });
+              this.props.updateDireccion("");
+              this.props.updateocasion("");
+            }}
+            onAccept={() =>
+              this.setState({ modalShow: false, showModalidad: false })
+            }
+            agregaralcarrito={() => {
+              this.agregaralcarrito();
+            }}
+          />
+        ) : (
+          ""
+        )}
       </Form>
     );
   }
@@ -220,6 +247,8 @@ function mapDispatchToProps(dispatch) {
   return {
     addToCart: (item) => dispatch(addToCart(item)),
     updateFromCart: (item) => dispatch(updateFromCart(item)),
+    updateDireccion: (item) => dispatch(updateDireccion(item)),
+    updateocasion: (item) => dispatch(updateocasion(item)),
   };
 }
 function mapStateToProps(state, props) {
@@ -227,8 +256,8 @@ function mapStateToProps(state, props) {
     cart: state.cart,
     user: state.user,
     direccion: state.direccion,
-    fechaEntrega: state.fechaEntrega,
-    detallePago: state.detallePago
+    fechaentrega: state.fechaentrega,
+    detallepago: state.detallepago,
   };
 }
 

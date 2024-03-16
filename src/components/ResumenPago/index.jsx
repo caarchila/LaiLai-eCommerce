@@ -11,21 +11,40 @@ import useHorarioHome from "../customHooks/useHorarioHome";
 import axios from "axios";
 import { validarHorarioSeleccionado } from "../../util/funciones";
 import useHorarioFuturo from "../customHooks/useHorarioFuturo";
+import { updatefechaentrega } from "../../actions/fechaEntregaActions";
+import { updateTelefonoPedido } from "../../actions/telefonoPedido";
 
 const Resumen = (props) => {
   const [estado, setEstado] = useState(false);
   const [token, setToken] = useState("");
 
-  //TODO: adding horario habil futuro
-  const horarioHabilFuturo = useHorarioFuturo(
-    props.direccion.horaApertura,
-    props.direccion.horaCierre,
-    props.fechaentrega
-  );
-
   const horarioHabil = useHorario(
-    props.direccion.horaApertura,
-    props.direccion.horaCierre
+    Object.keys(props.direccion).length > 0
+      ? props.ocasion === "LLV"
+        ? props.direccion.horaApertura
+        : props.direccion.tienda.horaAperturaDomi
+      : "",
+
+    Object.keys(props.direccion).length > 0
+      ? props.ocasion === "LLV"
+        ? props.direccion.horaCierre
+        : props.direccion.tienda.horaCierreDomi
+      : ""
+  );
+  console.log("delete this ");
+  const horarioHabilFuturo = useHorarioFuturo(
+    Object.keys(props.direccion).length > 0
+      ? props.ocasion === "LLV"
+        ? props.direccion.horaApertura
+        : props.direccion.tienda.horaAperturaDomi
+      : "",
+
+    Object.keys(props.direccion).length > 0
+      ? props.ocasion === "LLV"
+        ? props.direccion.horaCierre
+        : props.direccion.tienda.horaCierreDomi
+      : "",
+    props.fechaentrega
   );
   const horarioHabilHome = useHorarioHome(
     props.direccion.longitud,
@@ -95,32 +114,31 @@ const Resumen = (props) => {
       return;
     }
 
-    // console.log("pedido fecha ", props.fechaentrega);
-    // console.log("hora apertura", props.direccion.horaApertura);
-    // console.log("hora cierre", props.direccion.horaCierre);
-    // console.log("horario habil", horarioHabil);
-    // console.log("tienda", props.direccion);
-
-    const fechaentrega = new Date(props.fechaentrega);
-    const horaEntrega =
-      fechaentrega.getHours() +
-      ":" +
-      fechaentrega.getMinutes().toString().padStart(2, 0);
+    // const fechaentrega = new Date(props.fechaentrega);
+    // const horaEntrega =
+    //   fechaentrega.getHours() +
+    //   ":" +
+    //   fechaentrega.getMinutes().toString().padStart(2, 0);
 
     //TODO: entra cuando es pick up y pedido futuro
     if (props.ocasion === "LLV") {
       direccion = "idTienda";
       if (props.pedidoFuturo === "S") {
-        let response = validarHorarioSeleccionado(
-          horaEntrega,
-          props.direccion.horaApertura,
-          props.direccion.horaCierre,
-          props.fechaentrega
-        );
-        // console.log("respuesta de validar hora", response);
-        if (!response.estado) {
+        // let response = validarHorarioSeleccionado(
+        //   horaEntrega,
+        //   props.direccion.horaApertura,
+        //   props.direccion.horaCierre,
+        //   props.fechaentrega
+        // );
+        // // console.log("respuesta de validar hora", response);
+        // if (!response.estado) {
+        //   estado = false;
+        //   mensaje = response.msj;
+        //   tipo = "warning";
+        // }
+        if (!horarioHabilFuturo.estado) {
           estado = false;
-          mensaje = response.msj;
+          mensaje = horarioHabilFuturo.error;
           tipo = "warning";
         }
       } else {
@@ -133,7 +151,6 @@ const Resumen = (props) => {
         }
       }
     } else {
-      console.log("delivery");
       await horarioHabilHome.then((data) => {
         if (data.result === "ACT") {
           // console.log("fecha entrega resumen: ", props.fechaentrega);
@@ -146,25 +163,44 @@ const Resumen = (props) => {
             tipo = "warning";
             return;
           }
-          let response = validarHorarioSeleccionado(
-            horaEntrega,
-            data.tiendas[0].horaApertura,
-            data.tiendas[0].horaCierre,
-            props.fechaentrega
-          );
-          console.log({ response: response });
-          if (!response.estado) {
+          if (props.pedidoFuturo === "S") {
+            if (!horarioHabilFuturo.estado) {
+              estado = false;
+              mensaje = horarioHabilFuturo.error;
+              tipo = "warning";
+            }
+          } else if (!horarioHabil) {
             estado = false;
-            mensaje = response.msj;
+            mensaje =
+              "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega.";
             tipo = "warning";
           }
-        } else {
-          estado = false;
-          mensaje =
-            "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega.";
-          tipo = "warning";
+
+          // let response = validarHorarioSeleccionado(
+          //   horaEntrega,
+          //   data.tiendas[0].horaApertura,
+          //   data.tiendas[0].horaCierre,
+          //   props.fechaentrega,
+          //   props.pedidoFuturo
+          // );
+          // if (!response.estado) {
+          //   estado = false;
+          //   mensaje = response.msj;
+          //   tipo = "warning";
+          // }
         }
+        // else {
+        //   estado = false;
+        //   mensaje =
+        //     "No contamos con servicio a domilicio en este horario, te sugerimos programar la entrega.";
+        //   tipo = "warning";
+        // }
       });
+    }
+    //adding 1 hour to deliver
+    const fechaentrega = new Date();
+    if (props.pedidoFuturo === "N") {
+      fechaentrega.setHours(fechaentrega.getHours() + 1);
     }
     const tomaPedido = {
       monto: subtotal,
@@ -173,7 +209,7 @@ const Resumen = (props) => {
       [direccion]: props.direccion.id,
       telefono:
         props.ocasion === "LLV"
-          ? props.direccion.telefonoPedido
+          ? props.telefonoPedido //TODO: change props.direccion.telefonoPedido to props.telefonoPedido
             ? props.direccion.telefonoPedido
             : null
           : props.direccion.telefono,
@@ -186,11 +222,13 @@ const Resumen = (props) => {
       menus: props.cart,
       detallePago: [{ formaPago: props.detallepago || props.detallepago[0] }],
       pedidoFuturo: props.pedidoFuturo,
-      fechaEntrega: props.fechaentrega,
+      fechaEntrega:
+        props.pedidoFuturo === "N" ? fechaentrega : props.fechaentrega,
     };
 
-    // console.log("telefono de pedido", tomaPedido.telefono);
-    // console.log("verdadero tomapedido", tomaPedido);
+    console.log("telefono de pedido", tomaPedido.telefono);
+    console.log("verdadero tomapedido", tomaPedido);
+    console.log("verdadera fecha pedido", props.fechaentrega);
 
     var days = [
       "Sunday",
@@ -319,12 +357,15 @@ function mapStateToProps(state, props) {
     detallepago: state.detallepago,
     pedidoFuturo: state.pedidoFuturo,
     fechaentrega: state.fechaentrega,
+    telefonoPedido: state.telefonoPedido,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     clearCart: (item) => dispatch(clearCart(item)),
+    updatefechaentrega: (item) => dispatch(updatefechaentrega(item)),
+    updateTelefonoPedido: (item) => dispatch(updateTelefonoPedido(item)),
   };
 }
 
@@ -332,6 +373,7 @@ Resumen.defaultProps = {
   pedidoFuturo: "N",
   fechaentrega: "",
   detallepago: "",
+  telefonoPedido: "",
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Resumen);

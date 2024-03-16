@@ -54,9 +54,15 @@ export function validarHorarioSeleccionado(
   horaProgramada,
   horaApertura,
   horaCierre,
-  fechaProgramada
+  fechaProgramada,
+  pedidoFuturo = "N"
 ) {
+  console.log("hora Programada", horaProgramada);
+  console.log("hora apertura", horaApertura);
+  console.log("hora cierre", horaCierre);
+  console.log("hora fecha programada", fechaProgramada);
   let respuesta = { estado: false, msj: "" };
+
   //hora y fecha programada seleccionada
   let horaProgramadaFin = horaProgramada
     .toString()
@@ -100,6 +106,28 @@ export function validarHorarioSeleccionado(
     // console.log("hora programada date", horaProgramadaDate);
 
     //si la fecha actual es igual a la fecha programada
+
+    if (horaProgramadaDate >= horaInicio && horaProgramadaDate <= HoraFin) {
+      if (pedidoFuturo === "N") {
+        respuesta.estado = true;
+      } else {
+        const horaNow = new Date();
+        const tiempoPreparación =
+          horaProgramadaDate.getTime() - horaNow.getTime();
+        if (tiempoPreparación > 36000) respuesta.estado = true;
+        else
+          respuesta.msj =
+            "La hora especificada debe de ser mayor que: " +
+            (horaNow.getHours() + 1) +
+            ":" +
+            horaNow.getMinutes();
+      }
+    } else {
+      respuesta.msj =
+        "La hora especificada esta fuera de los horarios de la tienda";
+    }
+    return respuesta;
+    //TODO: will remove
     if (fechaProgramadaFin.toString() === fechaActual.toString()) {
       //si la hora esta dentro del rango de la tienda
       if (
@@ -145,6 +173,7 @@ export function validarHorarioSeleccionado(
 //UTC to ISO format
 export function DateFormatter(fecha) {
   //convert dates for shoppinf confimation
+  console.log("funcion fecha date formatter", new Date(fecha));
 
   return new Date(
     //substracs time diferrence and converts to iso

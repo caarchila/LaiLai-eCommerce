@@ -144,7 +144,7 @@ class Direcciones extends Component {
         });
     }
     if (Object.keys(this.state.ubicacion).length > 0) {
-      swal("Felicidades", `si hay cobertura`, "success");
+      // swal("Felicidades", `si hay cobertura`, "success");
     } else {
       swal(
         "Ocurrio un error!",
@@ -191,11 +191,12 @@ class Direcciones extends Component {
       };
 
       //TODO: saving state
-      if (!this.state.ubicacion.error)
+      console.log("data", this.state.ubicacion);
+      if (!this.state.ubicacion.error && this.state.ubicacion.result === "NCB")
         //TODO: remove this errorMsg (errors are related to "pedido" and not for "ubicacion") this.state.ubicacion.errorMsg
         swal({
-          title: "¿Deseas guardar esta dirección?",
-          text: "Lo sentimos, por el momento no contamos con cobertura para esa dirección, puede ordenar para pasar a traer en su restaurante mas cercano",
+          title: "¡Sin cobertura!",
+          text: "Lo sentimos, por el momento no contamos con cobertura para esa dirección, ¿Deseas guardar esta dirección?",
           icon: "info",
           buttons: true,
           dangerMode: true,

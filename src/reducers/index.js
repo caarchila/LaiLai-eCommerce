@@ -7,6 +7,7 @@ import modal from "./modalReducer";
 import fechaentrega from "./fechaReducer";
 import detallepago from "./pagoReducer";
 import pedidoFuturo from "./pedidoFuturoReducer";
+import telefonoPedido from "./telefonoPedido";
 
 const rootReducer = combineReducers({
   cart,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   fechaentrega,
   detallepago,
   pedidoFuturo,
+  telefonoPedido,
 });
 
 export default rootReducer;

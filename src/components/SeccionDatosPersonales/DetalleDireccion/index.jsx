@@ -9,14 +9,17 @@ import ModalPickAndGo from "../../ModalPickAndGo";
 import { updateocasion } from "../../../actions/ocasionActions";
 import { updateDireccion } from "../../../actions/direccionActions";
 import ReactInputMask from "react-input-mask";
+import { updateTelefonoPedido } from "../../../actions/telefonoPedido";
 
 const DetalleDireccion = ({
   historial,
   boton,
   direccion,
   ocasion,
+  reduxTelefonoPedido,
   updateDireccion,
   updateocasion,
+  updateTelefonoPedido,
 }) => {
   const [modalShow, setModalShow] = useState(false);
   const [showModalPick, setShowModalPick] = useState(false);
@@ -25,7 +28,13 @@ const DetalleDireccion = ({
   );
 
   const [telefonoPedido, setTelefonoPedido] = useState(
-    boton !== "0" ? "" : historial ? historial.telefono : ""
+    boton !== "0"
+      ? reduxTelefonoPedido !== ""
+        ? reduxTelefonoPedido
+        : ""
+      : historial
+      ? historial.telefono
+      : ""
   );
 
   const direccionDom =
@@ -50,11 +59,15 @@ const DetalleDireccion = ({
 
   const handleTelefonoChange = (e) => {
     setTelefonoPedido(e.target.value);
+    updateTelefonoPedido(e.target.value);
+    console.log({ reduxTelefonoPedido });
+    console.log(e.target.value);
   };
 
   //TODO: use effect para controlar estado de telefono pedido
   useEffect(() => {
-    if (boton !== "0") direccion.telefonoPedido = telefonoPedido;
+    if (boton !== "0" && telefonoPedido !== "")
+      direccion.telefonoPedido = telefonoPedido;
     updateDireccion(direccion);
   }, [telefonoPedido]);
 
@@ -215,6 +228,7 @@ function mapStateToProps(state, props) {
   return {
     direccion: state.direccion,
     ocasion: state.ocasion,
+    reduxTelefonoPedido: state.telefonoPedido,
   };
 }
 
@@ -222,6 +236,7 @@ function mapDispatchToProps(dispatch) {
   return {
     updateDireccion: (item) => dispatch(updateDireccion(item)),
     updateocasion: (item) => dispatch(updateocasion(item)),
+    updateTelefonoPedido: (item) => dispatch(updateTelefonoPedido(item)),
   };
 }
 

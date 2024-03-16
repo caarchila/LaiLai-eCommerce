@@ -55,6 +55,7 @@ class MapaGL extends Component {
                 //TODO: change here if want to see information always
                 // swal("¡Mensaje de información!", `${resp.data.msg}`, "info");
               }
+              actualLocation.result = resp.data.result;
               this.props.getLocation(actualLocation);
             });
         }
@@ -141,7 +142,8 @@ class MapaGL extends Component {
           actualLocation.active = false;
           actualLocation.errorMsg = resp.data.msg;
         }
-        // console.log({ actualLocation });
+        actualLocation.result = resp.data.result;
+
         this.props.getLocation(actualLocation);
       });
   }
@@ -170,14 +172,16 @@ class MapaGL extends Component {
                   lat: this.state.lat,
                 };
                 if (resp.data.result === "ACT") {
-                  swal("Felicidades", `si hay cobertura`, "success");
+                  // swal("Felicidades", `si hay cobertura`, "success");
                   actualLocation.active = true;
                   actualLocation.errorMsg = "";
                 } else {
-                  swal("¡Mensaje de información!", `${resp.data.msg}`, "info");
+                  // swal("¡Mensaje de información!", `${resp.data.msg}`, "info");
                   actualLocation.active = false;
                   actualLocation.errorMsg = resp.data.msg;
                 }
+                actualLocation.result = resp.data.result;
+
                 this.props.getLocation(actualLocation);
               });
           }
@@ -210,6 +214,8 @@ class MapaGL extends Component {
                   actualLocation.errorMsg = resp.data.msg;
                   actualLocation.active = false;
                 }
+                actualLocation.result = resp.data.result;
+
                 this.props.getLocation(actualLocation);
               });
           }
